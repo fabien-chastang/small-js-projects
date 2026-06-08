@@ -1,0 +1,44 @@
+/****************\
+ *	Tags style	*
+\****************/
+
+body.light {
+	background-color: #F1F1F4;
+	color: black;
+}
+
+fieldset.light {
+	background-color: white;
+}
+
+select.light {
+	border: 2px solid #A9ABBC;
+	color: black;
+}
+
+/*********************\
+ *	 Classes / IDs	 *
+\*********************/
+
+.label-data.light,
+.label-data.selected.light {
+	color: black;
+}
+
+.field-data.light {
+	border: 2px solid #A9ABBC;
+	color: black;
+	background-color: white;
+}
+
+.field-data.selected.light {
+	border: 2px solid #A9ABBC;
+	color: black;
+	background-color: #CCCDD7;
+}
+
+#FIELD_THEME.light,
+#FIELD_CULTURE.light,
+.form-loan.light {
+	background-color: #E2E3E9;
+}

@@ -1,0 +1,44 @@
+/****************\
+ *	Tags style	*
+\****************/
+
+body.orange {
+	background-color: #FFE6CC;
+	color: black;
+}
+
+fieldset.orange {
+	background-color: #FFFFE6;
+}
+
+select.orange {
+	border: 2px solid #ff9933;
+	color: black;
+}
+
+/*********************\
+ *	 Classes / IDs	 *
+\*********************/
+
+.label-data.orange,
+.label-data.selected.orange {
+	color: black;
+}
+
+.field-data.orange {
+	border: 2px solid #ff9933;
+	color: black;
+	background-color: #FFFFE6;
+}
+
+.field-data.selected.orange {
+	border: 2px solid #ff9933;
+	color: black;
+	background-color: #FFBF80;
+}
+
+#FIELD_THEME.orange,
+#FIELD_CULTURE.orange,
+.form-loan.orange {
+	background-color: #ffd1a3;
+}

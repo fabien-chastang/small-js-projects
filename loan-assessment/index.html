@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Loan management / Gestion d'un prêt">
+	<title id="PAGE_TITLE">Loan management / Gestion d'un prêt</title>
+
+	<link rel="icon" type="image/x-icon" href="../assets/img/fractal-2/favicon.png">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan-light.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan-dark.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan-violet.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan-blue.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan-green.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan-orange.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan-pink.css">
+	<link rel="stylesheet" type="text/css" href="./assets/css/loan-cocorico.css">
+</head>
+
+<body data-theme="1">
+	<header>
+		<form>
+			<select id="FIELD_THEME" data-theme="1"></select>
+			<select id="FIELD_CULTURE" data-theme="1"></select>
+		</form>
+	</header>
+
+	<main>
+		<div>
+			<article id="ARTICLE_FORM" aria-label="Data entry form / Formulaire de saisie de données">
+				<fieldset class="fieldset-margin light" data-theme="1">
+					<legend>
+						<h1 id="LEGEND_DATA">Loan / Prêt</h1>
+					</legend>
+					<form class="form-loan light" data-theme="1">
+						<div class="line line-padding">
+							<div class="label label-margin">
+								<a class="label-data light" id="LABEL_DATA_0" href="#" data-theme="1"></a>
+							</div>
+							<div>
+								<input type="text" class="field-data light" id="FIELD_DATA_0" size="14" maxlength="14" data-theme="1">
+							</div>
+							<div class="label">
+								<a class="label-data light" id="LABEL_DATA_1" href="#" data-theme="1"></a>
+								<span id="LABEL_DATA_01" class="label-margin"></span>
+							</div>
+							<div>
+								<input type="text" class="field-data light" id="FIELD_DATA_1" size="14" maxlength="5" data-theme="1">
+							</div>
+						</div>
+						<div class="line">
+							<div class="label">
+								<a class="label-data light" id="LABEL_DATA_2" href="#" data-theme="1"></a>
+								<span id="LABEL_DATA_02" class="label-margin"></span>
+							</div>
+							<div>
+								<input type="text" class="field-data light" id="FIELD_DATA_2" size="14" maxlength="14" data-theme="1">
+							</div>
+							<div class="label label-margin">
+								<a class="label-data light" id="LABEL_DATA_3" href="#" data-theme="1"></a>
+							</div>
+							<div>
+								<input type="text" class="field-data light" id="FIELD_DATA_3" size="14" maxlength="14" data-theme="1">
+							</div>
+						</div>
+					</form>
+				</fieldset>
+			</article>
+
+			<article id="ARTICLE_RESULT" aria-label="Result / Résultat">
+				<fieldset class="fieldset-margin light" data-theme="1">
+					<legend id="LEGEND_RESULT"></legend>
+					<div id="TEXT_RESULT"></div>
+				</fieldset>
+			</article>
+		</div>
+
+		<aside class="info-margin">
+			<fieldset id="FIELDSET_INFO" class="fieldset-margin light" data-theme="1">
+				<legend id="LEGEND_INFO"></legend>
+				<div id="TEXT_INFO"></div>
+			</fieldset>
+		</aside>
+	</main>
+
+	<!-- Resources -->
+	<script src="./assets/js/res/loan-en-US.js"></script>
+	<script src="./assets/js/res/loan-fr-FR.js"></script>
+	<script src="./assets/js/res/loan-resources.js"></script>
+
+	<!-- Main -->
+	<script src="./assets/js/loan-css.js"></script>
+	<script src="./assets/js/loan-ini.js"></script>
+	<script src="../assets/js/tools.js"></script>
+	<script src="./assets/js/loan.js"></script>
+</body>
+
+</html>

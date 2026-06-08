@@ -1,0 +1,130 @@
+/****************\
+ *	Tags style	*
+\****************/
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	margin: 5px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+header {
+	display: flex;
+	justify-content: flex-end;
+}
+
+main {
+	display: flex;
+	justify-content: center;
+}
+
+h1,
+legend {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+select,
+input[type="text"] {
+	padding: 2px 4px;
+	border-radius: 4px;
+}
+
+fieldset {
+	border-radius: 6px;
+}
+
+legend {
+	margin: 8px;
+	padding: 0 8px;
+}
+
+/*********************\
+ *	 Classes / IDs	 *
+\*********************/
+
+/*** Form ************/
+
+.fieldset-margin {
+	padding: 0 16px 16px 16px;
+}
+
+.form-loan {
+	padding: 8px;
+	border-radius: 6px;
+}
+
+.line {
+	display: flex;
+	justify-content: left;
+	align-items: center;
+}
+
+.line-padding {
+	margin-bottom: 8px;
+}
+
+.label {
+	width: 160px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.label-margin {
+	padding-right: 8px;
+}
+
+.label-data.selected {
+	font-weight: bold;
+}
+
+#FIELD_THEME,
+#FIELD_CULTURE {
+	height: 25px;
+	font-weight: bold;
+	font-style: italic;
+	margin-bottom: 10px;
+}
+
+#FIELD_THEME {
+	width: 95px;
+}
+
+#FIELD_CULTURE {
+	width: 125px;
+}
+
+#ARTICLE_FORM {
+	margin-bottom: 6px;
+}
+
+/*** Result **********/
+
+#TEXT_RESULT {
+	font-size: 14px;
+	padding-top: 10px;
+	padding-left: 8px;
+	height: 34px;
+}
+
+/*** Information *****/
+
+.info-margin {
+	padding-left: 16px;
+	vertical-align: top;
+}
+
+#FIELDSET_INFO {
+	height: 100%;
+}
+
+#TEXT_INFO {
+	font-style: italic;
+	width: 200px;
+}

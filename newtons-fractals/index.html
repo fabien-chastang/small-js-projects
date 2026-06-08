@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="This page generates fractal figures using the Newton's method / Cette page génère des figures fractales en utilisant la méthode de Newton">
+	<title id="PAGE_TITLE">Newton's fractals / Fractales de Newton</title>
+
+	<link rel="icon" type="image/x-icon" href="../assets/img/fractal-2/favicon.png">
+	<link rel="stylesheet" type="text/css" href="./assets/css/newtons-fractals.css">
+</head>
+
+<body>
+	<header>
+		<aside id="FRAC_TITLE"></aside>
+		<form id="HEADER">
+			<select id="FUNCTIONS"></select>
+			<button type="button" id="PNG">PNG</button>
+			<select id="LANGUAGES"></select>
+		</form>
+	</header>
+
+	<main>
+		<canvas id="FRACTAL"></canvas>
+		<article id="INFO">
+			<fieldset>
+				<legend>
+					<h1 id="LEGEND_INFO">Newton's fractals / Fractales de Newton</h1>
+				</legend>
+				<div id="TEXT_INFO"></div>
+			</fieldset>
+		</article>
+		<aside id="LOADING">
+			<div id="TEXT_LOADING1"></div>
+			<div id="TEXT_LOADING2"></div>
+		</aside>
+	</main>
+
+	<!-- Resources -->
+	<script src="./assets/js/res/newtons-fractals-en-US.js"></script>
+	<script src="./assets/js/res/newtons-fractals-fr-FR.js"></script>
+	<script src="./assets/js/res/newtons-fractals-resources.js"></script>
+
+	<!-- Main -->
+	<script src="./assets/js/newtons-fractals-ini.js"></script>
+	<script src="../assets/js/tools.js"></script>
+	<script src="./assets/js/newtons-fractals.js"></script>
+</body>
+
+</html>

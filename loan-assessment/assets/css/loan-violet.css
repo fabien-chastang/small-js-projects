@@ -1,0 +1,44 @@
+/****************\
+ *	Tags style	*
+\****************/
+
+body.violet {
+	background-color: #E1D6FF;
+	color: black;
+}
+
+fieldset.violet {
+	background-color: #E6ECFF;
+}
+
+select.violet {
+	border: 2px solid #7547FF;
+	color: black;
+}
+
+/*********************\
+ *	 Classes / IDs	 *
+\*********************/
+
+.label-data.violet,
+.label-data.selected.violet {
+	color: black;
+}
+
+.field-data.violet {
+	border: 2px solid #7547FF;
+	color: black;
+	background-color: #E6ECFF;
+}
+
+.field-data.selected.violet {
+	border: 2px solid #7547FF;
+	color: black;
+	background-color: #AB8FFF;
+}
+
+#FIELD_THEME.violet,
+#FIELD_CULTURE.violet,
+.form-loan.violet {
+	background-color: #C6B3FF;
+}

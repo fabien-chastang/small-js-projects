@@ -1,0 +1,44 @@
+/****************\
+ *	Tags style	*
+\****************/
+
+body.cocorico {
+	background-color: #3366FF;
+	color: white;
+}
+
+fieldset.cocorico {
+	background-color: #0039E6;
+}
+
+select.cocorico {
+	border: 2px solid white;
+	color: white;
+}
+
+/*********************\
+ *	 Classes / IDs	 *
+\*********************/
+
+.label-data.cocorico,
+.label-data.selected.cocorico {
+	color: white;
+}
+
+.field-data.cocorico {
+	border: 2px solid white;
+	color: white;
+	background-color: #0039E6;
+}
+
+.field-data.selected.cocorico {
+	border: 2px solid white;
+	color: blue;
+	background-color: #aabfff;
+}
+
+#FIELD_THEME.cocorico,
+#FIELD_CULTURE.cocorico,
+.form-loan.cocorico {
+	background-color: #cc0000;
+}
