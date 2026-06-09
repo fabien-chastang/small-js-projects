@@ -7,7 +7,7 @@ function en_US() {
 			HTML_LANG: "en"
 		},
 		page: {
-			PAGE_TITLE: "Loan",
+			PAGE_TITLE: "Loan assessment",
 			EN_US: "English (US)",
 			FR_FR: "French (FR)",
 			LIGHT: "Light",
