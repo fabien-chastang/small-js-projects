@@ -6,7 +6,7 @@ Deux pages HTML sont accessibles : l'une propose de visualiser des figures fract
 
 C'est la page "loan-assessment/index.html" qui a d'abord été codée. Pour calculer le taux d'intérêt d'un emprunt en connaissant la somme empruntée, les mensualités remboursées et la durée du remboursement, il est nécessaire de calculer la racine d'une fonction. Pour ce faire, j'ai codée la méthode de bissection ou dichotomie, puis la méthode de Newton pour comparer les deux méthodes.
 
-C'est en codant la méthode de Newton que m'est venu l'idée de coder une page permettant de visualiser des fractales de Newton, j'ai utilisé la balise canvas du HTML5 pour les dessiner.
+C'est en codant la méthode de Newton que m'est venu l'idée de coder une page permettant de visualiser des fractales de Newton, j'ai utilisé la balise "canvas" du HTML5 pour les dessiner.
 
 Ces deux pages sont disponibles en français et en anglais, d'autres langues peuvent être facilement ajoutées, le code gérant les langues étant indépendant du contenu des pages.
 
