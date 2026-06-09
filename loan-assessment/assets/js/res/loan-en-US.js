@@ -41,7 +41,7 @@ function en_US() {
 			FIELD_DATA_0: { names: "aria-label", value: "Enter the loan amount" },
 			FIELD_DATA_1: { names: "aria-label", value: "Enter the interest rate (percentage)" },
 			FIELD_DATA_2: { names: "aria-label", value: "Enter the loan term (in years)" },
-			FIELD_DATA_3: { names: "aria-label", value: "Enter the monthly repayment amount" }
+			FIELD_DATA_3: { names: "aria-label", value: "Enter the amount of the monthly payments" }
 		},
 		results: {
 			TEXT_RESULT: [

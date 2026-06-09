@@ -41,7 +41,7 @@ function fr_FR() {
 			FIELD_DATA_0: { names: "aria-label", value: "Indiquez le montant du prêt" },
 			FIELD_DATA_1: { names: "aria-label", value: "Indiquez le taux d'intérêt (pourcentage)" },
 			FIELD_DATA_2: { names: "aria-label", value: "Indiquez la durée du prêt (en années)" },
-			FIELD_DATA_3: { names: "aria-label", value: "Indiquez le montant du remboursement mensuel" }
+			FIELD_DATA_3: { names: "aria-label", value: "Indiquez le montant des mensualités" }
 		},
 		results: {
 			TEXT_RESULT: [
