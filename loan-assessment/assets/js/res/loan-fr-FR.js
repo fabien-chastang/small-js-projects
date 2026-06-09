@@ -7,7 +7,7 @@ function fr_FR() {
 			HTML_LANG: "fr"
 		},
 		page: {
-			PAGE_TITLE: "Évaluation de prêt",
+			PAGE_TITLE: "Évaluation d'un prêt",
 			EN_US: "Anglais (US)",
 			FR_FR: "Français (FR)",
 			LIGHT: "Clair",
