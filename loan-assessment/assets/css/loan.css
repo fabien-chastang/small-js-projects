@@ -1,20 +1,44 @@
-/****************\
- *	Tags style	*
-\****************/
+/*
+   Reset style
+*/
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/*
+   Sticky footer
+   https://css-tricks.com/couple-takes-sticky-footer/#article-header-id-3
+*/
+
+html {
+    height: 100%;
+}
 body {
-	margin: 5px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+footer {
+    flex-shrink: 0;
+}
+.page-container {
+    flex: 1 0 auto;
+}
+
+/*
+   Tags style
+*/
+
+body {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 }
 
 header {
+	margin: 5px 5px 0 5px;
 	display: flex;
 	justify-content: flex-end;
 }
@@ -22,6 +46,12 @@ header {
 main {
 	display: flex;
 	justify-content: center;
+}
+
+footer {
+    padding: 5px;
+    margin: 5px;
+	text-align: center;
 }
 
 h1,
@@ -45,11 +75,11 @@ legend {
 	padding: 0 8px;
 }
 
-/*********************\
- *	 Classes / IDs	 *
-\*********************/
+/*
+   Classes / IDs
+*/
 
-/*** Form ************/
+/* Form */
 
 .fieldset-margin {
 	padding: 0 16px 16px 16px;
@@ -104,7 +134,7 @@ legend {
 	margin-bottom: 6px;
 }
 
-/*** Result **********/
+/* Result */
 
 #TEXT_RESULT {
 	font-size: 14px;
@@ -113,7 +143,7 @@ legend {
 	height: 34px;
 }
 
-/*** Information *****/
+/* Information */
 
 .info-margin {
 	padding-left: 16px;

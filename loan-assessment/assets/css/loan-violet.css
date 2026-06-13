@@ -1,6 +1,6 @@
-/****************\
- *	Tags style	*
-\****************/
+/*
+   Tags style
+*/
 
 body.violet {
 	background-color: #E1D6FF;
@@ -16,9 +16,9 @@ select.violet {
 	color: black;
 }
 
-/*********************\
- *	 Classes / IDs	 *
-\*********************/
+/*
+   Classes / IDs
+*/
 
 .label-data.violet,
 .label-data.selected.violet {

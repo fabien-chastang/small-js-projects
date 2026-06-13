@@ -1,6 +1,6 @@
-/****************\
- *	Tags style	*
-\****************/
+/*
+   Tags style
+*/
 
 body.orange {
 	background-color: #FFE6CC;
@@ -16,9 +16,9 @@ select.orange {
 	color: black;
 }
 
-/*********************\
- *	 Classes / IDs	 *
-\*********************/
+/*
+   Classes / IDs
+*/
 
 .label-data.orange,
 .label-data.selected.orange {

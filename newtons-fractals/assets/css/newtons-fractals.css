@@ -1,6 +1,6 @@
-/****************\
- *	Tags style	*
-\****************/
+/*
+   Tags style
+*/
 
 * {
 	margin: 0;
@@ -67,9 +67,9 @@ legend {
 	padding: 0 8px;
 }
 
-/****************\
- *		IDs		*
-\****************/
+/*
+   IDs
+*/
 
 #LANGUAGES {
 	width: 85px;

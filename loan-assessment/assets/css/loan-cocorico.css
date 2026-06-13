@@ -1,6 +1,6 @@
-/****************\
- *	Tags style	*
-\****************/
+/*
+   Tags style
+*/
 
 body.cocorico {
 	background-color: #3366FF;
@@ -16,9 +16,9 @@ select.cocorico {
 	color: white;
 }
 
-/*********************\
- *	 Classes / IDs	 *
-\*********************/
+/*
+   Classes / IDs
+*/
 
 .label-data.cocorico,
 .label-data.selected.cocorico {

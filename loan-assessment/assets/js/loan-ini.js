@@ -31,7 +31,8 @@ const ini = {
 		LABEL_DATA: "LABEL_DATA_",
 		FIELD_DATA: "FIELD_DATA_",
 		LEGEND_RESULT: "LEGEND_RESULT",
-		TEXT_RESULT: "TEXT_RESULT"
+		TEXT_RESULT: "TEXT_RESULT",
+		COPYRIGHT_YEAR: "COPYRIGHT_YEAR"
 	},
 
 	// CSS class names used in the Page class

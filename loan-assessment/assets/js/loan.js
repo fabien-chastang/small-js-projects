@@ -401,6 +401,9 @@ class Page extends MathLoan {
 	initialize() {
 		const HTML_IDs = this.#HTML_IDs;
 
+		// Copyright year
+		$(HTML_IDs.COPYRIGHT_YEAR).innerHTML = (new Date()).getFullYear();
+
 		// Loads theme
 		this.#themes.iniProperty(
 			this.#cookieHandle,

@@ -1,6 +1,6 @@
-/****************\
- *	Tags style	*
-\****************/
+/*
+   Tags style
+*/
 
 body.pink {
 	background-color: #FFCCCC;
@@ -16,9 +16,9 @@ select.pink {
 	color: black;
 }
 
-/*********************\
- *	 Classes / IDs	 *
-\*********************/
+/*
+   Classes / IDs
+*/
 
 .label-data.pink,
 .label-data.selected.pink {
