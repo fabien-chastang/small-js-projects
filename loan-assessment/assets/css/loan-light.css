@@ -7,6 +7,10 @@ body.light {
 	color: black;
 }
 
+footer a.light {
+	color: black;
+}
+
 fieldset.light {
 	background-color: white;
 }

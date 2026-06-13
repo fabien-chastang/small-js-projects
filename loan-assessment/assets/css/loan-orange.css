@@ -7,6 +7,10 @@ body.orange {
 	color: black;
 }
 
+footer a.orange {
+	color: black;
+}
+
 fieldset.orange {
 	background-color: #FFFFE6;
 }

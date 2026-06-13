@@ -7,6 +7,10 @@ body.blue {
 	color: black;
 }
 
+footer a.blue {
+	color: black;
+}
+
 fieldset.blue {
 	background-color: #E6F9FF;
 }
