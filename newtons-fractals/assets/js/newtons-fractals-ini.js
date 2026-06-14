@@ -137,7 +137,9 @@ const ini = {
 		TEXT_INFO: "TEXT_INFO",
 		LOADING: "LOADING",
 		TEXT_LOADING1: "TEXT_LOADING1",
-		TEXT_LOADING2: "TEXT_LOADING1"
+		TEXT_LOADING2: "TEXT_LOADING1",
+		FOOTER: "FOOTER",
+		COPYRIGHT_YEAR: "COPYRIGHT_YEAR"
 	},
 
 	// Ratio in percent (width and height) between the canvas and the browser window

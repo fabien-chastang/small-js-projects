@@ -8,34 +8,44 @@
 	<title id="PAGE_TITLE">Newton's fractals / Fractales de Newton</title>
 
 	<link rel="icon" type="image/x-icon" href="../assets/img/fractal-2/favicon.png">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="./assets/css/newtons-fractals.css">
 </head>
 
 <body>
-	<header>
-		<aside id="FRAC_TITLE"></aside>
-		<form id="HEADER">
-			<select id="FUNCTIONS"></select>
-			<button type="button" id="PNG">PNG</button>
-			<select id="LANGUAGES"></select>
-		</form>
-	</header>
+	<div class="page-container">
+		<header>
+			<aside id="FRAC_TITLE"></aside>
+			<form id="HEADER">
+				<select id="FUNCTIONS"></select>
+				<button type="button" id="PNG">PNG</button>
+				<select id="LANGUAGES"></select>
+			</form>
+		</header>
 
-	<main>
-		<canvas id="FRACTAL"></canvas>
-		<article id="INFO">
-			<fieldset>
-				<legend>
-					<h1 id="LEGEND_INFO">Newton's fractals / Fractales de Newton</h1>
-				</legend>
-				<div id="TEXT_INFO"></div>
-			</fieldset>
-		</article>
-		<aside id="LOADING">
-			<div id="TEXT_LOADING1"></div>
-			<div id="TEXT_LOADING2"></div>
-		</aside>
-	</main>
+		<main>
+			<canvas id="FRACTAL"></canvas>
+			<article id="INFO">
+				<fieldset>
+					<legend>
+						<h1 id="LEGEND_INFO">Newton's fractals / Fractales de Newton</h1>
+					</legend>
+					<div id="TEXT_INFO"></div>
+				</fieldset>
+			</article>
+			<aside id="LOADING">
+				<div id="TEXT_LOADING1"></div>
+				<div id="TEXT_LOADING2"></div>
+			</aside>
+		</main>
+	</div>
+
+	<footer id="FOOTER">
+		<a href="https://www.linkedin.com/in/fabien-chastang/" target="_blank" data-theme="1">
+			<i class="fa-brands fa-square-linkedin"></i>LinkedIn
+		</a>
+		<div>Copyright © <span id="COPYRIGHT_YEAR"></span> – JS Projects</span></div>
+	</footer>
 
 	<!-- Resources -->
 	<script src="./assets/js/res/newtons-fractals-en-US.js"></script>

@@ -531,9 +531,9 @@ class Page extends SettingsFractal {
 
 		// Resizes the canvas and initializes the values used to calculate the positions 
 		// in rows and columns of the complex number initializing Newton's method
-		const margin = this.#getMargin(this.#canvas, this.#getMargin(document.body, { width: 0, height: 0 }));
+		const margin = this.#getMargin($(ID.FOOTER), this.#getMargin(this.#canvas, this.#getMargin(document.body, { width: 0, height: 0 })));
 		this.#canvas.width = super.width = parseInt(super.ratio.width * window.innerWidth) - margin.width;
-		this.#canvas.height = super.height = parseInt(super.ratio.height * (window.innerHeight - $(ID.FUNCTIONS).offsetHeight)) - margin.height;
+		this.#canvas.height = super.height = parseInt(super.ratio.height * (window.innerHeight - $(ID.FUNCTIONS).offsetHeight - $(ID.FOOTER).offsetHeight)) - margin.height;
 		this.#line = this.#context.createImageData(super.width, 1);
 		super.mindim();
 
@@ -549,6 +549,9 @@ class Page extends SettingsFractal {
 	// Initializes the page
 	initialize() {
 		const ID = this.#HTML_IDs;
+
+		// Copyright year
+		$(ID.COPYRIGHT_YEAR).innerHTML = (new Date()).getFullYear();
 
 		// Initializes canvas object and its context to display the Newton's fractals
 		this.#canvas = $(ID.FRACTAL);
