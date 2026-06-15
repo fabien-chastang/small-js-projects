@@ -23,7 +23,7 @@ class MathLoan extends MathX {
 	// ------------------------------------------------------------------------
 
 	// Rounds a number
-	round(numeric) { return super.round(numeric); }
+	round(numeric, accuracy = null, culture = null) { return super.round(numeric, accuracy, culture); }
 
 	// Calculates the result
 	loan(type, amount, interest, term, repayment) {
