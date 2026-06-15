@@ -176,6 +176,8 @@ class Page extends MathLoan {
 		this.#prevError = null;
 		if (this.#selectedType >= 0) {
 			this.#selectedType = -1;
+
+			const HTML_IDs = this.#HTML_IDs;
 			$(HTML_IDs.LEGEND_RESULT).innerHTML = this.#resources.$.page.LEGEND_RESULT;
 			$(HTML_IDs.TEXT_RESULT).innerHTML = "";
 		}
