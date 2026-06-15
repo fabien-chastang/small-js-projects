@@ -37,7 +37,7 @@ function en_US() {
 			LABEL_DATA_0: { names: ["aria-label", "title"], value: "Click to calculate the amount you can borrow" },
 			LABEL_DATA_1: { names: ["aria-label", "title"], value: "Click to calculate the loan interest rate" },
 			LABEL_DATA_2: { names: ["aria-label", "title"], value: "Click to calculate the loan term in years" },
-			LABEL_DATA_3: { names: ["aria-label", "title"], value: "Click to calculate your monthly payment" },
+			LABEL_DATA_3: { names: ["aria-label", "title"], value: "Click to calculate the monthly payments" },
 			FIELD_DATA_0: { names: "aria-label", value: "Enter the loan amount" },
 			FIELD_DATA_1: { names: "aria-label", value: "Enter the interest rate (percentage)" },
 			FIELD_DATA_2: { names: "aria-label", value: "Enter the loan term (in years)" },
@@ -60,7 +60,7 @@ function en_US() {
 				"–  The repayment must be a positive number.\n"
 			],
 			EXCEEDING_ALL: "The numerical result exceeds the largest possible number in JavaScript.",
-			EXCEEDING_DATA_1: "The input data is excessive. In fact, the two-digit precision of the interest rate causes it to become zero.",
+			EXCEEDING_DATA: "The input data is excessive. In fact, the two-digit precision of the interest rate causes it to become zero.",
 			ERR_CONDITIONS: "One of the following conditions must be met:\n",
 			ERR_CONDITIONS_31: "\n\t–  {0} < {1}\n\t–  {2} > {3}\n\t–  {4} > {5}",
 			ERR_CONDITIONS_32: "\n\t–  {0} < {1}\n\t–  {2} < {3}\n\t–  {4} > {5}",

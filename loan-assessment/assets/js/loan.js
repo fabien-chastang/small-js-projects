@@ -325,7 +325,7 @@ class Page extends MathLoan {
 						if (amount <= (repayment *= 12) * term) {
 							result = super.loan(type, amount, null, term, repayment);
 							if (valid(result)) {
-								if (result[0].numericValue == 0) error = this.#resources.$.errors.EXCEEDING_DATA_1;
+								if (result[0].numericValue == 0) error = this.#resources.$.errors.EXCEEDING_DATA;
 							} else
 								error = this.#resources.$.errors.EXCEEDING_ALL;
 						} else {

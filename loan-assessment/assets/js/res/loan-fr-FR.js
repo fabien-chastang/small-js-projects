@@ -37,7 +37,7 @@ function fr_FR() {
 			LABEL_DATA_0: { names: ["aria-label", "title"], value: "Cliquez pour calculer le montant que vous pouvez emprunter" },
 			LABEL_DATA_1: { names: ["aria-label", "title"], value: "Cliquez pour calculer le taux d'intérêt du prêt" },
 			LABEL_DATA_2: { names: ["aria-label", "title"], value: "Cliquez pour calculer la durée du prêt en années" },
-			LABEL_DATA_3: { names: ["aria-label", "title"], value: "Cliquez pour calculer votre mensualité" },
+			LABEL_DATA_3: { names: ["aria-label", "title"], value: "Cliquez pour calculer les mensualités" },
 			FIELD_DATA_0: { names: "aria-label", value: "Indiquez le montant du prêt" },
 			FIELD_DATA_1: { names: "aria-label", value: "Indiquez le taux d'intérêt (pourcentage)" },
 			FIELD_DATA_2: { names: "aria-label", value: "Indiquez la durée du prêt (en années)" },
@@ -60,7 +60,7 @@ function fr_FR() {
 				"–  Le remboursement doit être un nombre positif.\n"
 			],
 			EXCEEDING_ALL: "Le résultat numérique excède le plus grand nombre possible en JavaScript.",
-			EXCEEDING_DATA_1: "Les données en entrée sont excessives. En effet, la précision à deux chiffres du taux d'intérêt fait qu'il devient nul.",
+			EXCEEDING_DATA: "Les données en entrée sont excessives. En effet, la précision à deux chiffres du taux d'intérêt fait qu'il devient nul.",
 			ERR_CONDITIONS: "L'une des conditions suivantes doit être remplie :\n",
 			ERR_CONDITIONS_31: "\n\t–  {0} < {1}\n\t–  {2} > {3}\n\t–  {4} > {5}",
 			ERR_CONDITIONS_32: "\n\t–  {0} < {1}\n\t–  {2} < {3}\n\t–  {4} > {5}",
