@@ -61,11 +61,10 @@ function en_US() {
 			],
 			EXCEEDING_ALL: "The numerical result exceeds the largest possible number in JavaScript.",
 			EXCEEDING_DATA_1: "The input data is excessive. In fact, the two-digit precision of the interest rate causes it to become zero.",
-			ERR_3_CONDITIONS: "One of the following three conditions must be met:\n",
-			ERR_2_CONDITIONS: "One of the following two conditions must be met:\n",
-			ERR_3_CONDITIONS_1: "\n\t–  {0} < {1}\n\t–  {2} > {3}\n\t–  {4} > {5}",
-			ERR_3_CONDITIONS_2: "\n\t–  {0} < {1}\n\t–  {2} < {3}\n\t–  {4} > {5}",
-			ERR_2_CONDITIONS_2: "\n\t–  {0} < {1}\n\t–  {2} > {3}"
+			ERR_CONDITIONS: "One of the following conditions must be met:\n",
+			ERR_CONDITIONS_31: "\n\t–  {0} < {1}\n\t–  {2} > {3}\n\t–  {4} > {5}",
+			ERR_CONDITIONS_32: "\n\t–  {0} < {1}\n\t–  {2} < {3}\n\t–  {4} > {5}",
+			ERR_CONDITIONS_2: "\n\t–  {0} < {1}\n\t–  {2} > {3}"
 		}
 	};
 }

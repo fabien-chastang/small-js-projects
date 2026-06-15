@@ -329,7 +329,7 @@ class Page extends MathLoan {
 							} else
 								error = this.#resources.$.errors.EXCEEDING_ALL;
 						} else {
-							error = (this.#resources.$.errors.ERR_3_CONDITIONS + this.#resources.$.errors.ERR_3_CONDITIONS_1).format(
+							error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_31).format(
 								this.#resources.$.page[LABEL_DATA + 0], super.round(repayment * term).formattedStr,
 								this.#resources.$.page[LABEL_DATA + 2], super.round(amount / repayment).formattedStr,
 								this.#resources.$.page[LABEL_DATA + 3], super.round(amount / (term * 12)).formattedStr
@@ -345,12 +345,12 @@ class Page extends MathLoan {
 						} else {
 							let max_interest;
 							if ((max_interest = super.round((100 * repayment) / amount)).numericValue == 0) {
-								error = (this.#resources.$.errors.ERR_2_CONDITIONS + this.#resources.$.errors.ERR_2_CONDITIONS_2).format(
+								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_2).format(
 									this.#resources.$.page[LABEL_DATA + 0], super.round(repayment / interest).formattedStr,
 									this.#resources.$.page[LABEL_DATA + 3], super.round(amount * interest / 12).formattedStr
 								);
 							} else {
-								error = (this.#resources.$.errors.ERR_3_CONDITIONS + this.#resources.$.errors.ERR_3_CONDITIONS_2).format(
+								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_21).format(
 									this.#resources.$.page[LABEL_DATA + 0], super.round(repayment / interest).formattedStr,
 									this.#resources.$.page[LABEL_DATA + 1], max_interest.formattedStr,
 									this.#resources.$.page[LABEL_DATA + 3], super.round(amount * interest / 12).formattedStr
