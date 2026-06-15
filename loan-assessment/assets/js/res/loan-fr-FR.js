@@ -24,7 +24,7 @@ function fr_FR() {
 			LABEL_DATA_01: " (%)",
 			LABEL_DATA_2: "Durée",
 			LABEL_DATA_02: " (en années)",
-			LABEL_DATA_3: "Mensualité",
+			LABEL_DATA_3: "Mensualités",
 			LEGEND_INFO: "Utilisation",
 			TEXT_INFO: "<p>Renseignez trois des quatre champs proposés, puis cliquez sur le <b>label</b> du champs restant pour obtenir sa valeur.</p><br><p>Les champs ne prennent en compte que des nombres positifs, précis à deux chiffres après la virgule.</p>",
 			LEGEND_RESULT: "Résultat"

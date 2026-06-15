@@ -24,7 +24,7 @@ function en_US() {
 			LABEL_DATA_01: " (%)",
 			LABEL_DATA_2: "Loan term",
 			LABEL_DATA_02: " (in years)",
-			LABEL_DATA_3: "Monthly payment",
+			LABEL_DATA_3: "Monthly payments",
 			LEGEND_INFO: "Usage",
 			TEXT_INFO: "<p>Fill in three of the four fields provided, then click on the <b>label</b> of the remaining field to obtain its value.</p><br><p>The fields only accept positive numbers, accurate to two decimal places.</p>",
 			LEGEND_RESULT: "Result"
