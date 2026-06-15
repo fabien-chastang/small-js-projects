@@ -63,7 +63,7 @@ function fr_FR() {
 			EXCEEDING_DATA_1: "Les données en entrée sont excessives. En effet, la précision à deux chiffres du taux d'intérêt fait qu'il devient nul.",
 			ERR_3_CONDITIONS: "L'une des trois conditions suivantes doit être remplie :\n",
 			ERR_2_CONDITIONS: "L'une des deux conditions suivantes doit être remplie :\n",
-			ERR_3_CONDITIONS_1: "\n\t–  {0} <= {1}\n\t–  {2} <= {3}\n\t–  {4} <= {5}",
+			ERR_3_CONDITIONS_1: "\n\t–  {0} < {1}\n\t–  {2} > {3}\n\t–  {4} > {5}",
 			ERR_3_CONDITIONS_2: "\n\t–  {0} < {1}\n\t–  {2} < {3}\n\t–  {4} > {5}",
 			ERR_2_CONDITIONS_2: "\n\t–  {0} < {1}\n\t–  {2} > {3}"
 		}
