@@ -44,25 +44,22 @@ class MathLoan extends MathX {
 					case 1:
 						// Calculates the root using Newton's method
 						const dfct = x => term * (repayment - amount * x) * (1 + x) ** (term - 1) - amount * (1 + x) ** term;
-						method = "Newton's method";
 						value = super.newtonsMethod(x1, fct, dfct).root;
 						break;
 
 					case -1:
 						// Calculates the root using Newton's method without derivative function
-						method = "Newton's method without derivative function";
 						value = super.newtonsMethodWOD(x1, fct).root;
 						break;
 
 					default:
 						// Calculates the root using bisection method (more robust method than Newton's method, but slower)
 						const x0 = (repayment * term - amount) / ((term + 1) * amount);
-						method = "bisection method";
 						value = super.bisectionMethod(x0, x1, fct).root;
 				}
 				if (value === null)
 					// Error in calculating the root
-					alert(`Error in calculating the interest rate using the ${method}!`);
+					result = this.#newtonsMethod;
 				else
 					result = [this.round(100 * value), this.round(repayment * term), this.round(repayment * term - amount)];
 				break;
@@ -172,7 +169,16 @@ class Page extends MathLoan {
 		}
 
 		// Deselects the previously calculated field
-		this.#unselectField(true);
+		this.#unselectField();
+
+		// Resets the flags and the result
+		this.#prevType = -1;
+		this.#prevError = null;
+		if (this.#selectedType >= 0) {
+			this.#selectedType = -1;
+			$(HTML_IDs.LEGEND_RESULT).innerHTML = this.#resources.$.page.LEGEND_RESULT;
+			$(HTML_IDs.TEXT_RESULT).innerHTML = "";
+		}
 
 		// Updating the 'culture' cookie
 		this.#cookieHandle.setValue(this.#cookieHandle.names.culture, super.cultureFormat);
@@ -234,7 +240,7 @@ class Page extends MathLoan {
 	// ------------------------------------------------------------------------
 
 	// Deselects the previously calculated field
-	#unselectField(clear_prev) {
+	#unselectField() {
 		if (this.#selectedType >= 0) {
 			const HTML_IDs = this.#HTML_IDs;
 			const label = $(HTML_IDs.LABEL_DATA + this.#selectedType);
@@ -243,28 +249,20 @@ class Page extends MathLoan {
 
 			label.className = label.className.replace(classSelected, "");
 			field.className = field.className.replace(classSelected, "");
-
-			if (clear_prev) {
-				// Resets the flags
-				this.#prevType = -1;
-				this.#prevError = null;
-				this.#selectedType = -1;
-
-				$(HTML_IDs.LEGEND_RESULT).innerHTML = this.#resources.$.page.LEGEND_RESULT;
-				$(HTML_IDs.TEXT_RESULT).innerHTML = "";
-			}
 		}
 	}
 
 	// Analyzes input data and detects any errors
 	#getError(type) {
 		const data = this.#data;
-		let error = "";
+		let error = "", err_count = 0;
 
-		if (type != 0 && !data[0]) error += this.#resources.$.errors.DATA[0];
-		if (type != 1 && (!data[1] || data[1] >= 100)) error += this.#resources.$.errors.DATA[1];
-		if (type != 2 && !data[2]) error += this.#resources.$.errors.DATA[2];
-		if (type != 3 && !data[3]) error += this.#resources.$.errors.DATA[3];
+		if (type != 0 && !data[0]) { err_count += 1; error += this.#resources.$.errors.DATA[0]; }
+		if (type != 1 && (!data[1] || data[1] >= 100)) { err_count += 1; error += this.#resources.$.errors.DATA[1]; }
+		if (type != 2 && !data[2]) { err_count += 1; error += this.#resources.$.errors.DATA[2]; }
+		if (type != 3 && !data[3]) { err_count += 1; error += this.#resources.$.errors.DATA[3]; }
+
+		if (err_count == 1) error = error.replace(/(–\s+|\n)/g, "").replace(/\s{2,}/, " ");
 
 		return error;
 	}
@@ -324,7 +322,20 @@ class Page extends MathLoan {
 						// Calculation of the interest rate
 						if (amount <= (repayment *= 12) * term) {
 							result = super.loan(type, amount, null, term, repayment);
-							if (valid(result)) {
+							if (typeof result == "number") {
+								let method;
+								switch (result) {
+									case 1:
+										method = this.#resources.$.errors.ERR_ROOT_NEWTON;
+										break;
+									case -1:
+										method = this.#resources.$.errors.ERR_ROOT_NEWTON_WITHOUT_DERIVATIVE;
+										break;
+									default:
+										method = this.#resources.$.errors.ERR_ROOT_BISECTION;
+								}
+								error = this.#resources.$.errors.ERR_ROOT_CALCULATE.format(method);
+							} else if (valid(result)) {
 								if (result[0].numericValue == 0) error = this.#resources.$.errors.EXCEEDING_DATA;
 							} else
 								error = this.#resources.$.errors.EXCEEDING_ALL;
