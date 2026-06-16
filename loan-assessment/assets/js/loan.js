@@ -33,9 +33,9 @@ class MathLoan extends MathX {
 				// Calculation of the amount borrowed
 				value = (repayment *= 12) * ((1 + (interest /= 100)) ** term - 1) / (interest * (1 + interest) ** term);
 				result = [
-					this.round(value), 
-					this.round(tempo = repayment * term), 
-					this.round(tempo -= value), 
+					this.round(value),
+					this.round(tempo = repayment * term),
+					this.round(tempo -= value),
 					this.round(100 * tempo / value)
 				];
 				break;
@@ -67,8 +67,8 @@ class MathLoan extends MathX {
 					result = this.#newtonsMethod;
 				else
 					result = [
-						this.round(100 * value), 
-						this.round(tempo = repayment * term), 
+						this.round(100 * value),
+						this.round(tempo = repayment * term),
 						this.round(tempo -= amount),
 						this.round(100 * tempo / amount)
 					];
@@ -78,8 +78,8 @@ class MathLoan extends MathX {
 				// Calculation of the loan term
 				value = (Math.log(repayment) - Math.log(repayment - amount * interest)) / Math.log(1 + interest);
 				result = [
-					this.round(value), 
-					this.round(tempo = repayment * value), 
+					this.round(value),
+					this.round(tempo = repayment * value),
 					this.round(tempo -= amount),
 					this.round(100 * tempo / amount)
 				];
@@ -89,15 +89,15 @@ class MathLoan extends MathX {
 				// Calculation of the monthly repayment amount
 				value = amount * (interest /= 100) * (1 + interest) ** term / ((1 + interest) ** term - 1);
 				result = [
-					this.round(value / 12), 
-					this.round(tempo = value * term), 
+					this.round(value / 12),
+					this.round(tempo = value * term),
 					this.round(tempo -= amount),
 					this.round(100 * tempo / amount)
 				];
 				break;
 
 			default:
-				// Error: invalid type for calculation
+				// A bug, not a user error: invalid type for calculation
 				alert("Invalid \"type\" for calculation!");
 		}
 		return result;
@@ -402,7 +402,7 @@ class Page extends MathLoan {
 						break;
 
 					default:
-						// Error: invalid type for calculation
+						// A bug, not a user error: invalid type for calculation
 						alert("Invalid \"type\" for calculation!");
 				}
 			}
