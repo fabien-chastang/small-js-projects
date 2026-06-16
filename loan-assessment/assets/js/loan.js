@@ -398,7 +398,7 @@ class Page extends MathLoan {
 					case 3:
 						// Calculation of the monthly repayment amount
 						result = super.loan(type, amount, interest, term, null);
-						if (!valid(result)) error = this.#resources.errors.EXCEEDING_ALL;
+						if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
 						break;
 
 					default:
