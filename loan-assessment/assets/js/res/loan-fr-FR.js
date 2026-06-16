@@ -19,7 +19,7 @@ function fr_FR() {
 			VIOLET: "Violet",
 			COCORICO: "Cocorico !",
 			LEGEND_DATA: "Prêt",
-			LABEL_DATA_0: "Montant emprunté",
+			LABEL_DATA_0: "Montant du prêt",
 			LABEL_DATA_1: "Taux d'intérêt",
 			LABEL_DATA_01: " (%)",
 			LABEL_DATA_2: "Durée",
@@ -45,16 +45,16 @@ function fr_FR() {
 		},
 		results: {
 			TEXT_RESULT: [
-				"{0} (montant total remboursé : {1}, dont {2} d'intérêts)",
-				"{0} % (montant total remboursé : {1}, dont {2} d'intérêts)",
-				"{0} année(s) (montant total remboursé : {1}, dont {2} d'intérêts)",
-				"{0} par mois (montant total remboursé : {1}, dont {2} d'intérêts)"
+				"{0}&ensp;–&ensp;montant total remboursé : {1},&ensp;dont {2} d'intérêts,&ensp;soit {3}% du prêt.",
+				"{0}%&ensp;–&ensp;montant total remboursé : {1},&ensp;dont {2} d'intérêts,&ensp;soit {3}% du prêt.",
+				"{0} année(s)&ensp;–&ensp;montant total remboursé : {1},&ensp;dont {2} d'intérêts,&ensp;soit {3}% du prêt.",
+				"{0} par mois&ensp;–&ensp;montant total remboursé : {1},&ensp;dont {2} d'intérêts,&ensp;soit {3}% du prêt."
 			]
 		},
 		errors: {
 			MAX_VALUE: "Le nombre saisi doit être inférieur à {0}.",
 			DATA: [
-				"–  Le montant emprunté doit être un nombre positif.\n",
+				"–  Le montant du prêt doit être un nombre positif.\n",
 				"–  Le taux d'intérêt doit être un nombre pris strictement\n    entre 0 et 100.\n",
 				"–  La durée du prêt doit être un nombre positif.\n",
 				"–  Le remboursement doit être un nombre positif.\n"

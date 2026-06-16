@@ -27,12 +27,17 @@ class MathLoan extends MathX {
 
 	// Calculates the result
 	loan(type, amount, interest, term, repayment) {
-		let result = null, value;
+		let result = null, value, tempo;
 		switch (type) {
 			case 0:
 				// Calculation of the amount borrowed
 				value = (repayment *= 12) * ((1 + (interest /= 100)) ** term - 1) / (interest * (1 + interest) ** term);
-				result = [this.round(value), this.round(repayment * term), this.round(repayment * term - value)];
+				result = [
+					this.round(value), 
+					this.round(tempo = repayment * term), 
+					this.round(tempo -= value), 
+					this.round(100 * tempo / value)
+				];
 				break;
 
 			case 1:
@@ -61,19 +66,34 @@ class MathLoan extends MathX {
 					// Error in calculating the root
 					result = this.#newtonsMethod;
 				else
-					result = [this.round(100 * value), this.round(repayment * term), this.round(repayment * term - amount)];
+					result = [
+						this.round(100 * value), 
+						this.round(tempo = repayment * term), 
+						this.round(tempo -= amount),
+						this.round(100 * tempo / amount)
+					];
 				break;
 
 			case 2:
 				// Calculation of the loan term
 				value = (Math.log(repayment) - Math.log(repayment - amount * interest)) / Math.log(1 + interest);
-				result = [this.round(value), this.round(repayment * value), this.round(repayment * value - amount)];
+				result = [
+					this.round(value), 
+					this.round(tempo = repayment * value), 
+					this.round(tempo -= amount),
+					this.round(100 * tempo / amount)
+				];
 				break;
 
 			case 3:
 				// Calculation of the monthly repayment amount
 				value = amount * (interest /= 100) * (1 + interest) ** term / ((1 + interest) ** term - 1);
-				result = [this.round(value / 12), this.round(value * term), this.round(value * term - amount)];
+				result = [
+					this.round(value / 12), 
+					this.round(tempo = value * term), 
+					this.round(tempo -= amount),
+					this.round(100 * tempo / amount)
+				];
 				break;
 
 			default:
@@ -289,7 +309,7 @@ class Page extends MathLoan {
 
 		// Gets the result message
 		const message = this.#resources.$.results.TEXT_RESULT[type].format(
-			result[0].formattedStr, result[1].formattedStr, result[2].formattedStr
+			result[0].formattedStr, result[1].formattedStr, result[2].formattedStr, result[3].formattedStr
 		);
 
 		// Displaying

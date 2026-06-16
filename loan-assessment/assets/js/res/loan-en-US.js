@@ -45,10 +45,10 @@ function en_US() {
 		},
 		results: {
 			TEXT_RESULT: [
-				"{0} (total amount repaid: {1}, including {2} in interest)",
-				"{0} % (total amount repaid: {1}, including {2} in interest)",
-				"{0} year(s) (total amount repaid: {1}, including {2} in interest)",
-				"{0} per month (total amount repaid: {1}, including {2} in interest)"
+				"{0}&ensp;–&ensp;total amount repaid: {1},&ensp;including {2} in interest,&ensp;i.e. {3}% of the loan.",
+				"{0}%&ensp;–&ensp;total amount repaid: {1},&ensp;including {2} in interest,&ensp;i.e. {3}% of the loan.",
+				"{0} year(s)&ensp;–&ensp;total amount repaid: {1},&ensp;including {2} in interes,&ensp;i.e. {3}% of the loan.",
+				"{0} per month&ensp;–&ensp;total amount repaid: {1},&ensp;including {2} in interest,Vi.e. {3}% of the loan."
 			]
 		},
 		errors: {

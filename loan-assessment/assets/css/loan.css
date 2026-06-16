@@ -57,16 +57,20 @@ footer {
 }
 
 footer a {
-	margin-right: 30px;
+	margin-right: 35px;
 	text-decoration: none;
 }
 
 footer a:hover {
-    transform: scale(1.3);
+    transform: scale(1.2);
 }
 
 footer a .underline:hover {
 	text-decoration: underline;
+}
+
+footer .copyright {
+	font-style: italic;
 }
 
 h1,
@@ -116,7 +120,7 @@ legend {
 }
 
 .label {
-	width: 160px;
+	width: 210px;
 	text-align: right;
 	white-space: nowrap;
 }
