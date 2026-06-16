@@ -264,7 +264,10 @@ class Page extends MathLoan {
 		if (type != 2 && !data[2]) { err_count += 1; error += this.#resources.$.errors.DATA[2]; }
 		if (type != 3 && !data[3]) { err_count += 1; error += this.#resources.$.errors.DATA[3]; }
 
-		if (err_count == 1) error = error.replace(/(–\s+|\n)/g, "").replace(/\s{2,}/, " ");
+		if (err_count == 1)
+			error = error.replace(/^–\s+/, "").replace(/\n/g, "").replace(/\s{2,}/g, " ");
+		else
+			error = error.replace(/\n$/, "");
 
 		return error;
 	}
