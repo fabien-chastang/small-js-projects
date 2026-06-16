@@ -145,7 +145,7 @@ const ini = {
 	// Ratio in percent (width and height) between the canvas and the browser window
 	ratio: {
 		width: 100,
-		height: 99.9
+		height: 98.5
 	},
 
 	// ------------------------------------------------------------------------

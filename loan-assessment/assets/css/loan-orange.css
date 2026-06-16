@@ -7,6 +7,10 @@ body.orange {
 	color: black;
 }
 
+footer.orange {
+	background-color: #FFFFE6;
+}
+
 footer a.orange {
 	color: black;
 }

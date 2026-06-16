@@ -7,6 +7,10 @@ body.dark {
 	color: white;
 }
 
+footer.dark {
+	background-color: black;
+}
+
 footer a.dark {
 	color: white;
 }
