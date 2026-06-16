@@ -129,6 +129,11 @@ legend {
 	padding-right: 8px;
 }
 
+.label-data {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 .label-data.selected {
 	font-weight: bold;
 }
