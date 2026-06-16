@@ -386,7 +386,7 @@ class Page extends MathLoan {
 									this.#resources.$.page[LABEL_DATA + 3], super.round(amount * interest / 12).formattedStr
 								);
 							} else {
-								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_21).format(
+								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_32).format(
 									this.#resources.$.page[LABEL_DATA + 0], super.round(repayment / interest).formattedStr,
 									this.#resources.$.page[LABEL_DATA + 1], max_interest.formattedStr,
 									this.#resources.$.page[LABEL_DATA + 3], super.round(amount * interest / 12).formattedStr

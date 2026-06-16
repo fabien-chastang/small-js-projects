@@ -66,9 +66,9 @@ function en_US() {
 			ERR_ROOT_NEWTON_WITHOUT_DERIVATIVE: "Newton's method without derivative function",
 			ERR_ROOT_BISECTION: "bisection method",
 			ERR_CONDITIONS: "One of the following conditions must be met:\n",
-			ERR_CONDITIONS_31: "\n\t–  {0} < {1}\n\t–  {2} > {3}\n\t–  {4} > {5}",
-			ERR_CONDITIONS_32: "\n\t–  {0} < {1}\n\t–  {2} < {3}\n\t–  {4} > {5}",
-			ERR_CONDITIONS_2: "\n\t–  {0} < {1}\n\t–  {2} > {3}"
+			ERR_CONDITIONS_31: "\n    –  {0} < {1}\n    –  {2} > {3}\n    –  {4} > {5}",
+			ERR_CONDITIONS_32: "\n    –  {0} < {1}\n    –  {2} < {3}\n    –  {4} > {5}",
+			ERR_CONDITIONS_2: "\n    –  {0} < {1}\n    –  {2} > {3}"
 		}
 	};
 }
