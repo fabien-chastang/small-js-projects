@@ -402,8 +402,7 @@ class Page extends SettingsFractal {
 		$(HTML_IDs.FRAC_TITLE).innerHTML = super.getTitle(this.#resources.$.general.FRAC_TITLE);
 
 		// Reactivate the form
-		$(HTML_IDs.FUNCTIONS).disabled = false;
-		$(HTML_IDs.PNG).disabled = false;
+		$(HTML_IDs.PNG).disabled = $(HTML_IDs.FUNCTIONS).disabled = false;
 		$(HTML_IDs.FUNCTIONS).focus();
 	}
 
@@ -414,8 +413,7 @@ class Page extends SettingsFractal {
 
 		// Disables the form
 		const HTML_IDs = this.#HTML_IDs;
-		$(HTML_IDs.FUNCTIONS).disabled = true;
-		$(HTML_IDs.PNG).disabled = true;
+		$(HTML_IDs.PNG).disabled = $(HTML_IDs.FUNCTIONS).disabled = true;
 
 		// Set a delay to display the loading message when creating the fractal
 		await delay(50);
