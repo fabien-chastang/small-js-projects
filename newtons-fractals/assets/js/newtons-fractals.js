@@ -396,14 +396,15 @@ class Page extends SettingsFractal {
 
 	// Displays the title
 	#displayTitle() {
-		const HTML_IDs = this.#HTML_IDs;
+		const ID = this.#HTML_IDs;
 
-		// Manages the title
-		$(HTML_IDs.FRAC_TITLE).innerHTML = super.getTitle(this.#resources.$.general.FRAC_TITLE);
+		// Hides the loading message and manages the title
+		$(ID.LOADING).style.visibility = "hidden";
+		$(ID.FRAC_TITLE).innerHTML = super.getTitle(this.#resources.$.general.FRAC_TITLE);
 
-		// Reactivate the form
-		$(HTML_IDs.PNG).disabled = $(HTML_IDs.FUNCTIONS).disabled = false;
-		$(HTML_IDs.FUNCTIONS).focus();
+		// Reactivates the form
+		$(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
+		if (arguments.length && arguments[0]) $(ID.FUNCTIONS).focus();
 	}
 
 	// Displays the Newton's fractal
@@ -411,9 +412,11 @@ class Page extends SettingsFractal {
 		// Retrieves the parameters to create the fractal
 		const f = super.fractal;
 
-		// Disables the form
-		const HTML_IDs = this.#HTML_IDs;
-		$(HTML_IDs.PNG).disabled = $(HTML_IDs.FUNCTIONS).disabled = true;
+		// Disables the form and manages message visibility
+		const ID = this.#HTML_IDs;
+		$(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = true;
+		$(ID.INFO).style.visibility = "hidden";
+		$(ID.LOADING).style.visibility = "visible";
 
 		// Set a delay to display the loading message when creating the fractal
 		await delay(50);
@@ -437,9 +440,8 @@ class Page extends SettingsFractal {
 			this.#context.putImageData(this.#line, 0, y);
 		}
 
-		// Displays the title and hides the loading message
-		this.#displayTitle();
-		$(HTML_IDs.LOADING).style.visibility = "hidden";
+		// Displays the title
+		this.#displayTitle(true);
 	}
 
 	// ------------------------------------------------------------------------
@@ -471,27 +473,25 @@ class Page extends SettingsFractal {
 
 	// Changes the function for the Newton's fractal
 	#changeFractal() {
-		// Erases the fractal
+		const ID = this.#HTML_IDs;
+
 		if (super.selectedFunc > -1) {
-			super.selectedFunc = -1;
-			this.#displayTitle();
+			// Erases the fractal
+			$(ID.FRAC_TITLE).innerHTML = "";
 			this.#context.clearRect(0, 0, super.width, super.height);
 		}
 
 		// Initializes the index of the selected function
-		const ID = this.#HTML_IDs;
 		super.selectedFunc = $(ID.FUNCTIONS).selectedIndex - 1;
 
-		if (super.selectedFunc > -1) {
-			// Manages message visibility
-			$(ID.INFO).style.visibility = "hidden";
-			$(ID.LOADING).style.visibility = "visible";
-
+		if (super.selectedFunc > -1)
 			// Displays the Newton's fractal
 			page.#displayFractal();
-		} else
-			// Displays the information message
+		else {
+			// Reactivates the form and displays the information message
+			$(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
 			$(ID.INFO).style.visibility = "visible";
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -509,7 +509,7 @@ class Page extends SettingsFractal {
 		resources.load();
 
 		// Changes the title of the fractal
-		this.#displayTitle();
+		if (super.selectedFunc > -1) this.#displayTitle();
 
 		// Updating the 'language' cookie
 		this.#cookieHandle.setValue(this.#cookieHandle.names.language, resources.selected);
@@ -530,12 +530,11 @@ class Page extends SettingsFractal {
 	#resizeWindow() {
 		const ID = this.#HTML_IDs;
 
-		// Erases the fractal
 		if (super.selectedFunc > -1) {
-			$(ID.LOADING).style.visibility = "hidden";
+			// Erases the fractal
 			$(ID.FUNCTIONS).options[0].selected = true;
-
 			super.selectedFunc = -1;
+
 			this.#displayTitle();
 			this.#context.clearRect(0, 0, super.width, super.height);
 		}
