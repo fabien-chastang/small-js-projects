@@ -407,7 +407,7 @@ class Page extends SettingsFractal {
 		if (frac) await delay(50);
 
 		// Reactivates the form
-		$(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
+		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
 		if (frac) $(ID.FUNCTIONS).focus();
 	}
 
@@ -418,7 +418,7 @@ class Page extends SettingsFractal {
 
 		// Disables the form and manages message visibility
 		const ID = this.#HTML_IDs;
-		$(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = true;
+		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = true;
 		$(ID.INFO).style.visibility = "hidden";
 		$(ID.LOADING).style.visibility = "visible";
 
@@ -493,7 +493,7 @@ class Page extends SettingsFractal {
 			page.#displayFractal();
 		else {
 			// Reactivates the form and displays the information message
-			$(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
+			$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
 			$(ID.INFO).style.visibility = "visible";
 		}
 	}
