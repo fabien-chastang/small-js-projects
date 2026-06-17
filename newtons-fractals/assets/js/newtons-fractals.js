@@ -396,13 +396,26 @@ class Page extends SettingsFractal {
 
 	// Displays the title
 	#displayTitle() {
-		$(this.#HTML_IDs.FRAC_TITLE).innerHTML = super.getTitle(this.#resources.$.general.FRAC_TITLE);
+		const HTML_IDs = this.#HTML_IDs;
+
+		// Manages the title
+		$(HTML_IDs.FRAC_TITLE).innerHTML = super.getTitle(this.#resources.$.general.FRAC_TITLE);
+
+		// Reactivate the form
+		$(HTML_IDs.FUNCTIONS).disabled = false;
+		$(HTML_IDs.PNG).disabled = false;
+		$(HTML_IDs.FUNCTIONS).focus();
 	}
 
 	// Displays the Newton's fractal
 	async #displayFractal() {
 		// Retrieves the parameters to create the fractal
 		const f = super.fractal;
+
+		// Disables the form
+		const HTML_IDs = this.#HTML_IDs;
+		$(HTML_IDs.FUNCTIONS).disabled = true;
+		$(HTML_IDs.PNG).disabled = true;
 
 		// Set a delay to display the loading message when creating the fractal
 		await delay(50);
@@ -428,7 +441,7 @@ class Page extends SettingsFractal {
 
 		// Displays the title and hides the loading message
 		this.#displayTitle();
-		$(this.#HTML_IDs.LOADING).style.visibility = "hidden";
+		$(HTML_IDs.LOADING).style.visibility = "hidden";
 	}
 
 	// ------------------------------------------------------------------------
