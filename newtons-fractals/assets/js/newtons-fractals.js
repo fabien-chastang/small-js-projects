@@ -395,16 +395,20 @@ class Page extends SettingsFractal {
 	// ------------------------------------------------------------------------
 
 	// Displays the title
-	#displayTitle() {
+	async #displayTitle() {
 		const ID = this.#HTML_IDs;
 
 		// Hides the loading message and manages the title
 		$(ID.LOADING).style.visibility = "hidden";
 		$(ID.FRAC_TITLE).innerHTML = super.getTitle(this.#resources.$.general.FRAC_TITLE);
 
+		// Set a delay before reactivating the form if the call comes from 'displayFractal' function
+		const frac = arguments.length && arguments[0];
+		if (frac) await delay(50);
+
 		// Reactivates the form
 		$(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
-		if (arguments.length && arguments[0]) $(ID.FUNCTIONS).focus();
+		if (frac) $(ID.FUNCTIONS).focus();
 	}
 
 	// Displays the Newton's fractal
