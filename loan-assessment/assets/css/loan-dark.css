@@ -24,6 +24,10 @@ select.dark {
 	color: white;
 }
 
+select.dark:focus {
+	border-color: white;
+}
+
 /*
    Classes / IDs
 */

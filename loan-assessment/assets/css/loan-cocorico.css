@@ -24,6 +24,10 @@ select.cocorico {
 	color: white;
 }
 
+select.cocorico:focus {
+	border-color: white;
+}
+
 /*
    Classes / IDs
 */

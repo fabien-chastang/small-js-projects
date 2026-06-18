@@ -9,7 +9,7 @@
 const _COOKIE_PREFIX_ = "loan_app_";
 
 // Object initializing the Page class
-const ini = {
+const INI = {
 	// Data management
 	accuracyRound: 2,
 	approximError: 10 ** (-5),

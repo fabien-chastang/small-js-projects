@@ -33,13 +33,13 @@ class ColorFractal {
 					this.#arg.params = (this.#arg.type == 1) ? { K: ColorFractal.paramK1, idx: 0 } : { K: 1, idx: 0 };
 
 					if (color.hasOwnProperty("paramsArg") && color.paramsArg) {
-						const p = color.paramsArg;
+						const P = color.paramsArg;
 
-						if (p.hasOwnProperty("K") && Number.isFinite(p.K) && p.K != 0)
-							this.#arg.params.K = (this.#arg.type == 1) ? [p.K, 1 / p.K] : p.K;
+						if (P.hasOwnProperty("K") && Number.isFinite(P.K) && P.K != 0)
+							this.#arg.params.K = (this.#arg.type == 1) ? [P.K, 1 / P.K] : P.K;
 
-						if (p.hasOwnProperty("idx") && Number.isFinite(p.idx) && (p.idx == 0 || p.idx == 1))
-							this.#arg.params.idx = p.idx;
+						if (P.hasOwnProperty("idx") && Number.isFinite(P.idx) && (P.idx == 0 || P.idx == 1))
+							this.#arg.params.idx = P.idx;
 					}
 				}
 			} else {
@@ -114,11 +114,11 @@ class ColorFractal {
 		get: (arg, coef) => {
 			if (this.#color.type == 1) {
 				// Coloring by sector
-				const a = this.#color._argRd(arg), sin = 127 * Math.sin(a);
+				const A = this.#color._argRd(arg), sin = 127 * Math.sin(A);
 				return [
-					(a <= ColorFractal.PI13) ? Math.round(128 - sin) : 0,
-					(a >= -ColorFractal.PI23 && a <= ColorFractal.PI23) ? Math.round(255 * Math.sin(0.75 * a + ColorFractal.PI12)) : 0,
-					(a >= -ColorFractal.PI13) ? Math.round(128 + sin) : 0,
+					(A <= ColorFractal.PI13) ? Math.round(128 - sin) : 0,
+					(A >= -ColorFractal.PI23 && A <= ColorFractal.PI23) ? Math.round(255 * Math.sin(0.75 * A + ColorFractal.PI12)) : 0,
+					(A >= -ColorFractal.PI13) ? Math.round(128 + sin) : 0,
 					255 // Alpha channel
 				];
 			} else
@@ -167,34 +167,34 @@ class SettingsFractal extends ColorFractal {
 
 			// Default values
 			if (params.hasOwnProperty("defval") && params.defval) {
-				const p = params.defval;
-				if (p.hasOwnProperty("maxIter") && p.maxIter >= 2) this.#frac.maxIter = p.maxIter;
-				if (p.hasOwnProperty("exitRadius") && p.exitRadius >= Number.EPSILON && p.exitRadius <= 0.1) this.#frac.exitRadius = p.exitRadius;
-				if (p.hasOwnProperty("minDFunc") && p.minDFunc >= Number.EPSILON && p.minDFunc <= 0.1) this.#frac.minDFunc = p.minDFunc;
+				const P = params.defval;
+				if (P.hasOwnProperty("maxIter") && P.maxIter >= 2) this.#frac.maxIter = P.maxIter;
+				if (P.hasOwnProperty("exitRadius") && P.exitRadius >= Number.EPSILON && P.exitRadius <= 0.1) this.#frac.exitRadius = P.exitRadius;
+				if (P.hasOwnProperty("minDFunc") && P.minDFunc >= Number.EPSILON && P.minDFunc <= 0.1) this.#frac.minDFunc = P.minDFunc;
 			}
 		},
 
 		// Retrieves the parameters of the selected fractal
 		selected: () => {
-			const f = this.#frac.functions[this.#frac.selectedFunc];
+			const F = this.#frac.functions[this.#frac.selectedFunc];
 			return {
 				// The selected fractal
-				func: (f.func) ? f.func.formula : null, // Formula of the selected function, if it's null, it's the cosine function (optimization)
-				dfunc: (f.func) ? f.func.derivative : null, // Formula of its derivative
-				mulCoef: (f.hasOwnProperty("mulCoef")) ? f.mulCoef : null, // Multiplicative coefficient added to the Newton's method
-				addCoef: (f.hasOwnProperty("addCoef")) ? f.addCoef : null, // Additive coefficient added to the Newton's method
+				func: (F.func) ? F.func.formula : null, // Formula of the selected function, if it's null, it's the cosine function (optimization)
+				dfunc: (F.func) ? F.func.derivative : null, // Formula of its derivative
+				mulCoef: (F.hasOwnProperty("mulCoef")) ? F.mulCoef : null, // Multiplicative coefficient added to the Newton's method
+				addCoef: (F.hasOwnProperty("addCoef")) ? F.addCoef : null, // Additive coefficient added to the Newton's method
 
 				// Parameters for exiting the Newton's method loop
-				maxIter: (f.hasOwnProperty("maxIter") && f.maxIter >= 2) ? f.maxIter : this.#frac.maxIter,
-				exitRadius: (f.hasOwnProperty("exitRadius") && f.exitRadius >= Number.EPSILON && f.exitRadius <= 0.1) ? f.exitRadius : this.#frac.exitRadius,
-				minDFunc: (f.hasOwnProperty("minDFunc") && f.minDFunc >= Number.EPSILON && f.minDFunc <= 0.1) ? f.minDFunc : this.#frac.minDFunc,
+				maxIter: (F.hasOwnProperty("maxIter") && F.maxIter >= 2) ? F.maxIter : this.#frac.maxIter,
+				exitRadius: (F.hasOwnProperty("exitRadius") && F.exitRadius >= Number.EPSILON && F.exitRadius <= 0.1) ? F.exitRadius : this.#frac.exitRadius,
+				minDFunc: (F.hasOwnProperty("minDFunc") && F.minDFunc >= Number.EPSILON && F.minDFunc <= 0.1) ? F.minDFunc : this.#frac.minDFunc,
 
 				// Zoom and center
-				zoomOut: (f.hasOwnProperty("zoomOut")) ? f.zoomOut : 1,
-				center: f.hasOwnProperty("center") && f.center,
+				zoomOut: (F.hasOwnProperty("zoomOut")) ? F.zoomOut : 1,
+				center: F.hasOwnProperty("center") && F.center,
 
 				// Parameters for coloring the fractal
-				color: (f.hasOwnProperty("color")) ? f.color : null
+				color: (F.hasOwnProperty("color")) ? F.color : null
 			};
 		}
 	};
@@ -234,24 +234,24 @@ class SettingsFractal extends ColorFractal {
 		// Optimized: max(width, height) loop iterations
 		positions: (scaling, center) => {
 			scaling /= this.#dim.min;
-			const row = [], col = [];
+			const ROW = [], COL = [];
 			let x0, y0, i = 0;
 
 			if (this.#dim.width != this.#dim.height && center) {
 				[x0, y0] = [this.#dim.halfW, this.#dim.halfH];
-				const delta = scaling * (x0 - y0);
-				for (; i < this.#dim.min; i++) col[i] = (row[i] = scaling * (i - x0)) + delta;
+				const DELTA = scaling * (x0 - y0);
+				for (; i < this.#dim.min; i++) COL[i] = (ROW[i] = scaling * (i - x0)) + DELTA;
 			} else {
 				y0 = x0 = this.#dim.halfM;
-				for (; i < this.#dim.min; i++) col[i] = row[i] = scaling * (i - x0);
+				for (; i < this.#dim.min; i++) COL[i] = ROW[i] = scaling * (i - x0);
 			}
 
 			if (this.#dim.height < this.#dim.width)
-				for (; i < this.#dim.width; i++) row[i] = scaling * (i - x0);
+				for (; i < this.#dim.width; i++) ROW[i] = scaling * (i - x0);
 			else
-				for (; i < this.#dim.height; i++) col[i] = scaling * (i - y0);
+				for (; i < this.#dim.height; i++) COL[i] = scaling * (i - y0);
 
-			return [row, col];
+			return [ROW, COL];
 		},
 
 		// Truncates the title if necessary
@@ -259,19 +259,19 @@ class SettingsFractal extends ColorFractal {
 			let display = this.#dim.title;
 			if (display.length > 0) {
 				// Formula calculating the length of the title to display... complicated!
-				const maxlen = this.#dim.wtitle / this.#dim.wchar;
-				const ltrunc = parseInt(maxlen - this.#dim.ktitle / maxlen);
+				const MAXLEN = this.#dim.wtitle / this.#dim.wchar;
+				const LTRUNC = parseInt(MAXLEN - this.#dim.ktitle / MAXLEN);
 
-				if (ltrunc >= this.#dim.minlen) {
-					if (ltrunc < display.replace(/<sup>|<\/sup>/ig, "").length - 1) {
-						const resup = /<sup>\d+<\/sup>/ig;
-						const sups = display.match(resup);
+				if (LTRUNC >= this.#dim.minlen) {
+					if (LTRUNC < display.replace(/<sup>|<\/sup>/ig, "").length - 1) {
+						const RESUP = /<sup>\d+<\/sup>/ig;
+						const SUPS = display.match(RESUP);
 
-						if (sups) {
-							display = display.replace(resup, "$").slice(0, ltrunc);
-							sups.forEach(s => display = display.replace("$", s));
+						if (SUPS) {
+							display = display.replace(RESUP, "$").slice(0, LTRUNC);
+							SUPS.forEach(s => display = display.replace("$", s));
 						} else
-							display = display.slice(0, ltrunc);
+							display = display.slice(0, LTRUNC);
 
 						display += "…";
 					}
@@ -316,25 +316,25 @@ class SettingsFractal extends ColorFractal {
 	// Retrieves the parameters to create the fractal
 	get fractal() {
 		// The parameters of the selected fractal
-		const f = this.#frac.selected();
+		const F = this.#frac.selected();
 
 		// Calculates the positions in the rows and columns of the complex number initializing Newton's method
-		const [row, col] = this.#dim.positions(f.zoomOut, f.center);
-		f.$ = (x, y) => [row[x], col[y]];
+		const [ROW, COL] = this.#dim.positions(F.zoomOut, F.center);
+		F.$ = (x, y) => [ROW[x], COL[y]];
 
 		// The parameter for exiting the Newton's method loop
-		f.sqRadius = f.exitRadius * f.exitRadius;
+		F.sqRadius = F.exitRadius * F.exitRadius;
 
 		// Retrieves the parameters for coloring the fractal
-		super.iniColor(f.maxIter, f.exitRadius, f.color);
+		super.iniColor(F.maxIter, F.exitRadius, F.color);
 
 		// Deletes unused properties
-		delete f.zoomOut;
-		delete f.center;
-		delete f.exitRadius;
-		delete f.color;
+		delete F.zoomOut;
+		delete F.center;
+		delete F.exitRadius;
+		delete F.color;
 
-		return f;
+		return F;
 	}
 
 	// Retrieves the title and truncates it if necessary
@@ -417,15 +417,15 @@ class Page extends SettingsFractal {
 		this.#setTitle();
 
 		// Set a delay before reactivating the form if the call comes from 'displayFractal' function
-		const frac = arguments.length && arguments[0];
-		if (frac) await delay(this.#delayMs);
-		this.#enableForm(frac);
+		const FRAC = arguments.length && arguments[0];
+		if (FRAC) await delay(this.#delayMs);
+		this.#enableForm(FRAC);
 	}
 
 	// Displays the Newton's fractal
 	async #displayFractal() {
 		// Retrieves the parameters to create the fractal
-		const f = super.fractal;
+		const F = super.fractal;
 
 		// Disables the form and manages the visibility of messages
 		const ID = this.#HtmlIDs;
@@ -437,19 +437,19 @@ class Page extends SettingsFractal {
 		await delay(this.#delayMs);
 
 		// Loops through every pixel
-		const width = super.width, height = super.height;
-		for (let y = 0; y < height; y++) {
+		const WIDTH = super.width, HEIGHT = super.height;
+		for (let y = 0; y < HEIGHT; y++) {
 			// Draws a line
-			for (let off = 0, x = 0; x < width; x++) {
+			for (let off = 0, x = 0; x < WIDTH; x++) {
 				// Performs Newton's method to the complex number
-				const result = Complex.newtonsMethod(f.$(x, y), f.func, f.dfunc, f.maxIter, f.sqRadius, f.minDFunc, f.mulCoef, f.addCoef);
+				const RESULT = Complex.newtonsMethod(F.$(x, y), F.func, F.dfunc, F.maxIter, F.sqRadius, F.minDFunc, F.mulCoef, F.addCoef);
 
 				// Makes the pixel black if it diverges or does not converge quickly enough, 
 				// or colors the pixel if Newton's method converges to a root
 				[this.#line.data[off++],
 				this.#line.data[off++],
 				this.#line.data[off++],
-				this.#line.data[off++]] = (result.root === null) ? [0, 0, 0, 255 /* Alpha channel */] : super.getColor(result);
+				this.#line.data[off++]] = (RESULT.root === null) ? [0, 0, 0, 255 /* Alpha channel */] : super.getColor(RESULT);
 			}
 			// Puts the line on the canvas
 			this.#context.putImageData(this.#line, 0, y);
@@ -466,17 +466,17 @@ class Page extends SettingsFractal {
 	// Opens a window containing the PNG image of the selected fractal
 	#createPNG() {
 		if (super.selectedFunc > -1) {
-			const i = this.#windowsPNG.findIndex(w => w.selectedFunc == super.selectedFunc);
-			if (i > -1) {
-				const w = this.#windowsPNG[i];
-				if (w.window.closed)
-					w.window = window.open(w.url);
+			const IDX = this.#windowsPNG.findIndex(w => w.selectedFunc == super.selectedFunc);
+			if (IDX > -1) {
+				const WND = this.#windowsPNG[IDX];
+				if (WND.window.closed)
+					WND.window = window.open(WND.url);
 				else
-					w.window.focus();
+					WND.window.focus();
 			} else
 				this.#canvas.toBlob(blob => {
-					const url = URL.createObjectURL(blob);
-					this.#windowsPNG.push({ selectedFunc: super.selectedFunc, url: url, window: window.open(url) });
+					const _URL = URL.createObjectURL(blob);
+					this.#windowsPNG.push({ selectedFunc: super.selectedFunc, url: _URL, window: window.open(_URL) });
 				});
 		} else
 			alert(this.#resources.$.general.FRAC_GENERATE);
@@ -516,18 +516,18 @@ class Page extends SettingsFractal {
 	// Changes the language of the page
 	#changeLanguage() {
 		const ID = this.#HtmlIDs;
-		const languages = $(ID.LANGUAGES);
-		const resources = this.#resources;
+		const LANGUAGES = $(ID.LANGUAGES);
+		const RESOURCES = this.#resources;
 
 		// Modifies the language and loads resources
-		resources.selected = languages.options[languages.selectedIndex].value;
-		resources.load();
+		RESOURCES.selected = LANGUAGES.options[LANGUAGES.selectedIndex].value;
+		RESOURCES.load();
 
 		// Changes the title of the fractal
 		this.#setTitle();
 
 		// Updating the 'language' cookie
-		this.#cookieHandle.setValue(this.#cookieHandle.names.language, resources.selected);
+		this.#cookieHandle.setValue(this.#cookieHandle.names.language, RESOURCES.selected);
 	}
 
 	// ------------------------------------------------------------------------
@@ -548,9 +548,9 @@ class Page extends SettingsFractal {
 
 	// Calculates the margins
 	#getMargins(obj, margin) {
-		const style = window.getComputedStyle(obj);
-		margin.width += parseInt(style.marginLeft.replace(/\D/g, "")) + parseInt(style.marginRight.replace(/\D/g, ""));
-		margin.height += parseInt(style.marginTop.replace(/\D/g, "")) + parseInt(style.marginBottom.replace(/\D/g, ""));
+		const STYLE = window.getComputedStyle(obj);
+		margin.width += parseInt(STYLE.marginLeft.replace(/\D/g, "")) + parseInt(STYLE.marginRight.replace(/\D/g, ""));
+		margin.height += parseInt(STYLE.marginTop.replace(/\D/g, "")) + parseInt(STYLE.marginBottom.replace(/\D/g, ""));
 		return margin;
 	}
 
@@ -568,9 +568,9 @@ class Page extends SettingsFractal {
 
 		// Resizes the canvas and initializes the values used to calculate the positions 
 		// in rows and columns of the complex number initializing Newton's method
-		const margin = this.#getMargins($(ID.FOOTER), this.#getMargins(this.#canvas, this.#getMargins(document.body, { width: 0, height: 0 })));
-		this.#canvas.width = super.width = parseInt(super.ratio.width * window.innerWidth) - margin.width;
-		this.#canvas.height = super.height = parseInt(super.ratio.height * (window.innerHeight - $(ID.FUNCTIONS).offsetHeight - $(ID.FOOTER).offsetHeight)) - margin.height;
+		const MARGIN = this.#getMargins($(ID.FOOTER), this.#getMargins(this.#canvas, this.#getMargins(document.body, { width: 0, height: 0 })));
+		this.#canvas.width = super.width = parseInt(super.ratio.width * window.innerWidth) - MARGIN.width;
+		this.#canvas.height = super.height = parseInt(super.ratio.height * (window.innerHeight - $(ID.FUNCTIONS).offsetHeight - $(ID.FOOTER).offsetHeight)) - MARGIN.height;
 		this.#line = this.#context.createImageData(super.width, 1);
 		super.mindim();
 
@@ -595,14 +595,14 @@ class Page extends SettingsFractal {
 		this.#context = this.#canvas.getContext("2d");
 
 		// Loads functions and adds an event on the change of function
-		const obj_select = $(ID.FUNCTIONS);
-		const opt = new Option("", "0");
-		opt.setAttribute("id", ID.TOSELECT_FUNC);
-		obj_select.add(opt);
-		for (const [idx, func] of super.functions.entries()) obj_select.add(new Option(func.optText, (idx + 1).toString()));
-		obj_select.options[0].selected = true;
-		obj_select.addEventListener("change", () => this.#changeFractal());
-		obj_select.focus();
+		const SELECT = $(ID.FUNCTIONS);
+		const OPTION = new Option("", "0");
+		OPTION.setAttribute("id", ID.TOSELECT_FUNC);
+		SELECT.add(OPTION);
+		for (const [idx, func] of super.functions.entries()) SELECT.add(new Option(func.optText, (idx + 1).toString()));
+		SELECT.options[0].selected = true;
+		SELECT.addEventListener("change", () => this.#changeFractal());
+		SELECT.focus();
 
 		// Loads resources, adds an event on the change of language, and adjusts the width of the information message
 		this.#resources.iniProperty(
@@ -637,7 +637,7 @@ class Page extends SettingsFractal {
 // ============================================================================
 
 // Creates the Page object
-const page = new Page(ini);
+const PAGE = new Page(INI);
 
 // Initializes the Page object
-document.addEventListener("DOMContentLoaded", () => page.initialize());
+document.addEventListener("DOMContentLoaded", () => PAGE.initialize());

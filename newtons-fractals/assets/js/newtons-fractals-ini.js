@@ -11,7 +11,7 @@ const _COOKIE_PREFIX_ = "newtons_fractals_app_";
 // ----------------------------------------------------------------------------
 // Functions
 
-const polynomial = {
+const POLYNOMIAL = {
 	color: {
 		typeCoef: 2,
 		shiftArg: 60
@@ -19,7 +19,7 @@ const polynomial = {
 	center: true
 };
 
-const polynomialD3 = {
+const POLYNOMIAL_D3 = {
 	optText: "z^3 - 1",
 	title: "z<sup>3</sup> - 1",
 	func: {
@@ -45,7 +45,7 @@ const polynomialD3 = {
 	center: true
 };
 
-const polynomialD5 = {
+const POLYNOMIAL_D5 = {
 	optText: "17z^5 - 23z + 19",
 	title: "17z<sup>5</sup> - 23z + 19",
 	func: {
@@ -69,7 +69,7 @@ const polynomialD5 = {
 	}
 };
 
-const polynomialD7 = {
+const POLYNOMIAL_D7 = {
 	optText: "z^7 - 2z^5 + 4z^3 - 6z + 8",
 	title: "z<sup>7</sup> - 2z<sup>5</sup> + 4z<sup>3</sup> - 6z + 8",
 	func: {
@@ -96,7 +96,7 @@ const polynomialD7 = {
 	]
 };
 
-const cos1 = {
+const COS1 = {
 	title: "cos(z) | Version 1",
 	color: {
 		typeCoef: 2,
@@ -107,7 +107,7 @@ const cos1 = {
 	center: true
 };
 
-const cos2 = {
+const COS2 = {
 	title: "cos(z) | Version 2",
 	color: {
 		typeCoef: 2,
@@ -122,7 +122,7 @@ const cos2 = {
 // ----------------------------------------------------------------------------
 // Object initializing the Page class
 
-const ini = {
+const INI = {
 	// HTML IDs explicitly used in the Page class
 	HtmlIDs: {
 		HEADER: "HEADER",
@@ -192,8 +192,8 @@ const ini = {
 			},
 			maxIter: 200,
 			zoomOut: 2.65,
-			color: polynomial.color,
-			center: polynomial.center
+			color: POLYNOMIAL.color,
+			center: POLYNOMIAL.center
 		},
 		{
 			optText: "z^4 + 1",
@@ -207,8 +207,8 @@ const ini = {
 			},
 			maxIter: 200,
 			zoomOut: 2.725,
-			color: polynomial.color,
-			center: polynomial.center
+			color: POLYNOMIAL.color,
+			center: POLYNOMIAL.center
 		},
 		{
 			optText: "z^6 + z^3 - 1",
@@ -225,8 +225,8 @@ const ini = {
 			},
 			maxIter: 200,
 			zoomOut: 2.6,
-			color: polynomial.color,
-			center: polynomial.center
+			color: POLYNOMIAL.color,
+			center: POLYNOMIAL.center
 		},
 		{
 			optText: "z^8 + 15z^4 - 16",
@@ -243,48 +243,48 @@ const ini = {
 			},
 			maxIter: 400,
 			zoomOut: 4,
-			color: polynomial.color,
-			center: polynomial.center
+			color: POLYNOMIAL.color,
+			center: POLYNOMIAL.center
 		},
 		{
-			optText: polynomialD5.optText,
-			title: polynomialD5.title,
-			func: polynomialD5.func,
+			optText: POLYNOMIAL_D5.optText,
+			title: POLYNOMIAL_D5.title,
+			func: POLYNOMIAL_D5.func,
 			maxIter: 30,
 			zoomOut: 7,
-			color: polynomialD5.color
+			color: POLYNOMIAL_D5.color
 		},
 		{
-			optText: polynomialD5.optText + " | Zoom x 2.8",
-			title: `${polynomialD5.title} | Zoom x 2.8`,
-			func: polynomialD5.func,
+			optText: POLYNOMIAL_D5.optText + " | Zoom x 2.8",
+			title: `${POLYNOMIAL_D5.title} | Zoom x 2.8`,
+			func: POLYNOMIAL_D5.func,
 			maxIter: 34,
 			zoomOut: 2.5,
-			color: polynomialD5.color
+			color: POLYNOMIAL_D5.color
 		},
 		{
-			optText: polynomialD5.optText + " | Zoom x 18.6",
-			title: `${polynomialD5.title} | Zoom x 18.6`,
-			func: polynomialD5.func,
+			optText: POLYNOMIAL_D5.optText + " | Zoom x 18.6",
+			title: `${POLYNOMIAL_D5.title} | Zoom x 18.6`,
+			func: POLYNOMIAL_D5.func,
 			maxIter: 43,
 			zoomOut: 0.376,
-			color: polynomialD5.color
+			color: POLYNOMIAL_D5.color
 		},
 		{
-			optText: polynomialD5.optText + " | Zoom x 37",
-			title: `${polynomialD5.title} | Zoom x 37`,
-			func: polynomialD5.func,
+			optText: POLYNOMIAL_D5.optText + " | Zoom x 37",
+			title: `${POLYNOMIAL_D5.title} | Zoom x 37`,
+			func: POLYNOMIAL_D5.func,
 			maxIter: 45,
 			zoomOut: 0.189,
-			color: polynomialD5.color
+			color: POLYNOMIAL_D5.color
 		},
 		{
-			optText: polynomialD5.optText + " | Zoom x 175",
-			title: `${polynomialD5.title} | Zoom x 175`,
-			func: polynomialD5.func,
+			optText: POLYNOMIAL_D5.optText + " | Zoom x 175",
+			title: `${POLYNOMIAL_D5.title} | Zoom x 175`,
+			func: POLYNOMIAL_D5.func,
 			maxIter: 54,
 			zoomOut: 0.04,
-			color: polynomialD5.color
+			color: POLYNOMIAL_D5.color
 		},
 		{
 			optText: "z^2 - 1 | mul.coef. = 1 + i",
@@ -298,262 +298,262 @@ const ini = {
 			zoomOut: 2.75
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 2",
-			title: `${polynomialD3.title} | mul.coef. = 2`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[0].mulCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 2",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 2`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[0].mulCoef,
 			maxIter: 60,
 			zoomOut: 2.85,
 			center: true
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = -0.5 | Version 1",
-			title: `${polynomialD3.title} | mul.coef. = -0.5 | Version 1`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[1].mulCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = -0.5 | Version 1",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = -0.5 | Version 1`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[1].mulCoef,
 			maxIter: 10,
 			zoomOut: 2,
 			color: { typeColor: 1 },
 			center: true
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = -0.5 | Version 2",
-			title: `${polynomialD3.title} | mul.coef. = -0.5 | Version 2`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[1].mulCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = -0.5 | Version 2",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = -0.5 | Version 2`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[1].mulCoef,
 			maxIter: 10,
 			zoomOut: 2,
 			center: true
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i)",
-			title: `${polynomialD3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i)`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[2].mulCoef,
-			addCoef: polynomialD3.coef[2].addCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i)",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i)`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[2].mulCoef,
+			addCoef: POLYNOMIAL_D3.coef[2].addCoef,
 			maxIter: 55,
 			zoomOut: 2.65
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Zoom x 2.4",
-			title: `${polynomialD3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Zoom x 2.4`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[2].mulCoef,
-			addCoef: polynomialD3.coef[2].addCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Zoom x 2.4",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Zoom x 2.4`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[2].mulCoef,
+			addCoef: POLYNOMIAL_D3.coef[2].addCoef,
 			maxIter: 65,
 			zoomOut: 1.1
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1 | Zoom x 26.5",
-			title: `${polynomialD3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1 | Zoom x 26.5`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[2].mulCoef,
-			addCoef: polynomialD3.coef[2].addCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1 | Zoom x 26.5",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1 | Zoom x 26.5`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[2].mulCoef,
+			addCoef: POLYNOMIAL_D3.coef[2].addCoef,
 			maxIter: 85,
 			zoomOut: 0.1
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1a | Zoom x 265",
-			title: `${polynomialD3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1a | Zoom x 265`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[2].mulCoef,
-			addCoef: polynomialD3.coef[2].addCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1a | Zoom x 265",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1a | Zoom x 265`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[2].mulCoef,
+			addCoef: POLYNOMIAL_D3.coef[2].addCoef,
 			maxIter: 80,
 			zoomOut: 0.01,
 			minDFunc: 10 ** (-11)
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1b | Zoom x 265",
-			title: `${polynomialD3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1b | Zoom x 265`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[2].mulCoef,
-			addCoef: polynomialD3.coef[2].addCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1b | Zoom x 265",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 1b | Zoom x 265`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[2].mulCoef,
+			addCoef: POLYNOMIAL_D3.coef[2].addCoef,
 			maxIter: 80,
 			zoomOut: 0.01,
 			minDFunc: 10 ** (-9)
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2 | Zoom x 26.5",
-			title: `${polynomialD3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2 | Zoom x 26.5`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[2].mulCoef,
-			addCoef: polynomialD3.coef[2].addCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2 | Zoom x 26.5",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2 | Zoom x 26.5`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[2].mulCoef,
+			addCoef: POLYNOMIAL_D3.coef[2].addCoef,
 			maxIter: 60,
 			zoomOut: 0.1
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2a | Zoom x 265",
-			title: `${polynomialD3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2a | Zoom x 265`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[2].mulCoef,
-			addCoef: polynomialD3.coef[2].addCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2a | Zoom x 265",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2a | Zoom x 265`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[2].mulCoef,
+			addCoef: POLYNOMIAL_D3.coef[2].addCoef,
 			maxIter: 65,
 			zoomOut: 0.01,
 			minDFunc: 10 ** (-11)
 		},
 		{
-			optText: polynomialD3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2b | Zoom x 265",
-			title: `${polynomialD3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2b | Zoom x 265`,
-			func: polynomialD3.func,
-			mulCoef: polynomialD3.coef[2].mulCoef,
-			addCoef: polynomialD3.coef[2].addCoef,
+			optText: POLYNOMIAL_D3.optText + " | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2b | Zoom x 265",
+			title: `${POLYNOMIAL_D3.title} | mul.coef. = 0.5 | add.coef. = 0.3(1 + i) | Version 2b | Zoom x 265`,
+			func: POLYNOMIAL_D3.func,
+			mulCoef: POLYNOMIAL_D3.coef[2].mulCoef,
+			addCoef: POLYNOMIAL_D3.coef[2].addCoef,
 			maxIter: 55,
 			zoomOut: 0.01,
 			minDFunc: 10 ** (-9)
 		},
 		{
-			optText: polynomialD7.optText + " | mul.coef. = 2",
-			title: `${polynomialD7.title} | mul.coef. = 2`,
-			func: polynomialD7.func,
-			mulCoef: polynomialD7.coef[0].mulCoef,
+			optText: POLYNOMIAL_D7.optText + " | mul.coef. = 2",
+			title: `${POLYNOMIAL_D7.title} | mul.coef. = 2`,
+			func: POLYNOMIAL_D7.func,
+			mulCoef: POLYNOMIAL_D7.coef[0].mulCoef,
 			maxIter: 35,
 			zoomOut: 64
 		},
 		{
-			optText: polynomialD7.optText + " | mul.coef. = 2 | Zoom x 16.1",
-			title: `${polynomialD7.title} | mul.coef. = 2 | Zoom x 16.1`,
-			func: polynomialD7.func,
-			mulCoef: polynomialD7.coef[0].mulCoef,
+			optText: POLYNOMIAL_D7.optText + " | mul.coef. = 2 | Zoom x 16.1",
+			title: `${POLYNOMIAL_D7.title} | mul.coef. = 2 | Zoom x 16.1`,
+			func: POLYNOMIAL_D7.func,
+			mulCoef: POLYNOMIAL_D7.coef[0].mulCoef,
 			maxIter: 35,
 			zoomOut: 3.985
 		},
 		{
-			optText: polynomialD7.optText + " | mul.coef. = 2 | Zoom x 38.1",
-			title: `${polynomialD7.title} | mul.coef. = 2 | Zoom x 38.1`,
-			func: polynomialD7.func,
-			mulCoef: polynomialD7.coef[0].mulCoef,
+			optText: POLYNOMIAL_D7.optText + " | mul.coef. = 2 | Zoom x 38.1",
+			title: `${POLYNOMIAL_D7.title} | mul.coef. = 2 | Zoom x 38.1`,
+			func: POLYNOMIAL_D7.func,
+			mulCoef: POLYNOMIAL_D7.coef[0].mulCoef,
 			maxIter: 35,
 			zoomOut: 1.68
 		},
 		{
-			optText: polynomialD7.optText + " | mul.coef. = 2 | Zoom x 155",
-			title: `${polynomialD7.title} | mul.coef. = 2 | Zoom x 155`,
-			func: polynomialD7.func,
-			mulCoef: polynomialD7.coef[0].mulCoef,
+			optText: POLYNOMIAL_D7.optText + " | mul.coef. = 2 | Zoom x 155",
+			title: `${POLYNOMIAL_D7.title} | mul.coef. = 2 | Zoom x 155`,
+			func: POLYNOMIAL_D7.func,
+			mulCoef: POLYNOMIAL_D7.coef[0].mulCoef,
 			maxIter: 35,
 			zoomOut: 0.413
 		},
 		{
-			optText: polynomialD7.optText + " | mul.coef. = 1 + i",
-			title: `${polynomialD7.title} | mul.coef. = 1 + i`,
-			func: polynomialD7.func,
-			mulCoef: polynomialD7.coef[1].mulCoef,
+			optText: POLYNOMIAL_D7.optText + " | mul.coef. = 1 + i",
+			title: `${POLYNOMIAL_D7.title} | mul.coef. = 1 + i`,
+			func: POLYNOMIAL_D7.func,
+			mulCoef: POLYNOMIAL_D7.coef[1].mulCoef,
 			maxIter: 60,
 			zoomOut: 100
 		},
 		{
-			optText: polynomialD7.optText + " | mul.coef. = 1 + i | Zoom x 250",
-			title: `${polynomialD7.title} | mul.coef. = 1 + i | Zoom x 250`,
-			func: polynomialD7.func,
-			mulCoef: polynomialD7.coef[1].mulCoef,
+			optText: POLYNOMIAL_D7.optText + " | mul.coef. = 1 + i | Zoom x 250",
+			title: `${POLYNOMIAL_D7.title} | mul.coef. = 1 + i | Zoom x 250`,
+			func: POLYNOMIAL_D7.func,
+			mulCoef: POLYNOMIAL_D7.coef[1].mulCoef,
 			maxIter: 60,
 			zoomOut: 0.4
 		},
 		{
-			optText: cos1.title,
-			title: `${cos1.title}`,
+			optText: COS1.title,
+			title: `${COS1.title}`,
 			maxIter: 375,
 			zoomOut: 101,
-			color: cos1.color,
-			center: cos1.center
+			color: COS1.color,
+			center: COS1.center
 		},
 		{
-			optText: cos1.title + " | Zoom x 18.7",
-			title: `${cos1.title} | Zoom x 18.7`,
+			optText: COS1.title + " | Zoom x 18.7",
+			title: `${COS1.title} | Zoom x 18.7`,
 			maxIter: 375,
 			zoomOut: 5.4,
-			color: cos1.color,
-			center: cos1.center
+			color: COS1.color,
+			center: COS1.center
 		},
 		{
-			optText: cos1.title + " | Zoom x 55.8",
-			title: `${cos1.title} | Zoom x 55.8`,
+			optText: COS1.title + " | Zoom x 55.8",
+			title: `${COS1.title} | Zoom x 55.8`,
 			maxIter: 375,
 			zoomOut: 1.809,
-			color: cos1.color,
-			center: cos1.center
+			color: COS1.color,
+			center: COS1.center
 		},
 		{
-			optText: cos1.title + " | Zoom x 210",
-			title: `${cos1.title} | Zoom x 210`,
+			optText: COS1.title + " | Zoom x 210",
+			title: `${COS1.title} | Zoom x 210`,
 			maxIter: 375,
 			zoomOut: 0.481,
-			color: cos1.color,
-			center: cos1.center
+			color: COS1.color,
+			center: COS1.center
 		},
 		{
-			optText: cos1.title + " | Zoom x 960",
-			title: `${cos1.title} | Zoom x 960`,
+			optText: COS1.title + " | Zoom x 960",
+			title: `${COS1.title} | Zoom x 960`,
 			maxIter: 375,
 			zoomOut: 0.10521,
-			color: cos1.color,
-			center: cos1.center
+			color: COS1.color,
+			center: COS1.center
 		},
 		{
-			optText: cos1.title + " | Zoom x 10745",
-			title: `${cos1.title} | Zoom x 10745`,
+			optText: COS1.title + " | Zoom x 10745",
+			title: `${COS1.title} | Zoom x 10745`,
 			maxIter: 250,
 			zoomOut: 0.0094,
-			color: cos1.color,
-			center: cos1.center
+			color: COS1.color,
+			center: COS1.center
 		},
 		{
-			optText: cos1.title + " | Zoom x 67333",
-			title: `${cos1.title} | Zoom x 67333`,
+			optText: COS1.title + " | Zoom x 67333",
+			title: `${COS1.title} | Zoom x 67333`,
 			maxIter: 175,
 			zoomOut: 0.0015,
-			color: cos1.color,
-			center: cos1.center
+			color: COS1.color,
+			center: COS1.center
 		},
 		{
-			optText: cos2.title,
-			title: cos2.title,
+			optText: COS2.title,
+			title: COS2.title,
 			optText: "cos(z) | Version 2",
 			title: "cos(z) | Version 2",
 			maxIter: 375,
 			zoomOut: 123,
-			color: cos2.color,
-			center: cos2.center
+			color: COS2.color,
+			center: COS2.center
 		},
 		{
-			optText: cos2.title + " | Zoom x 67.6",
-			title: `${cos2.title} | Zoom x 67.6`,
+			optText: COS2.title + " | Zoom x 67.6",
+			title: `${COS2.title} | Zoom x 67.6`,
 			maxIter: 375,
 			zoomOut: 1.82,
-			color: cos2.color,
-			center: cos2.center
+			color: COS2.color,
+			center: COS2.center
 		},
 		{
-			optText: cos2.title + " | Zoom x 259",
-			title: `${cos2.title} | Zoom x 259`,
+			optText: COS2.title + " | Zoom x 259",
+			title: `${COS2.title} | Zoom x 259`,
 			maxIter: 375,
 			zoomOut: 0.475,
-			color: cos2.color,
-			center: cos2.center
+			color: COS2.color,
+			center: COS2.center
 		},
 		{
-			optText: cos2.title + " | Zoom x 1295",
-			title: `${cos2.title} | Zoom x 1295`,
+			optText: COS2.title + " | Zoom x 1295",
+			title: `${COS2.title} | Zoom x 1295`,
 			maxIter: 375,
 			zoomOut: 0.095,
-			color: cos2.color,
-			center: cos2.center
+			color: COS2.color,
+			center: COS2.center
 		},
 		{
-			optText: cos2.title + " | Zoom x 11182",
-			title: `${cos2.title} | Zoom x 11182`,
+			optText: COS2.title + " | Zoom x 11182",
+			title: `${COS2.title} | Zoom x 11182`,
 			maxIter: 250,
 			zoomOut: 0.011,
-			color: cos2.color,
-			center: cos2.center
+			color: COS2.color,
+			center: COS2.center
 		},
 		{
-			optText: cos2.title + " | Zoom x 82000",
-			title: `${cos2.title} | Zoom x 82000`,
+			optText: COS2.title + " | Zoom x 82000",
+			title: `${COS2.title} | Zoom x 82000`,
 			maxIter: 175,
 			zoomOut: 0.0015,
-			color: cos2.color,
-			center: cos2.center
+			color: COS2.color,
+			center: COS2.center
 		}
 	]
 };
