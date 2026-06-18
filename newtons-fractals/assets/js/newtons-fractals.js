@@ -605,6 +605,9 @@ class Page extends SettingsFractal {
 				URL.revokeObjectURL(w.url);
 			});
 		});
+
+		// Displays the information message
+		$(ID.INFO).style.visibility = "visible";
 	}
 }
 

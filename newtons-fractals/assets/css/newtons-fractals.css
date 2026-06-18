@@ -140,6 +140,7 @@ legend {
 #INFO {
 	position: absolute;
 	max-width: 500px;
+	visibility: hidden;
 }
 
 #TEXT_INFO {
