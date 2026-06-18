@@ -25,7 +25,7 @@ const ini = {
 	},
 
 	// HTML IDs explicitly used in the Page class
-	HTML_IDs: {
+	HtmlIDs: {
 		FIELD_THEME: "FIELD_THEME",
 		FIELD_CULTURE: "FIELD_CULTURE",
 		LABEL_DATA: "LABEL_DATA_",
@@ -35,15 +35,15 @@ const ini = {
 		COPYRIGHT_YEAR: "COPYRIGHT_YEAR"
 	},
 
-	// CSS class names used in the Page class
-	CSS_CLASSNAMES: {
-		label_data: "label-data",
-		field_data: "field-data"
+	// HTML attributes used in the Page class
+	HtmlAttributes: {
+		theme: "data-theme"
 	},
 
-	// HTML attributes used in the Page class
-	HTML_ATTRIBUTES: {
-		theme: "data-theme"
+	// CSS class names used in the Page class
+	CssClassnames: {
+		label_data: "label-data",
+		field_data: "field-data"
 	},
 
 	// Themes management

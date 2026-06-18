@@ -215,10 +215,10 @@ class SettingsFractal extends ColorFractal {
 
 		// Title to display
 		title: "",   // Title to display
-		wtitle: 0,    // Maximum width for the displayed title
-		minlen: 0,    // Minimum length of displayed title
-		WCHAR: 0,    // Average character width in pixels
-		KTITLE: 0,    // Coefficient used to calculate the number of characters to subtract in order to truncate the title
+		wtitle: 0,   // Maximum width for the displayed title
+		minlen: 0,   // Minimum length of displayed title
+		wchar: 0,    // Average character width in pixels
+		ktitle: 0,   // Coefficient used to calculate the number of characters to subtract in order to truncate the title
 
 		// Called in the constructor
 		ini: params => {
@@ -226,8 +226,8 @@ class SettingsFractal extends ColorFractal {
 				? { width: params.ratio.width / 100, height: params.ratio.height / 100 }
 				: { width: 1, height: 1 };
 
-			this.#dim.WCHAR = (params.hasOwnProperty("WCHAR") && params.WCHAR) ? params.WCHAR : 6.5;
-			this.#dim.KTITLE = 200 * ((params.hasOwnProperty("KTITLE") && params.KTITLE) ? params.KTITLE : 1);
+			this.#dim.wchar = (params.hasOwnProperty("wchar") && params.wchar) ? params.wchar : 6.5;
+			this.#dim.ktitle = 200 * ((params.hasOwnProperty("ktitle") && params.ktitle) ? params.ktitle : 1);
 		},
 
 		// Calculates the positions in the rows and columns of the complex number initializing Newton's method
@@ -259,8 +259,8 @@ class SettingsFractal extends ColorFractal {
 			let display = this.#dim.title;
 			if (display.length > 0) {
 				// Formula calculating the length of the title to display... complicated!
-				const maxlen = this.#dim.wtitle / this.#dim.WCHAR;
-				const ltrunc = parseInt(maxlen - this.#dim.KTITLE / maxlen);
+				const maxlen = this.#dim.wtitle / this.#dim.wchar;
+				const ltrunc = parseInt(maxlen - this.#dim.ktitle / maxlen);
 
 				if (ltrunc >= this.#dim.minlen) {
 					if (ltrunc < display.replace(/<sup>|<\/sup>/ig, "").length - 1) {
@@ -362,7 +362,7 @@ class SettingsFractal extends ColorFractal {
 // Object managing the page
 class Page extends SettingsFractal {
 	// HTML IDs and DOM objects
-	#HTML_IDs;   // Object containing the HTML IDs explicitly used in the Page object
+	#HtmlIDs;    // Object containing the HTML IDs explicitly used in the Page object
 	#windowsPNG; // Array of windows containing the PNG images
 	#canvas;     // The canvas object
 	#context;    // And its context for displaying fractals
@@ -381,7 +381,7 @@ class Page extends SettingsFractal {
 		super(params);
 
 		// HTML IDs and DOM objects
-		this.#HTML_IDs = (params.hasOwnProperty("HTML_IDs")) ? params.HTML_IDs : null;
+		this.#HtmlIDs = (params.hasOwnProperty("HtmlIDs")) ? params.HtmlIDs : null;
 		this.#windowsPNG = [];
 		this.#delayMs = 50;
 
@@ -398,7 +398,7 @@ class Page extends SettingsFractal {
 
 	// Removes or adds the title to the HTML element
 	#setTitle() {
-		$(this.#HTML_IDs.FRAC_TITLE).innerHTML = (arguments.length && arguments[0] || super.selectedFunc <= -1)
+		$(this.#HtmlIDs.FRAC_TITLE).innerHTML = (arguments.length && arguments[0] || super.selectedFunc <= -1)
 			? ""
 			: super.getTitle(this.#resources.$.general.FRAC_TITLE);
 	}
@@ -410,7 +410,7 @@ class Page extends SettingsFractal {
 
 	// Hides the loading message, displays the title and enables the form
 	async #displayTitle() {
-		const ID = this.#HTML_IDs;
+		const ID = this.#HtmlIDs;
 
 		// Hides the loading message and manages the title
 		$(ID.LOADING).style.visibility = "hidden";
@@ -428,7 +428,7 @@ class Page extends SettingsFractal {
 		const f = super.fractal;
 
 		// Disables the form and manages the visibility of messages
-		const ID = this.#HTML_IDs;
+		const ID = this.#HtmlIDs;
 		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = true;
 		$(ID.INFO).style.visibility = "hidden";
 		$(ID.LOADING).style.visibility = "visible";
@@ -488,7 +488,7 @@ class Page extends SettingsFractal {
 
 	// Changes the function for the Newton's fractal
 	#changeFractal() {
-		const ID = this.#HTML_IDs;
+		const ID = this.#HtmlIDs;
 
 		if (super.selectedFunc > -1) {
 			// Clears the fractal
@@ -515,7 +515,7 @@ class Page extends SettingsFractal {
 
 	// Changes the language of the page
 	#changeLanguage() {
-		const ID = this.#HTML_IDs;
+		const ID = this.#HtmlIDs;
 		const languages = $(ID.LANGUAGES);
 		const resources = this.#resources;
 
@@ -536,12 +536,12 @@ class Page extends SettingsFractal {
 
 	// Displays the information message
 	#displayInfo() {
-		$(this.#HTML_IDs.INFO).style.visibility = "visible";
+		$(this.#HtmlIDs.INFO).style.visibility = "visible";
 	}
 
 	// Enables the form
 	#enableForm() {
-		const ID = this.#HTML_IDs;
+		const ID = this.#HtmlIDs;
 		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
 		if (arguments.length && arguments[0]) $(ID.FUNCTIONS).focus();
 	}
@@ -556,7 +556,7 @@ class Page extends SettingsFractal {
 
 	// Resizes the canvas and positions the information and loading messages
 	#resizeWindow() {
-		const ID = this.#HTML_IDs;
+		const ID = this.#HtmlIDs;
 
 		if (super.selectedFunc > -1) {
 			// Clears the fractal
@@ -585,7 +585,7 @@ class Page extends SettingsFractal {
 
 	// Initializes the page
 	initialize() {
-		const ID = this.#HTML_IDs;
+		const ID = this.#HtmlIDs;
 
 		// Copyright year
 		$(ID.COPYRIGHT_YEAR).innerHTML = (new Date()).getFullYear();

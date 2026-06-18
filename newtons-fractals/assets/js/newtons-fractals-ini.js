@@ -124,7 +124,7 @@ const cos2 = {
 
 const ini = {
 	// HTML IDs explicitly used in the Page class
-	HTML_IDs: {
+	HtmlIDs: {
 		HEADER: "HEADER",
 		FUNCTIONS: "FUNCTIONS",
 		TOSELECT_FUNC: "TOSELECT_FUNC",
@@ -150,20 +150,20 @@ const ini = {
 
 	// ------------------------------------------------------------------------
 	// Values used to calculate the maximum length of the displayed title
-	//   WCHAR:  average character width in pixels
-	//   KTITLE: coefficient used to calculate the number of characters to subtract in order to truncate the title
+	//   wchar:  average character width in pixels
+	//   ktitle: coefficient used to calculate the number of characters to subtract in order to truncate the title
 
 	// Arial (proportional-chase font)
-	WCHAR: 5.7,
-	KTITLE: 1.4,
+	wchar: 5.9,
+	ktitle: 1.4,
 
 	// Verdana (proportional-chase font)
-	//WCHAR: 7,
-	//KTITLE: 1.1,
+	//wchar: 7,
+	//ktitle: 1.1,
 
 	// Consolas (fixed-chase font)
-	//WCHAR: 6.7,
-	//KTITLE: 0.8,
+	//wchar: 6.7,
+	//ktitle: 0.8,
 	// ------------------------------------------------------------------------
 
 	// Resources management
