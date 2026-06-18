@@ -44,10 +44,10 @@ const FR_FR = {
 	},
 	results: {
 		TEXT_RESULT: [
-			"{0}&ensp;–&ensp;montant total remboursé : {1},&ensp;dont {2} d'intérêts,&ensp;soit {3}% du prêt.",
-			"{0}%&ensp;–&ensp;montant total remboursé : {1},&ensp;dont {2} d'intérêts,&ensp;soit {3}% du prêt.",
-			"{0} année(s)&ensp;–&ensp;montant total remboursé : {1},&ensp;dont {2} d'intérêts,&ensp;soit {3}% du prêt.",
-			"{0} par mois&ensp;–&ensp;montant total remboursé : {1},&ensp;dont {2} d'intérêts,&ensp;soit {3}% du prêt."
+			"{0}&ensp;–&ensp;Montant total remboursé : {1}&ensp;–&ensp;Coût du crédit : {2} ;&ensp;soit {3}% du prêt.",
+			"{0}%&ensp;–&ensp;Montant total remboursé : {1}&ensp;–&ensp;Coût du crédit : {2} ;&ensp;soit {3}% du prêt.",
+			"{0} année(s)&ensp;–&ensp;Montant total remboursé : {1}&ensp;–&ensp;Coût du crédit : {2} ;&ensp;soit {3}% du prêt.",
+			"{0} par mois&ensp;–&ensp;Montant total remboursé : {1}&ensp;–&ensp;Coût du crédit : {2} ;&ensp;soit {3}% du prêt."
 		]
 	},
 	errors: {

@@ -44,10 +44,10 @@ const EN_US = {
 	},
 	results: {
 		TEXT_RESULT: [
-			"{0}&ensp;–&ensp;total amount repaid: {1},&ensp;including {2} in interest,&ensp;i.e. {3}% of the loan.",
-			"{0}%&ensp;–&ensp;total amount repaid: {1},&ensp;including {2} in interest,&ensp;i.e. {3}% of the loan.",
-			"{0} year(s)&ensp;–&ensp;total amount repaid: {1},&ensp;including {2} in interes,&ensp;i.e. {3}% of the loan.",
-			"{0} per month&ensp;–&ensp;total amount repaid: {1},&ensp;including {2} in interest,&ensp;i.e. {3}% of the loan."
+			"{0}&ensp;–&ensp;Total amount repaid: {1}&ensp;–&ensp;Cost of credit: {2};&ensp;i.e. {3}% of the loan.",
+			"{0}%&ensp;–&ensp;Total amount repaid: {1}&ensp;–&ensp;Cost of credit: {2};&ensp;i.e. {3}% of the loan.",
+			"{0} year(s)&ensp;–&ensp;Total amount repaid: {1}&ensp;–&ensp;Cost of credit: {2};&ensp;i.e. {3}% of the loan.",
+			"{0} per month&ensp;–&ensp;Total amount repaid: {1}&ensp;–&ensp;Cost of credit: {2};&ensp;i.e. {3}% of the loan."
 		]
 	},
 	errors: {
