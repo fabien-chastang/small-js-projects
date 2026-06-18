@@ -4,6 +4,6 @@
 // List of suffixes defining themes
 // ============================================================================
 
-function get_themes() {
+function getThemes() {
 	return ["light", "dark", "blue", "green", "orange", "pink", "violet", "cocorico"];
 }

@@ -78,15 +78,15 @@ class ColorFractal {
 		},
 
 		// Continuous number of iterations minus 2 to lighten the colors (used only in this object)
-		_iter: (iter, sqdiff) => iter + this.#coef.constRadius - Math.log2(-Math.log(sqdiff)),
+		iter: (iter, sqdiff) => iter + this.#coef.constRadius - Math.log2(-Math.log(sqdiff)),
 
 		// Get coefficient
 		get: (iter, sqdiff) => {
 			switch (this.#coef.type) {
 				case 1:  // Linear coefficient
-					return 1 - this.#coef._iter(iter, sqdiff) * this.#coef.invMaxIter;
+					return 1 - this.#coef.iter(iter, sqdiff) * this.#coef.invMaxIter;
 				case 2:  // Logarithmic coefficient
-					return 1 - Math.log(this.#coef._iter(iter, sqdiff)) * this.#coef.invLogMaxIter;
+					return 1 - Math.log(this.#coef.iter(iter, sqdiff)) * this.#coef.invLogMaxIter;
 				default: // No coefficient
 					return 1;
 			}
@@ -102,19 +102,19 @@ class ColorFractal {
 		ini: color => this.#color.type = (color && color.hasOwnProperty("typeColor")) ? color.typeColor : 0,
 
 		// Get the argument (used only in this object)
-		_argRd: arg => {
+		argRd: arg => {
 			let a = arg.value + arg.shift.rd;
 			if (a <= -ColorFractal.PI21 || a >= ColorFractal.PI21) a %= ColorFractal.PI21;
 			if (a < -Math.PI) a += ColorFractal.PI21; else if (a >= Math.PI) a -= ColorFractal.PI21;
 			return a;
 		},
-		_argDg: arg => ColorFractal.TO_DEGREE * arg.value + arg.shift.dg,
+		argDg: arg => ColorFractal.TO_DEGREE * arg.value + arg.shift.dg,
 
 		// Get color
 		get: (arg, coef) => {
 			if (this.#color.type == 1) {
 				// Coloring by sector
-				const A = this.#color._argRd(arg), sin = 127 * Math.sin(A);
+				const A = this.#color.argRd(arg), sin = 127 * Math.sin(A);
 				return [
 					(A <= ColorFractal.PI13) ? Math.round(128 - sin) : 0,
 					(A >= -ColorFractal.PI23 && A <= ColorFractal.PI23) ? Math.round(255 * Math.sin(0.75 * A + ColorFractal.PI12)) : 0,
@@ -123,7 +123,7 @@ class ColorFractal {
 				];
 			} else
 				// Default coloring: continuous by argument
-				return [...Color.HSVtoRGB(this.#color._argDg(arg), 1, coef), 255];
+				return [...Color.HSVtoRGB(this.#color.argDg(arg), 1, coef), 255];
 		}
 	};
 

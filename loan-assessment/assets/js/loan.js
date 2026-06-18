@@ -205,7 +205,7 @@ class Page extends MathLoan {
 
 	// Detects and handles a change in input data
 	#getData(i) {
-		let new_data = null;
+		let newData = null;
 
 		// Check if the data has changed
 		const NEW_VALUE = this.#getValue(i);
@@ -216,8 +216,8 @@ class Page extends MathLoan {
 				// Valid entry
 				INPUT.value = NEW_VALUE.formattedStr;
 
-				let numeric_value = (NEW_VALUE.numericValue > 0) ? NEW_VALUE.numericValue : undefined;
-				if (this.#data[i] !== numeric_value) new_data = numeric_value; // The value of the field has changed (can be undefined)
+				let numValue = (NEW_VALUE.numericValue > 0) ? NEW_VALUE.numericValue : undefined;
+				if (this.#data[i] !== numValue) newData = numValue; // The value of the field has changed (can be undefined)
 			} else {
 				// Flag to skip calculation if an error occurs when changing data
 				this.#maxDataError = true;
@@ -229,18 +229,18 @@ class Page extends MathLoan {
 				INPUT.value = (this.#data[i]) ? super.format(this.#data[i]) : "";
 			}
 		} else if (this.#data[i])
-			new_data = undefined; // The value of the field has changed
+			newData = undefined; // The value of the field has changed
 
-		if (new_data !== null) {
+		if (newData !== null) {
 			// The input data has changed (can be undefined)
-			this.#data[i] = new_data;
+			this.#data[i] = newData;
 
 			// Resets the flags
 			this.#prevType = -1;
 			this.#prevError = null;
 
 			// Updating the 'data' cookie
-			this.#cookieHandle.setValue(this.#cookieHandle.names.data + i, new_data);
+			this.#cookieHandle.setValue(this.#cookieHandle.names.data + i, newData);
 		}
 	}
 
@@ -264,14 +264,14 @@ class Page extends MathLoan {
 	// Analyzes input data and detects any errors
 	#getError(type) {
 		const DATA = this.#data;
-		let error = "", err_count = 0;
+		let error = "", errCount = 0;
 
-		if (type != 0 && !DATA[0]) { err_count += 1; error += this.#resources.$.errors.DATA[0]; }
-		if (type != 1 && (!DATA[1] || DATA[1] >= 100)) { err_count += 1; error += this.#resources.$.errors.DATA[1]; }
-		if (type != 2 && !DATA[2]) { err_count += 1; error += this.#resources.$.errors.DATA[2]; }
-		if (type != 3 && !DATA[3]) { err_count += 1; error += this.#resources.$.errors.DATA[3]; }
+		if (type != 0 && !DATA[0]) { errCount += 1; error += this.#resources.$.errors.DATA[0]; }
+		if (type != 1 && (!DATA[1] || DATA[1] >= 100)) { errCount += 1; error += this.#resources.$.errors.DATA[1]; }
+		if (type != 2 && !DATA[2]) { errCount += 1; error += this.#resources.$.errors.DATA[2]; }
+		if (type != 3 && !DATA[3]) { errCount += 1; error += this.#resources.$.errors.DATA[3]; }
 
-		if (err_count == 1)
+		if (errCount == 1)
 			error = error.replace(/^–\s+/, "").replace(/\n/g, "").replace(/\s{2,}/g, " ");
 		else
 			error = error.replace(/\n$/, "");
@@ -303,8 +303,8 @@ class Page extends MathLoan {
 		const ID = this.#htmlIDs, cssClassnames = this.#cssClassnames;
 		const CLASS_SELECTED = this.#themes.classSelected + " " + this.#themes.name;
 
-		$(ID.LABEL_DATA + type).className = cssClassnames.label_data + CLASS_SELECTED;
-		$(ID.FIELD_DATA + type).className = cssClassnames.field_data + CLASS_SELECTED;
+		$(ID.LABEL_DATA + type).className = cssClassnames.labelData + CLASS_SELECTED;
+		$(ID.FIELD_DATA + type).className = cssClassnames.fieldData + CLASS_SELECTED;
 		$(ID.LEGEND_RESULT).innerHTML = $(ID.LABEL_DATA + type).innerHTML;
 		$(ID.TEXT_RESULT).innerHTML = MESSAGE;
 	}
@@ -366,8 +366,8 @@ class Page extends MathLoan {
 							result = super.loan(type, amount, interest, null, repayment);
 							if (!VALID(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
 						} else {
-							let max_interest;
-							if ((max_interest = super.round((100 * repayment) / amount)).numericValue == 0) {
+							let maxInterest;
+							if ((maxInterest = super.round((100 * repayment) / amount)).numericValue == 0) {
 								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_2).format(
 									this.#resources.$.page[LABEL_DATA + 0], super.round(repayment / interest).formattedStr,
 									this.#resources.$.page[LABEL_DATA + 3], super.round(amount * interest / 12).formattedStr
@@ -375,7 +375,7 @@ class Page extends MathLoan {
 							} else {
 								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_32).format(
 									this.#resources.$.page[LABEL_DATA + 0], super.round(repayment / interest).formattedStr,
-									this.#resources.$.page[LABEL_DATA + 1], max_interest.formattedStr,
+									this.#resources.$.page[LABEL_DATA + 1], maxInterest.formattedStr,
 									this.#resources.$.page[LABEL_DATA + 3], super.round(amount * interest / 12).formattedStr
 								);
 							}
@@ -434,17 +434,17 @@ class Page extends MathLoan {
 		).selected;
 
 		// Initializes data
-		let html_obj, value;
+		let htmlObj, value;
 		for (let i = 0; i < 4; i++) {
-			html_obj = $(ID.FIELD_DATA + i);
+			htmlObj = $(ID.FIELD_DATA + i);
 
 			// Initializes the value
 			const C = this.#cookieHandle.getValue(this.#cookieHandle.names.data + i);
-			if (C && Number.isFinite(value = parseFloat(C.value))) html_obj.value = super.format(value);
+			if (C && Number.isFinite(value = parseFloat(C.value))) htmlObj.value = super.format(value);
 			this.#getData(i);
 
 			// Adds an event on data change
-			html_obj.addEventListener("change", () => this.#getData(i));
+			htmlObj.addEventListener("change", () => this.#getData(i));
 
 			// Initializes the array of HTML IDs for labels
 			this.#htmlLabelIDs.push(ID.LABEL_DATA + i);

@@ -42,15 +42,15 @@ const INI = {
 
 	// CSS class names used in the Page class
 	cssClassnames: {
-		label_data: "label-data",
-		field_data: "field-data"
+		labelData: "label-data",
+		fieldData: "field-data"
 	},
 
 	// Themes management
-	themes: get_themes(),
+	themes: getThemes(),
 	classSelected: "selected",
 
 	// Resources management
-	resources: get_resources(),
+	resources: getResources(),
 	defaultResources: "en-US"
 };

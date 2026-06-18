@@ -4,7 +4,7 @@
 // Outsourcing of resources
 // ============================================================================
 
-function get_resources() {
+function getResources() {
 	return {
 		// Culture en-US
 		en_US: EN_US,

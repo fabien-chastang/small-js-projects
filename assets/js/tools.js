@@ -130,8 +130,8 @@ document.getElementsByAttributes = function (attributes, every = true, selectors
 
 // Adds a method to the SELECT object to select a specific option
 HTMLSelectElement.prototype.selectOption = function (value) {
-	const selected_option = Array.from(this.options).find(opt => opt.value == value);
-	return (selected_option) ? selected_option.selected = true : false;
+	const selectedOption = Array.from(this.options).find(opt => opt.value == value);
+	return (selectedOption) ? selectedOption.selected = true : false;
 };
 
 // ============================================================================
@@ -526,7 +526,7 @@ class Culture {
 	// ------------------------------------------------------------------------
 
 	// Returns the 'locale' object based on its code: 'xy', 'xy-AB' or 'fil-PH' (Filipino)
-	static getLocale(code, is_ref = false, to_format = false) {
+	static getLocale(code, isRef = false, toFormat = false) {
 		let result;
 
 		if (code) {
@@ -536,11 +536,11 @@ class Culture {
 				const ca = c.split('-');
 				c = ca[0];
 
-				if (!is_ref) {
+				if (!isRef) {
 					c += "-" + ca[1].toUpperCase();
 
 					// Search for the object 'locale'
-					result = this.#locales.find(loc => (!to_format || loc.toFormat) && loc.code == c);
+					result = this.#locales.find(loc => (!toFormat || loc.toFormat) && loc.code == c);
 
 					// If not found
 					if (!result) c = ca[0];
@@ -554,7 +554,7 @@ class Culture {
 				// Search for a related object 'locale'
 				result = this.#locales.find(loc => {
 					const dash = loc.code.indexOf("-");
-					return (!to_format || loc.toFormat) && loc.isRef && loc.code.indexOf(c) == 0 && (dash == -1 || dash == clen);
+					return (!toFormat || loc.toFormat) && loc.isRef && loc.code.indexOf(c) == 0 && (dash == -1 || dash == clen);
 				});
 			}
 		}
@@ -563,8 +563,8 @@ class Culture {
 	}
 
 	// Returns the 'locale' object corresponding to the user's preferred language
-	static getLocaleNavigator(is_ref = false, to_format = false) {
-		return this.getLocale(navigator.getLanguage(), is_ref, to_format);
+	static getLocaleNavigator(isRef = false, toFormat = false) {
+		return this.getLocale(navigator.getLanguage(), isRef, toFormat);
 	}
 
 	// Returns the 'language' object based on its code set 1, 2 or locale: 'xy', 'xyz', 'xy-AB' or 'fil-PH' (Filipino)
@@ -604,8 +604,8 @@ class Culture {
 
 // Converts a string to a number based on the culture, inverse method of 'toLocaleString()'
 String.prototype.toNumber = function (locale) {
-	const frac_sep = (1).toLocaleString(locale, { minimumFractionDigits: 1 }).replaceAll(/\d/g, "");
-	return parseFloat(this.valueOf().replaceAll(new RegExp("[^\\d" + frac_sep + "-]", "g"), "").replace(frac_sep, "."));
+	const fracSep = (1).toLocaleString(locale, { minimumFractionDigits: 1 }).replaceAll(/\d/g, "");
+	return parseFloat(this.valueOf().replaceAll(new RegExp("[^\\d" + fracSep + "-]", "g"), "").replace(fracSep, "."));
 };
 
 // Calculation methods
@@ -717,42 +717,42 @@ class MathX {
 	// "approximError" (or the parameter "error" if provided) using the bisection method
 	// IMPORTANT: this  method is more robust than Newton's method, but slower
 	// *********
-	bisectionMethod(x0, x1, fct, max_iter = null, error = null) {
+	bisectionMethod(x0, x1, fct, maxIter = null, error = null) {
 		let i = 0, e = 0, root = (fct(x0) != 0) ? (fct(x1) != 0) ? null : x1 : x0;
 
 		if (root === null && fct(x0) * fct(x1) < 0) {
-			if (max_iter == null || max_iter < 2) max_iter = this.#defaultValues.maxIter;
+			if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
 
 			const err = 2 * this.#checkError(error, this.approximError);
 			let y, [z0, z1] = (x0 < x1) ? [x0, x1] : [x1, x0];
 
-			while ((y = fct(root = (z0 + z1) / 2)) != 0 && i++ < max_iter && (e = z1 - z0) > err)
+			while ((y = fct(root = (z0 + z1) / 2)) != 0 && i++ < maxIter && (e = z1 - z0) > err)
 				if (y * fct(z1) < 0)
 					z0 = root;
 				else
 					z1 = root;
 
-			if (y != 0 && i == max_iter) root = null;
+			if (y != 0 && i == maxIter) root = null;
 		}
 
 		return (root) ? { root: root, iter: i, err: e } : { root: null };
 	}
 
 	// Approximates a root of the function "fct" with a "accuracy" (not actually) of "approximError" (or the parameter 
-	// "exit_radius" if provided) using Newton's method, the parameter "dfct" being the derivative of "fct"
-	newtonsMethod(x0, fct, dfct, max_iter = null, exit_radius = null, min_dfct = null) {
-		if (max_iter == null || max_iter < 2) max_iter = this.#defaultValues.maxIter;
-		if (min_dfct == null || min_dfct < 0) min_dfct = this.#defaultValues.minDFct;
-		exit_radius = this.#checkError(exit_radius, this.approximError);
+	// "exitRadius" if provided) using Newton's method, the parameter "dfct" being the derivative of "fct"
+	newtonsMethod(x0, fct, dfct, maxIter = null, exitRadius = null, minDfct = null) {
+		if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
+		if (minDfct == null || minDfct < 0) minDfct = this.#defaultValues.minDFct;
+		exitRadius = this.#checkError(exitRadius, this.approximError);
 
 		let root = x0, i = 0, y, dy, z, v, dv, diff;
 
 		while ((v = Math.abs(y = fct(root))) != 0
-			&& i++ < max_iter
-			&& ((dv = Math.abs(dy = dfct(root))) >= min_dfct)
-			&& ((diff = Math.abs(z = y / dy)) > exit_radius || v > exit_radius)) root -= z;
+			&& i++ < maxIter
+			&& ((dv = Math.abs(dy = dfct(root))) >= minDfct)
+			&& ((diff = Math.abs(z = y / dy)) > exitRadius || v > exitRadius)) root -= z;
 
-		return (y != 0 && (i == max_iter || (min_dfct != Number.EPSILON && dv < min_dfct))) ? { root: null } : { root: root, iter: i, diff: diff };
+		return (y != 0 && (i == maxIter || (minDfct != Number.EPSILON && dv < minDfct))) ? { root: null } : { root: root, iter: i, diff: diff };
 	}
 
 	// Approximates the derivative of a function
@@ -761,8 +761,8 @@ class MathX {
 	}
 
 	// Newton's method without derivative fonction (WOD: WithOut Derivative)
-	newtonsMethodWOD(x0, fct, max_iter = null, exit_radius = null, min_dfct = null, epsilon = Number.EPSILON) {
-		return this.newtonsMethod(x0, fct, this.nearlyDerivative(fct, epsilon), exit_radius, max_iter, min_dfct);
+	newtonsMethodWOD(x0, fct, maxIter = null, exitRadius = null, minDfct = null, epsilon = Number.EPSILON) {
+		return this.newtonsMethod(x0, fct, this.nearlyDerivative(fct, epsilon), exitRadius, maxIter, minDfct);
 	}
 }
 
@@ -961,62 +961,62 @@ class Complex {
 	// Newton's method for creating fractals (optimized)
 	// ------------------------------------------------------------------------
 
-	static newtonsMethod = (z0, fct, dfct, max_iter, sq_radius, min_dfct, mul_coef = null, add_coef = null) => {
+	static newtonsMethod = (z0, fct, dfct, maxIter, sqRadius, minDfct, mulCoef = null, addCoef = null) => {
 		let root = z0, i = 0, y, dy, z, v, dv, sqdiff;
 
 		if (fct) {
 			// All functions except cosine
-			if (!mul_coef) mul_coef = [1, 0];
-			if (!add_coef) add_coef = [0, 0];
+			if (!mulCoef) mulCoef = [1, 0];
+			if (!addCoef) addCoef = [0, 0];
 
 			let func, mf, mc, af, ac;
 
-			if (this.isZero(mul_coef))
+			if (this.isZero(mulCoef))
 				// Invalid parameter
 				return [null];
-			else if (this.isUnit(mul_coef)) {
+			else if (this.isUnit(mulCoef)) {
 				// No multiplier coefficient
 				[mf, mc] = [null, null];
-				if (this.isZero(add_coef))
+				if (this.isZero(addCoef))
 					[af, ac] = [null, null];
-				else if (this.isRe(add_coef))
-					[af, ac] = [this.addRe, add_coef[0]];
-				else if (this.isIm(add_coef))
-					[af, ac] = [this.addIm, add_coef[1]];
+				else if (this.isRe(addCoef))
+					[af, ac] = [this.addRe, addCoef[0]];
+				else if (this.isIm(addCoef))
+					[af, ac] = [this.addIm, addCoef[1]];
 				else
-					[af, ac] = [this.add, add_coef];
-			} else if (this.isRe(mul_coef)) {
+					[af, ac] = [this.add, addCoef];
+			} else if (this.isRe(mulCoef)) {
 				// The multiplier coefficient is a real
-				[mf, mc] = [this.mulRe, mul_coef[0]];
-				if (this.isZero(add_coef))
+				[mf, mc] = [this.mulRe, mulCoef[0]];
+				if (this.isZero(addCoef))
 					[af, ac] = [null, null];
-				else if (this.isRe(add_coef))
-					[af, ac] = [this.addRe, add_coef[0]];
-				else if (this.isIm(add_coef))
-					[af, ac] = [this.addIm, add_coef[1]];
+				else if (this.isRe(addCoef))
+					[af, ac] = [this.addRe, addCoef[0]];
+				else if (this.isIm(addCoef))
+					[af, ac] = [this.addIm, addCoef[1]];
 				else
-					[af, ac] = [this.add, add_coef];
-			} else if (this.isIm(mul_coef)) {
+					[af, ac] = [this.add, addCoef];
+			} else if (this.isIm(mulCoef)) {
 				// The multiplier coefficient is an imaginary
-				[mf, mc] = [this.mulIm, mul_coef[1]];
-				if (this.isZero(add_coef))
+				[mf, mc] = [this.mulIm, mulCoef[1]];
+				if (this.isZero(addCoef))
 					[af, ac] = [null, null];
-				else if (this.isRe(add_coef))
-					[af, ac] = [this.addRe, add_coef[0]];
-				else if (this.isIm(add_coef))
-					[af, ac] = [this.addIm, add_coef[1]];
+				else if (this.isRe(addCoef))
+					[af, ac] = [this.addRe, addCoef[0]];
+				else if (this.isIm(addCoef))
+					[af, ac] = [this.addIm, addCoef[1]];
 				else
-					[af, ac] = [this.add, add_coef];
+					[af, ac] = [this.add, addCoef];
 			} else {
-				[mf, mc] = [this.mul, mul_coef];
-				if (this.isZero(add_coef))
+				[mf, mc] = [this.mul, mulCoef];
+				if (this.isZero(addCoef))
 					[af, ac] = [null, null];
-				else if (this.isRe(add_coef))
-					[af, ac] = [this.addRe, add_coef[0]];
-				else if (this.isIm(add_coef))
-					[af, ac] = [this.addIm, add_coef[1]];
+				else if (this.isRe(addCoef))
+					[af, ac] = [this.addRe, addCoef[0]];
+				else if (this.isIm(addCoef))
+					[af, ac] = [this.addIm, addCoef[1]];
 				else
-					[af, ac] = [this.add, add_coef];
+					[af, ac] = [this.add, addCoef];
 			}
 
 			if (mf === null && af === null)
@@ -1029,34 +1029,34 @@ class Complex {
 				func = (r, z) => af(ac, this.sub(r, mf(mc, z)));
 
 			while ((v = this.sqmod(y = fct(root))) != 0
-				&& i++ < max_iter
-				&& ((dv = this.sqmod(dy = dfct(root))) >= min_dfct)
-				&& ((sqdiff = this.sqmod(z = this.div(y, dy))) > sq_radius || v > sq_radius)) root = func(root, z);
+				&& i++ < maxIter
+				&& ((dv = this.sqmod(dy = dfct(root))) >= minDfct)
+				&& ((sqdiff = this.sqmod(z = this.div(y, dy))) > sqRadius || v > sqRadius)) root = func(root, z);
 
-			return (v != 0 && (i == max_iter || (min_dfct != Number.EPSILON && dv < min_dfct))) ? { root: null } : { root: root, iter: i, sqdiff: sqdiff };
+			return (v != 0 && (i == maxIter || (minDfct != Number.EPSILON && dv < minDfct))) ? { root: null } : { root: root, iter: i, sqdiff: sqdiff };
 		} else {
 			// Optimized method defined only for cosine
 			let cos0, sin0, cosh1, sinh1, c0ch1, s0sh1, s0ch1, c0sh1, den;
 
-			for (; i < max_iter; i++) {
+			for (; i < maxIter; i++) {
 				[cos0, sin0, cosh1, sinh1] = [Math.cos(root[0]), Math.sin(root[0]), Math.cosh(root[1]), Math.sinh(root[1])];
 				[c0ch1, s0sh1, s0ch1, c0sh1] = [cos0 * cosh1, sin0 * sinh1, sin0 * cosh1, cos0 * sinh1];
 
 				// y = cos(root)
-				if ((v = c0ch1 * c0ch1 + s0sh1 * s0sh1) <= sq_radius) break;
+				if ((v = c0ch1 * c0ch1 + s0sh1 * s0sh1) <= sqRadius) break;
 
 				// dy = -sin(root)
 				if (s0ch1 == 0 && c0sh1 == 0) break;
 
 				// z = y/dy
 				sqdiff = this.sqmod(z = [(s0sh1 * c0sh1 - c0ch1 * s0ch1) / (den = s0ch1 * s0ch1 + c0sh1 * c0sh1), (s0sh1 * s0ch1 + c0ch1 * c0sh1) / den]);
-				if (sqdiff <= sq_radius) break;
+				if (sqdiff <= sqRadius) break;
 
 				// root = root - z
 				root = [root[0] - z[0], root[1] - z[1]];
 			}
 
-			return (v != 0 && i == max_iter) ? { root: null } : { root: root, iter: i, sqdiff: sqdiff };
+			return (v != 0 && i == maxIter) ? { root: null } : { root: root, iter: i, sqdiff: sqdiff };
 		}
 	};
 }
@@ -1221,12 +1221,12 @@ class CookieHandle {
 	}
 
 	// Initializes the DOM select object of a property
-	iniProperty(name, default_value) {
+	iniProperty(name, defaultValue) {
 		let property = null;
 
 		// Initializes the property and the cookie if enabled
 		if (!(property = this.getValue(name)) || !(property = property.value))
-			this.setValue(name, property = default_value);
+			this.setValue(name, property = defaultValue);
 
 		return property;
 	}
@@ -1381,21 +1381,21 @@ class Color {
 // ============================================================================
 
 // Template function to initialize and fill in the SELECT field for Themes and Resources
-function _ini_property(obj_property, obj_cookie, cookie_name, load_params, html_id, onchange_fct, default_value, set_focus) {
+function _ini_property(objProperty, objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus) {
 	// Fills in the SELECT field
-	obj_property.initialize(html_id);
+	objProperty.initialize(htmlId);
 	// Initializes the property
-	obj_property.selected = obj_cookie.iniProperty(cookie_name, default_value);
+	objProperty.selected = objCookie.iniProperty(cookieName, defaultValue);
 	// Loads the page property
-	obj_property.load(load_params);
+	objProperty.load(loadParams);
 
 	// Initializes the field and adds an event when the property is modified
-	const html_obj = $(html_id);
-	html_obj.selectOption(obj_property.selected);
-	html_obj.addEventListener("change", onchange_fct);
-	if (set_focus) html_obj.focus();
+	const htmlObj = $(htmlId);
+	htmlObj.selectOption(objProperty.selected);
+	htmlObj.addEventListener("change", onchangeFct);
+	if (setFocus) htmlObj.focus();
 
-	return { selected: obj_property.selected, htmlObj: html_obj };
+	return { selected: objProperty.selected, htmlObj: htmlObj };
 }
 
 // ----------------------------------------------------------------------------
@@ -1434,9 +1434,9 @@ class Themes {
 	// ------------------------------------------------------------------------
 
 	// Fills in the 'theme' selection field
-	initialize(html_id) {
+	initialize(htmlId) {
 		if (Array.isArray(this.names)) {
-			const sel = $(html_id);
+			const sel = $(htmlId);
 			if (sel)
 				for (const [index, name] of this.names.entries()) {
 					const opt = new Option("", index.toString());
@@ -1447,10 +1447,10 @@ class Themes {
 	}
 
 	// Loads the theme of the page
-	load(HTML_ATTRIBUTES) {
+	load(htmlAttributes) {
 		const name = this.name;
 		if (name) {
-			const elts = document.getElementsByAttributes(HTML_ATTRIBUTES.theme);
+			const elts = document.getElementsByAttributes(htmlAttributes.theme);
 			for (const e of elts)
 				if (e.hasAttribute("class"))
 					e.className = e.className.replace(/\w+$/gi, name);
@@ -1462,9 +1462,9 @@ class Themes {
 	}
 
 	// Initializes and fills in the SELECT field
-	iniProperty(obj_cookie, cookie_name, load_params, html_id, onchange_fct, default_value, set_focus) {
-		if (default_value == null) default_value = 0;
-		return _ini_property(this, obj_cookie, cookie_name, load_params, html_id, onchange_fct, default_value, set_focus);
+	iniProperty(objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus) {
+		if (defaultValue == null) defaultValue = 0;
+		return _ini_property(this, objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus);
 	}
 }
 
@@ -1525,9 +1525,9 @@ class Resources {
 	// ------------------------------------------------------------------------
 
 	// Fills in the 'culture' selection field
-	initialize(html_id) {
+	initialize(htmlId) {
 		if (this.full) {
-			const sel = $(html_id);
+			const sel = $(htmlId);
 			if (sel)
 				Object.keys(this.full).forEach(key => {
 					const opt = new Option("", key.replace("_", "-"));
@@ -1562,8 +1562,8 @@ class Resources {
 	}
 
 	// Initializes and fills in the SELECT field
-	iniProperty(obj_cookie, cookie_name, html_id, onchange_fct, default_value, set_focus) {
-		if (default_value == null) default_value = this.codeLang;
-		return _ini_property(this, obj_cookie, cookie_name, null, html_id, onchange_fct, default_value, set_focus);
+	iniProperty(objCookie, cookieName, htmlId, onchangeFct, defaultValue, setFocus) {
+		if (defaultValue == null) defaultValue = this.codeLang;
+		return _ini_property(this, objCookie, cookieName, null, htmlId, onchangeFct, defaultValue, setFocus);
 	}
 }

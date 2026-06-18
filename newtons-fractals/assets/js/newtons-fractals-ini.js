@@ -167,7 +167,7 @@ const INI = {
 	// ------------------------------------------------------------------------
 
 	// Resources management
-	resources: get_resources(),
+	resources: getResources(),
 	defaultResources: "en-US",
 
 	// Cookie management
