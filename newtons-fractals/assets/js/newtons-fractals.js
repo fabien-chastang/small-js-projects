@@ -367,6 +367,7 @@ class Page extends SettingsFractal {
 	#canvas;     // The canvas object
 	#context;    // And its context for displaying fractals
 	#line;       // Canvas line (image data)
+	#delayMs;	 // Delay in milliseconds for asynchronous functions, applies a delay for display operations or other tasks
 
 	// Resources management
 	#resources;
@@ -382,6 +383,7 @@ class Page extends SettingsFractal {
 		// HTML IDs and DOM objects
 		this.#HTML_IDs = (params.hasOwnProperty("HTML_IDs")) ? params.HTML_IDs : null;
 		this.#windowsPNG = [];
+		this.#delayMs = 50;
 
 		// Resources management
 		this.#resources = new Resources(params);
@@ -404,7 +406,7 @@ class Page extends SettingsFractal {
 
 		// Set a delay before reactivating the form if the call comes from 'displayFractal' function
 		const frac = arguments.length && arguments[0];
-		if (frac) await delay(50);
+		if (frac) await delay(this.#delayMs);
 
 		// Reactivates the form
 		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
@@ -423,7 +425,7 @@ class Page extends SettingsFractal {
 		$(ID.LOADING).style.visibility = "visible";
 
 		// Set a delay to display the loading message when creating the fractal
-		await delay(50);
+		await delay(this.#delayMs);
 
 		// Loops through every pixel
 		const width = super.width, height = super.height;
