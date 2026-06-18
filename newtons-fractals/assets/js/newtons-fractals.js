@@ -396,21 +396,30 @@ class Page extends SettingsFractal {
 	// Generates a Newton's fractal
 	// ------------------------------------------------------------------------
 
-	// Displays the title
+	// Removes or adds the title to the HTML element
+	#setTitle() {
+		$(this.#HTML_IDs.FRAC_TITLE).innerHTML = (arguments.length && arguments[0] || super.selectedFunc <= -1)
+			? ""
+			: super.getTitle(this.#resources.$.general.FRAC_TITLE);
+	}
+
+	// clears the fractal
+	#clearFractal() {
+		this.#context.clearRect(0, 0, super.width, super.height);
+	}
+
+	// Hides the loading message, displays the title and enables the form
 	async #displayTitle() {
 		const ID = this.#HTML_IDs;
 
 		// Hides the loading message and manages the title
 		$(ID.LOADING).style.visibility = "hidden";
-		$(ID.FRAC_TITLE).innerHTML = super.getTitle(this.#resources.$.general.FRAC_TITLE);
+		this.#setTitle();
 
 		// Set a delay before reactivating the form if the call comes from 'displayFractal' function
 		const frac = arguments.length && arguments[0];
 		if (frac) await delay(this.#delayMs);
-
-		// Reactivates the form
-		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
-		if (frac) $(ID.FUNCTIONS).focus();
+		this.#enableForm(frac);
 	}
 
 	// Displays the Newton's fractal
@@ -418,7 +427,7 @@ class Page extends SettingsFractal {
 		// Retrieves the parameters to create the fractal
 		const f = super.fractal;
 
-		// Disables the form and manages message visibility
+		// Disables the form and manages the visibility of messages
 		const ID = this.#HTML_IDs;
 		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = true;
 		$(ID.INFO).style.visibility = "hidden";
@@ -482,9 +491,9 @@ class Page extends SettingsFractal {
 		const ID = this.#HTML_IDs;
 
 		if (super.selectedFunc > -1) {
-			// Erases the fractal
-			$(ID.FRAC_TITLE).innerHTML = "";
-			this.#context.clearRect(0, 0, super.width, super.height);
+			// Clears the fractal
+			this.#setTitle(true);
+			this.#clearFractal();
 		}
 
 		// Initializes the index of the selected function
@@ -494,9 +503,9 @@ class Page extends SettingsFractal {
 			// Displays the Newton's fractal
 			this.#displayFractal();
 		else {
-			// Reactivates the form and displays the information message
-			$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
-			$(ID.INFO).style.visibility = "visible";
+			// No fractal: enables the form and displays the informational message
+			this.#enableForm();
+			this.#displayInfo();
 		}
 	}
 
@@ -515,7 +524,7 @@ class Page extends SettingsFractal {
 		resources.load();
 
 		// Changes the title of the fractal
-		if (super.selectedFunc > -1) this.#displayTitle();
+		this.#setTitle();
 
 		// Updating the 'language' cookie
 		this.#cookieHandle.setValue(this.#cookieHandle.names.language, resources.selected);
@@ -525,7 +534,20 @@ class Page extends SettingsFractal {
 	// Manages the page
 	// ------------------------------------------------------------------------
 
-	#getMargin(obj, margin) {
+	// Displays the information message
+	#displayInfo() {
+		$(this.#HTML_IDs.INFO).style.visibility = "visible";
+	}
+
+	// Enables the form
+	#enableForm() {
+		const ID = this.#HTML_IDs;
+		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
+		if (arguments.length && arguments[0]) $(ID.FUNCTIONS).focus();
+	}
+
+	// Calculates the margins
+	#getMargins(obj, margin) {
 		const style = window.getComputedStyle(obj);
 		margin.width += parseInt(style.marginLeft.replace(/\D/g, "")) + parseInt(style.marginRight.replace(/\D/g, ""));
 		margin.height += parseInt(style.marginTop.replace(/\D/g, "")) + parseInt(style.marginBottom.replace(/\D/g, ""));
@@ -537,17 +559,16 @@ class Page extends SettingsFractal {
 		const ID = this.#HTML_IDs;
 
 		if (super.selectedFunc > -1) {
-			// Erases the fractal
+			// Clears the fractal
 			$(ID.FUNCTIONS).options[0].selected = true;
 			super.selectedFunc = -1;
-
 			this.#displayTitle();
-			this.#context.clearRect(0, 0, super.width, super.height);
+			this.#clearFractal();
 		}
 
 		// Resizes the canvas and initializes the values used to calculate the positions 
 		// in rows and columns of the complex number initializing Newton's method
-		const margin = this.#getMargin($(ID.FOOTER), this.#getMargin(this.#canvas, this.#getMargin(document.body, { width: 0, height: 0 })));
+		const margin = this.#getMargins($(ID.FOOTER), this.#getMargins(this.#canvas, this.#getMargins(document.body, { width: 0, height: 0 })));
 		this.#canvas.width = super.width = parseInt(super.ratio.width * window.innerWidth) - margin.width;
 		this.#canvas.height = super.height = parseInt(super.ratio.height * (window.innerHeight - $(ID.FUNCTIONS).offsetHeight - $(ID.FOOTER).offsetHeight)) - margin.height;
 		this.#line = this.#context.createImageData(super.width, 1);
@@ -557,7 +578,7 @@ class Page extends SettingsFractal {
 		super.wtitle = Math.max(window.innerWidth - parseInt((0.99 - super.ratio.width) * window.innerWidth / 2) - $(ID.HEADER).offsetWidth, 1);
 
 		// Displays the information message
-		$(ID.INFO).style.visibility = "visible";
+		this.#displayInfo();
 	}
 
 	// Public method ----------------------------------------------------------
@@ -607,7 +628,7 @@ class Page extends SettingsFractal {
 		});
 
 		// Displays the information message
-		$(ID.INFO).style.visibility = "visible";
+		this.#displayInfo();
 	}
 }
 
