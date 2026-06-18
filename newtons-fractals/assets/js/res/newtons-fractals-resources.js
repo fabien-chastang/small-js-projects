@@ -5,11 +5,11 @@
 // ============================================================================
 
 function get_resources() {
-	return {		
+	return {
 		// Culture en-US
-		en_US: en_US(),
-		
+		en_US: EN_US,
+
 		// Culture fr-FR
-		fr_FR: fr_FR()
+		fr_FR: FR_FR
 	};
 }

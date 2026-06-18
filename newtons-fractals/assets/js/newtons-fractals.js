@@ -365,7 +365,7 @@ class Page extends SettingsFractal {
 	static DELAY_MS = 50;
 
 	// HTML IDs and DOM objects
-	#HtmlIDs;    // Object containing the HTML IDs explicitly used in the Page object
+	#htmlIDs;    // Object containing the HTML IDs explicitly used in the Page object
 	#windowsPNG; // Array of windows containing the images in PNG format
 	#canvas;     // The canvas object
 	#context;    // And its context for displaying fractals
@@ -383,7 +383,7 @@ class Page extends SettingsFractal {
 		super(params);
 
 		// HTML IDs and DOM objects
-		this.#HtmlIDs = (params.hasOwnProperty("HtmlIDs")) ? params.HtmlIDs : null;
+		this.#htmlIDs = (params.hasOwnProperty("htmlIDs")) ? params.htmlIDs : null;
 		this.#windowsPNG = [];
 
 		// Resources management
@@ -400,7 +400,7 @@ class Page extends SettingsFractal {
 	// Removes or adds the title to the HTML element
 	#setTitle() {
 		const FORCE_CLEAR = arguments.length && arguments[0];
-		$(this.#HtmlIDs.FRAC_TITLE).innerHTML = (FORCE_CLEAR || super.selectedFunc <= -1)
+		$(this.#htmlIDs.FRAC_TITLE).innerHTML = (FORCE_CLEAR || super.selectedFunc <= -1)
 			? ""
 			: super.getTitle(this.#resources.$.general.FRAC_TITLE);
 	}
@@ -412,7 +412,7 @@ class Page extends SettingsFractal {
 
 	// Hides the loading message, displays the title and enables the form
 	async #displayTitle() {
-		const ID = this.#HtmlIDs;
+		const ID = this.#htmlIDs;
 
 		// Hides the loading message and manages the title
 		$(ID.LOADING).style.visibility = "hidden";
@@ -430,7 +430,7 @@ class Page extends SettingsFractal {
 		const F = super.fractal;
 
 		// Disables the form and manages the visibility of messages
-		const ID = this.#HtmlIDs;
+		const ID = this.#htmlIDs;
 		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = true;
 		$(ID.INFO).style.visibility = "hidden";
 		$(ID.LOADING).style.visibility = "visible";
@@ -494,7 +494,7 @@ class Page extends SettingsFractal {
 
 	// Changes the function for the Newton's fractal
 	#changeFractal() {
-		const ID = this.#HtmlIDs;
+		const ID = this.#htmlIDs;
 
 		if (super.selectedFunc > -1) {
 			// Clears the fractal
@@ -521,7 +521,7 @@ class Page extends SettingsFractal {
 
 	// Changes the language of the page
 	#changeLanguage() {
-		const ID = this.#HtmlIDs;
+		const ID = this.#htmlIDs;
 		const LANGUAGES = $(ID.LANGUAGES);
 		const RESOURCES = this.#resources;
 
@@ -542,12 +542,12 @@ class Page extends SettingsFractal {
 
 	// Displays the information message
 	#displayInfo() {
-		$(this.#HtmlIDs.INFO).style.visibility = "visible";
+		$(this.#htmlIDs.INFO).style.visibility = "visible";
 	}
 
 	// Enables the form
 	#enableForm() {
-		const ID = this.#HtmlIDs;
+		const ID = this.#htmlIDs;
 		$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
 		if (arguments.length && arguments[0]) $(ID.FUNCTIONS).focus();
 	}
@@ -562,7 +562,7 @@ class Page extends SettingsFractal {
 
 	// Resizes the canvas and positions the information and loading messages
 	#resizeWindow() {
-		const ID = this.#HtmlIDs;
+		const ID = this.#htmlIDs;
 
 		if (super.selectedFunc > -1) {
 			// Clears the fractal
@@ -591,7 +591,7 @@ class Page extends SettingsFractal {
 
 	// Initializes the page
 	initialize() {
-		const ID = this.#HtmlIDs;
+		const ID = this.#htmlIDs;
 
 		// Copyright year
 		$(ID.COPYRIGHT_YEAR).innerHTML = (new Date()).getFullYear();

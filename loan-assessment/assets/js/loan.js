@@ -106,10 +106,10 @@ class Page extends MathLoan {
 	#selectedType;
 
 	// HTML IDs, HTML attributes, CSS object names
-	#HtmlIDs;			// Object containing the HTML IDs explicitly used in the Page object
-	#HtmlLabelIDs;		// Array of the HTML IDs for labels
-	#HtmlAttributes;	// Object containing the HTML attributes used in the Page object
-	#CssClassnames;		// Object containing the names of CSS classes used in the Page object
+	#htmlIDs;			// Object containing the HTML IDs explicitly used in the Page object
+	#htmlLabelIDs;		// Array of the HTML IDs for labels
+	#htmlAttributes;	// Object containing the HTML attributes used in the Page object
+	#cssClassnames;		// Object containing the names of CSS classes used in the Page object
 
 	// Classes
 	#themes;	// Themes management
@@ -132,10 +132,10 @@ class Page extends MathLoan {
 		this.#selectedType = -1;
 
 		// HTML IDs, CSS object names, HTML attributes
-		this.#HtmlIDs = (params.hasOwnProperty("HtmlIDs")) ? params.HtmlIDs : null;
-		this.#HtmlLabelIDs = [];
-		this.#HtmlAttributes = (params.hasOwnProperty("HtmlAttributes")) ? params.HtmlAttributes : null;
-		this.#CssClassnames = (params.hasOwnProperty("CssClassnames")) ? params.CssClassnames : null;
+		this.#htmlIDs = (params.hasOwnProperty("htmlIDs")) ? params.htmlIDs : null;
+		this.#htmlLabelIDs = [];
+		this.#htmlAttributes = (params.hasOwnProperty("htmlAttributes")) ? params.htmlAttributes : null;
+		this.#cssClassnames = (params.hasOwnProperty("cssClassnames")) ? params.cssClassnames : null;
 
 		// Classes
 		this.#themes = new Themes(params);		// Themes management
@@ -152,9 +152,9 @@ class Page extends MathLoan {
 	// Changes the theme of the page
 	#changeTheme() {
 		// Modifies and loads the selected theme
-		const THEMES = $(this.#HtmlIDs.FIELD_THEME);
+		const THEMES = $(this.#htmlIDs.FIELD_THEME);
 		this.#themes.selected = THEMES.options[THEMES.selectedIndex].value;
-		this.#themes.load(this.#HtmlAttributes);
+		this.#themes.load(this.#htmlAttributes);
 
 		// Updating the 'theme' cookie
 		this.#cookieHandle.setValue(this.#cookieHandle.names.theme, this.#themes.selected);
@@ -163,13 +163,13 @@ class Page extends MathLoan {
 	// Changes the culture of the page
 	#changeCulture() {
 		// Retrieves the culture before the change
-		const PREV_CULTURE = super.cultureFormat, cultures = $(this.#HtmlIDs.FIELD_CULTURE);
+		const PREV_CULTURE = super.cultureFormat, cultures = $(this.#htmlIDs.FIELD_CULTURE);
 
 		// Modifies the culture and loads resources
 		this.#resources.load(super.cultureFormat = cultures.options[cultures.selectedIndex].value);
 
 		// Formats data according to culture
-		const FIELD_DATA = this.#HtmlIDs.FIELD_DATA;
+		const FIELD_DATA = this.#htmlIDs.FIELD_DATA;
 		for (let i = 0; i < 4; i++) {
 			const DATA = this.#getValue(i, PREV_CULTURE);
 			if (DATA) $(FIELD_DATA + i).value = DATA.formattedStr;
@@ -184,7 +184,7 @@ class Page extends MathLoan {
 		if (this.#selectedType >= 0) {
 			this.#selectedType = -1;
 
-			const ID = this.#HtmlIDs;
+			const ID = this.#htmlIDs;
 			$(ID.LEGEND_RESULT).innerHTML = this.#resources.$.page.LEGEND_RESULT;
 			$(ID.TEXT_RESULT).innerHTML = "";
 		}
@@ -200,7 +200,7 @@ class Page extends MathLoan {
 	// Retrieves input data
 	#getValue(i, culture) {
 		if (!culture) culture = super.cultureFormat;
-		return super.round($(this.#HtmlIDs.FIELD_DATA + i).value.toNumber(culture));
+		return super.round($(this.#htmlIDs.FIELD_DATA + i).value.toNumber(culture));
 	}
 
 	// Detects and handles a change in input data
@@ -210,7 +210,7 @@ class Page extends MathLoan {
 		// Check if the data has changed
 		const NEW_VALUE = this.#getValue(i);
 		if (NEW_VALUE) {
-			const INPUT = $(this.#HtmlIDs.FIELD_DATA + i);
+			const INPUT = $(this.#htmlIDs.FIELD_DATA + i);
 
 			if (!this.#maxDataValue || NEW_VALUE.numericValue < this.#maxDataValue) {
 				// Valid entry
@@ -251,7 +251,7 @@ class Page extends MathLoan {
 	// Deselects the previously calculated field
 	#unselectField() {
 		if (this.#selectedType >= 0) {
-			const ID = this.#HtmlIDs;
+			const ID = this.#htmlIDs;
 			const LABEL = $(ID.LABEL_DATA + this.#selectedType);
 			const FIELD = $(ID.FIELD_DATA + this.#selectedType);
 			const CLASS_SELECTED = this.#themes.classSelected;
@@ -300,11 +300,11 @@ class Page extends MathLoan {
 		);
 
 		// Displaying
-		const ID = this.#HtmlIDs, CssClassnames = this.#CssClassnames;
+		const ID = this.#htmlIDs, cssClassnames = this.#cssClassnames;
 		const CLASS_SELECTED = this.#themes.classSelected + " " + this.#themes.name;
 
-		$(ID.LABEL_DATA + type).className = CssClassnames.label_data + CLASS_SELECTED;
-		$(ID.FIELD_DATA + type).className = CssClassnames.field_data + CLASS_SELECTED;
+		$(ID.LABEL_DATA + type).className = cssClassnames.label_data + CLASS_SELECTED;
+		$(ID.FIELD_DATA + type).className = cssClassnames.field_data + CLASS_SELECTED;
 		$(ID.LEGEND_RESULT).innerHTML = $(ID.LABEL_DATA + type).innerHTML;
 		$(ID.TEXT_RESULT).innerHTML = MESSAGE;
 	}
@@ -321,7 +321,7 @@ class Page extends MathLoan {
 
 			if (error == "") {
 				const VALID = res => (res[0]) && (res[1]) && (res[2]); // Function to validate the result
-				const LABEL_DATA = this.#HtmlIDs.LABEL_DATA;
+				const LABEL_DATA = this.#htmlIDs.LABEL_DATA;
 
 				switch (type) {
 					case 0:
@@ -411,7 +411,7 @@ class Page extends MathLoan {
 
 	// Initializes the page
 	initialize() {
-		const ID = this.#HtmlIDs;
+		const ID = this.#htmlIDs;
 
 		// Copyright year
 		$(ID.COPYRIGHT_YEAR).innerHTML = (new Date()).getFullYear();
@@ -420,7 +420,7 @@ class Page extends MathLoan {
 		this.#themes.iniProperty(
 			this.#cookieHandle,
 			this.#cookieHandle.names.theme,
-			this.#HtmlAttributes,
+			this.#htmlAttributes,
 			ID.FIELD_THEME,
 			() => this.#changeTheme()
 		);
@@ -447,12 +447,12 @@ class Page extends MathLoan {
 			html_obj.addEventListener("change", () => this.#getData(i));
 
 			// Initializes the array of HTML IDs for labels
-			this.#HtmlLabelIDs.push(ID.LABEL_DATA + i);
+			this.#htmlLabelIDs.push(ID.LABEL_DATA + i);
 		}
 
 		// Adds an event when the body is clicked
 		document.body.addEventListener("click", e => {
-			const SRC = e.target || e.srcElement, TYPE = (SRC.id) ? this.#HtmlLabelIDs.indexOf(SRC.id) : -1;
+			const SRC = e.target || e.srcElement, TYPE = (SRC.id) ? this.#htmlLabelIDs.indexOf(SRC.id) : -1;
 			if (TYPE > -1 && !this.#maxDataError) this.#displayResult(TYPE); // Calculates the result
 			this.#maxDataError = false; // Resets the error flag
 		});

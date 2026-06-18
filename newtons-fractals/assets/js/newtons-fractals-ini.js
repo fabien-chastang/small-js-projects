@@ -124,7 +124,7 @@ const COS2 = {
 
 const INI = {
 	// HTML IDs explicitly used in the Page class
-	HtmlIDs: {
+	htmlIDs: {
 		HEADER: "HEADER",
 		FUNCTIONS: "FUNCTIONS",
 		TOSELECT_FUNC: "TOSELECT_FUNC",
