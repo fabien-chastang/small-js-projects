@@ -6,14 +6,14 @@
 
 // To color the pixels of the fractal
 class ColorFractal {
-	// Constants
-	static paramK1 = [Math.PI, 1 / Math.PI];
-	static toDegree = 180 / Math.PI;
-	static toRadian = Math.PI / 180;
+	// Constants for optimizing fractal calculation
 	static PI21 = 2 * Math.PI;
 	static PI12 = Math.PI / 2;
 	static PI13 = Math.PI / 3;
 	static PI23 = 2 * Math.PI / 3;
+	static TO_DEGREE = 180 / Math.PI;
+	static TO_RADIAN = Math.PI / 180;
+	static K_ARG_TYPE1 = [Math.PI, 1 / Math.PI];
 
 	// ------------------------------------------------------------------------
 	// Argument of the complex number that determines the hue
@@ -27,10 +27,10 @@ class ColorFractal {
 			if (color) {
 				this.#arg.type = (color.hasOwnProperty("typeArg")) ? color.typeArg : 0;
 				this.#arg.shift = { dg: (color.hasOwnProperty("shiftArg")) ? color.shiftArg : 0, rd: 0 };
-				if (this.#arg.shift.dg != 0) this.#arg.shift.rd = ColorFractal.toRadian * this.#arg.shift.dg;
+				if (this.#arg.shift.dg != 0) this.#arg.shift.rd = ColorFractal.TO_RADIAN * this.#arg.shift.dg;
 
 				if (this.#arg.type == 1 || this.#arg.type == 2) {
-					this.#arg.params = (this.#arg.type == 1) ? { K: ColorFractal.paramK1, idx: 0 } : { K: 1, idx: 0 };
+					this.#arg.params = (this.#arg.type == 1) ? { K: ColorFractal.K_ARG_TYPE1, idx: 0 } : { K: 1, idx: 0 };
 
 					if (color.hasOwnProperty("paramsArg") && color.paramsArg) {
 						const P = color.paramsArg;
@@ -108,7 +108,7 @@ class ColorFractal {
 			if (a < -Math.PI) a += ColorFractal.PI21; else if (a >= Math.PI) a -= ColorFractal.PI21;
 			return a;
 		},
-		_argDg: arg => ColorFractal.toDegree * arg.value + arg.shift.dg,
+		_argDg: arg => ColorFractal.TO_DEGREE * arg.value + arg.shift.dg,
 
 		// Get color
 		get: (arg, coef) => {
@@ -119,11 +119,11 @@ class ColorFractal {
 					(A <= ColorFractal.PI13) ? Math.round(128 - sin) : 0,
 					(A >= -ColorFractal.PI23 && A <= ColorFractal.PI23) ? Math.round(255 * Math.sin(0.75 * A + ColorFractal.PI12)) : 0,
 					(A >= -ColorFractal.PI13) ? Math.round(128 + sin) : 0,
-					255 // Alpha channel
+					255
 				];
 			} else
 				// Default coloring: continuous by argument
-				return [...Color.HSVtoRGB(this.#color._argDg(arg), 1, coef), 255 /* Alpha channel */];
+				return [...Color.HSVtoRGB(this.#color._argDg(arg), 1, coef), 255];
 		}
 	};
 
@@ -361,13 +361,15 @@ class SettingsFractal extends ColorFractal {
 
 // Object managing the page
 class Page extends SettingsFractal {
+	// Delay in milliseconds for asynchronous functions, applies a delay for display operations or other tasks
+	static DELAY_MS = 50;
+
 	// HTML IDs and DOM objects
 	#HtmlIDs;    // Object containing the HTML IDs explicitly used in the Page object
-	#windowsPNG; // Array of windows containing the PNG images
+	#windowsPNG; // Array of windows containing the images in PNG format
 	#canvas;     // The canvas object
 	#context;    // And its context for displaying fractals
 	#line;       // Canvas line (image data)
-	#delayMs;	 // Delay in milliseconds for asynchronous functions, applies a delay for display operations or other tasks
 
 	// Resources management
 	#resources;
@@ -383,7 +385,6 @@ class Page extends SettingsFractal {
 		// HTML IDs and DOM objects
 		this.#HtmlIDs = (params.hasOwnProperty("HtmlIDs")) ? params.HtmlIDs : null;
 		this.#windowsPNG = [];
-		this.#delayMs = 50;
 
 		// Resources management
 		this.#resources = new Resources(params);
@@ -398,7 +399,8 @@ class Page extends SettingsFractal {
 
 	// Removes or adds the title to the HTML element
 	#setTitle() {
-		$(this.#HtmlIDs.FRAC_TITLE).innerHTML = (arguments.length && arguments[0] || super.selectedFunc <= -1)
+		const FORCE_CLEAR = arguments.length && arguments[0];
+		$(this.#HtmlIDs.FRAC_TITLE).innerHTML = (FORCE_CLEAR || super.selectedFunc <= -1)
 			? ""
 			: super.getTitle(this.#resources.$.general.FRAC_TITLE);
 	}
@@ -417,9 +419,9 @@ class Page extends SettingsFractal {
 		this.#setTitle();
 
 		// Set a delay before reactivating the form if the call comes from 'displayFractal' function
-		const FRAC = arguments.length && arguments[0];
-		if (FRAC) await delay(this.#delayMs);
-		this.#enableForm(FRAC);
+		const FRAC_CALL = arguments.length && arguments[0];
+		if (FRAC_CALL) await delay(Page.DELAY_MS);
+		this.#enableForm(FRAC_CALL);
 	}
 
 	// Displays the Newton's fractal
@@ -434,7 +436,7 @@ class Page extends SettingsFractal {
 		$(ID.LOADING).style.visibility = "visible";
 
 		// Set a delay to display the loading message when creating the fractal
-		await delay(this.#delayMs);
+		await delay(Page.DELAY_MS);
 
 		// Loops through every pixel
 		const WIDTH = super.width, HEIGHT = super.height;
@@ -446,10 +448,12 @@ class Page extends SettingsFractal {
 
 				// Makes the pixel black if it diverges or does not converge quickly enough, 
 				// or colors the pixel if Newton's method converges to a root
-				[this.#line.data[off++],
-				this.#line.data[off++],
-				this.#line.data[off++],
-				this.#line.data[off++]] = (RESULT.root === null) ? [0, 0, 0, 255 /* Alpha channel */] : super.getColor(RESULT);
+				[
+					this.#line.data[off++],
+					this.#line.data[off++],
+					this.#line.data[off++],
+					this.#line.data[off++]
+				] = (RESULT.root === null) ? [0, 0, 0, 255] : super.getColor(RESULT);
 			}
 			// Puts the line on the canvas
 			this.#context.putImageData(this.#line, 0, y);
@@ -463,20 +467,22 @@ class Page extends SettingsFractal {
 	// Creates a PNG image
 	// ------------------------------------------------------------------------
 
-	// Opens a window containing the PNG image of the selected fractal
+	// Opens a window containing the image in PNG format of the selected fractal
 	#createPNG() {
 		if (super.selectedFunc > -1) {
 			const IDX = this.#windowsPNG.findIndex(w => w.selectedFunc == super.selectedFunc);
 			if (IDX > -1) {
+				// Retrieves the image in PNG format
 				const WND = this.#windowsPNG[IDX];
 				if (WND.window.closed)
 					WND.window = window.open(WND.url);
 				else
 					WND.window.focus();
 			} else
+				// Creates the image in PNG format
 				this.#canvas.toBlob(blob => {
-					const _URL = URL.createObjectURL(blob);
-					this.#windowsPNG.push({ selectedFunc: super.selectedFunc, url: _URL, window: window.open(_URL) });
+					const URL_PNG = URL.createObjectURL(blob);
+					this.#windowsPNG.push({ selectedFunc: super.selectedFunc, url: URL_PNG, window: window.open(URL_PNG) });
 				});
 		} else
 			alert(this.#resources.$.general.FRAC_GENERATE);
@@ -547,7 +553,7 @@ class Page extends SettingsFractal {
 	}
 
 	// Calculates the margins
-	#getMargins(obj, margin) {
+	#getMargin(obj, margin) {
 		const STYLE = window.getComputedStyle(obj);
 		margin.width += parseInt(STYLE.marginLeft.replace(/\D/g, "")) + parseInt(STYLE.marginRight.replace(/\D/g, ""));
 		margin.height += parseInt(STYLE.marginTop.replace(/\D/g, "")) + parseInt(STYLE.marginBottom.replace(/\D/g, ""));
@@ -568,7 +574,7 @@ class Page extends SettingsFractal {
 
 		// Resizes the canvas and initializes the values used to calculate the positions 
 		// in rows and columns of the complex number initializing Newton's method
-		const MARGIN = this.#getMargins($(ID.FOOTER), this.#getMargins(this.#canvas, this.#getMargins(document.body, { width: 0, height: 0 })));
+		const MARGIN = this.#getMargin($(ID.FOOTER), this.#getMargin(this.#canvas, this.#getMargin(document.body, { width: 0, height: 0 })));
 		this.#canvas.width = super.width = parseInt(super.ratio.width * window.innerWidth) - MARGIN.width;
 		this.#canvas.height = super.height = parseInt(super.ratio.height * (window.innerHeight - $(ID.FUNCTIONS).offsetHeight - $(ID.FOOTER).offsetHeight)) - MARGIN.height;
 		this.#line = this.#context.createImageData(super.width, 1);

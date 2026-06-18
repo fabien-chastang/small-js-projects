@@ -3,7 +3,7 @@
 // ============================================================================
 // Calculation methods for loans
 // ============================================================================
-
+ 
 class MathLoan extends MathX {
 	// Calculates the interest rate using Newton's method if 1, using Newton's method without derivative function 
 	// if -1, otherwise use the bisection method (more robust method than Newton's method, but slower)
@@ -18,7 +18,7 @@ class MathLoan extends MathX {
 		this.#newtonsMethod = (params.hasOwnProperty("newtonsMethod")) ? params.newtonsMethod : 0;
 	}
 
-	#initResult(amount, term, repayment) {
+	#getResult(amount, term, repayment) {
 		let tempo;
 		return [
 			this.round(tempo = repayment * term),
@@ -41,7 +41,7 @@ class MathLoan extends MathX {
 			case 0:
 				// Calculation of the amount borrowed
 				value = (repayment *= 12) * ((1 + (interest /= 100)) ** term - 1) / (interest * (1 + interest) ** term);
-				result = [this.round(value), ...this.#initResult(value, term, repayment)];
+				result = [this.round(value), ...this.#getResult(value, term, repayment)];
 				break;
 
 			case 1:
@@ -68,19 +68,19 @@ class MathLoan extends MathX {
 				}
 				result = (value === null)
 					? this.#newtonsMethod // Error
-					: [this.round(100 * value), ...this.#initResult(amount, term, repayment)];
+					: [this.round(100 * value), ...this.#getResult(amount, term, repayment)];
 				break;
 
 			case 2:
 				// Calculation of the loan term
 				value = (Math.log(repayment) - Math.log(repayment - amount * interest)) / Math.log(1 + interest);
-				result = [this.round(value), ...this.#initResult(amount, value, repayment)];
+				result = [this.round(value), ...this.#getResult(amount, value, repayment)];
 				break;
 
 			case 3:
 				// Calculation of the monthly repayment amount
 				value = amount * (interest /= 100) * (1 + interest) ** term / ((1 + interest) ** term - 1);
-				result = [this.round(value / 12), ...this.#initResult(amount, term, value)];
+				result = [this.round(value / 12), ...this.#getResult(amount, term, value)];
 				break;
 
 			default:
@@ -396,10 +396,8 @@ class Page extends MathLoan {
 
 			// Displays the result
 			if (error == "")
-				// Success
 				this.#displaySuccess(type, result);
 			else
-				// Error
 				this.#displayError(error);
 
 			// Updates the variable storing the previous calculation
@@ -410,15 +408,6 @@ class Page extends MathLoan {
 	// ------------------------------------------------------------------------
 	// Page initialization
 	// ------------------------------------------------------------------------
-
-	// Managing clicks on the document body
-	#onclickBody(e) {
-		const SRC = e.target || e.srcElement, TYPE = (SRC.id) ? this.#HtmlLabelIDs.indexOf(SRC.id) : -1;
-		if (TYPE > -1 && !this.#maxDataError) this.#displayResult(TYPE); // Calculates the result
-		this.#maxDataError = false; // Resets the error flag
-	}
-
-	// Public method ----------------------------------------------------------
 
 	// Initializes the page
 	initialize() {
@@ -462,7 +451,11 @@ class Page extends MathLoan {
 		}
 
 		// Adds an event when the body is clicked
-		document.body.addEventListener("click", e => this.#onclickBody(e));
+		document.body.addEventListener("click", e => {
+			const SRC = e.target || e.srcElement, TYPE = (SRC.id) ? this.#HtmlLabelIDs.indexOf(SRC.id) : -1;
+			if (TYPE > -1 && !this.#maxDataError) this.#displayResult(TYPE); // Calculates the result
+			this.#maxDataError = false; // Resets the error flag
+		});
 
 		// Finally, set the focus
 		$(ID.FIELD_DATA + "0").focus();
