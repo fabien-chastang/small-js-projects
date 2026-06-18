@@ -492,7 +492,7 @@ class Page extends SettingsFractal {
 
 		if (super.selectedFunc > -1)
 			// Displays the Newton's fractal
-			page.#displayFractal();
+			this.#displayFractal();
 		else {
 			// Reactivates the form and displays the information message
 			$(ID.LANGUAGES).disabled = $(ID.PNG).disabled = $(ID.FUNCTIONS).disabled = false;
