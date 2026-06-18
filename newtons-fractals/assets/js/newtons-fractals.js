@@ -208,10 +208,10 @@ class SettingsFractal extends ColorFractal {
 		height: 0,
 
 		// Values used to calculate the positions in the rows and columns
-		min: 0, // Minimum dimension between width and height
-		halfW: 0, // width/2
-		halfH: 0, // height/2
-		halfM: 0, // min/2
+		min: 0,		// Minimum dimension between width and height
+		halfW: 0,	// width/2
+		halfH: 0,	// height/2
+		halfM: 0,	// min/2
 
 		// Title to display
 		title: "",   // Title to display
