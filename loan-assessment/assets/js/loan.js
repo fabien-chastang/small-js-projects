@@ -46,25 +46,25 @@ class MathLoan extends MathX {
 
 			case 1:
 				// Calculation of the interest rate
-				const FCT = x => (repayment - amount * x) * (1 + x) ** term - repayment;
+				const func = x => (repayment - amount * x) * (1 + x) ** term - repayment;
 				const X1 = repayment / amount;
 				let method;
 				switch (this.#newtonsMethod) {
 					case 1:
 						// Calculates the root using Newton's method
-						const DFCT = x => term * (repayment - amount * x) * (1 + x) ** (term - 1) - amount * (1 + x) ** term;
-						value = super.newtonsMethod(X1, FCT, DFCT).root;
+						const dfunc = x => term * (repayment - amount * x) * (1 + x) ** (term - 1) - amount * (1 + x) ** term;
+						value = super.newtonsMethod(X1, func, dfunc).root;
 						break;
 
 					case -1:
 						// Calculates the root using Newton's method without derivative function
-						value = super.newtonsMethodWOD(X1, FCT).root;
+						value = super.newtonsMethodWOD(X1, func).root;
 						break;
 
 					default:
 						// Calculates the root using bisection method (more robust method than Newton's method, but slower)
 						const X0 = (repayment * term - amount) / ((term + 1) * amount);
-						value = super.bisectionMethod(X0, X1, FCT).root;
+						value = super.bisectionMethod(X0, X1, func).root;
 				}
 				result = (value === null)
 					? this.#newtonsMethod // Error
@@ -320,14 +320,14 @@ class Page extends MathLoan {
 			let error = this.#getError(type), result;
 
 			if (error == "") {
-				const VALID = res => (res[0]) && (res[1]) && (res[2]); // Function to validate the result
+				const valid = res => (res[0]) && (res[1]) && (res[2]); // Function to validate the result
 				const LABEL_DATA = this.#htmlIDs.LABEL_DATA;
 
 				switch (type) {
 					case 0:
 						// Calculation of the amount borrowed
 						result = super.loan(type, null, interest, term, repayment);
-						if (!VALID(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
+						if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
 						break;
 
 					case 1:
@@ -347,7 +347,7 @@ class Page extends MathLoan {
 										method = this.#resources.$.errors.ERR_ROOT_BISECTION;
 								}
 								error = this.#resources.$.errors.ERR_ROOT_CALCULATE.format(method);
-							} else if (VALID(result)) {
+							} else if (valid(result)) {
 								if (result[0].numericValue == 0) error = this.#resources.$.errors.EXCEEDING_DATA;
 							} else
 								error = this.#resources.$.errors.EXCEEDING_ALL;
@@ -363,7 +363,7 @@ class Page extends MathLoan {
 						// Calculation of the loan term
 						if (amount * (interest /= 100) < (repayment *= 12)) {
 							result = super.loan(type, amount, interest, null, repayment);
-							if (!VALID(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
+							if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
 						} else {
 							let maxInterest;
 							if ((maxInterest = super.round((100 * repayment) / amount)).numericValue == 0)
@@ -383,7 +383,7 @@ class Page extends MathLoan {
 					case 3:
 						// Calculation of the monthly repayment amount
 						result = super.loan(type, amount, interest, term, null);
-						if (!VALID(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
+						if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
 						break;
 
 					default:

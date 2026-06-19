@@ -16,9 +16,9 @@
 // Just a shorthand function: fetch given element, jQuery-style
 const $ = id => document.getElementById(id);
 
-// Delay function: define the function that calls it as asynchronous (async fct() {...}) 
+// Delay function: define the function that calls it as asynchronous (async func() {...}) 
 // and call the delay function with the await keyword (await delay(ms))
-const DELAY = ms => new Promise(res => setTimeout(res, ms));
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 // This method takes a string and replaces any placeholders in the form of {n} with the corresponding 
 // argument passed to the method (n positif integer or zero)
@@ -626,7 +626,7 @@ class MathX {
 
 		// Other default values for approximation methods
 		maxIter: 25,
-		minDFct: Number.EPSILON
+		minDfunc: Number.EPSILON
 	};
 
 	// Creates and initializes the object
@@ -713,21 +713,21 @@ class MathX {
 		return rounding;
 	}
 
-	// Approximates the root of the function "fct" between "x0" and "x1" with an accuracy of 
+	// Approximates the root of the function "func" between "x0" and "x1" with an accuracy of 
 	// "approximError" (or the parameter "error" if provided) using the bisection method
 	// IMPORTANT: this  method is more robust than Newton's method, but slower
 	// *********
-	bisectionMethod(x0, x1, fct, maxIter = null, error = null) {
-		let i = 0, e = 0, root = (fct(x0) != 0) ? (fct(x1) != 0) ? null : x1 : x0;
+	bisectionMethod(x0, x1, func, maxIter = null, error = null) {
+		let i = 0, e = 0, root = (func(x0) != 0) ? (func(x1) != 0) ? null : x1 : x0;
 
-		if (root === null && fct(x0) * fct(x1) < 0) {
+		if (root === null && func(x0) * func(x1) < 0) {
 			if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
 
 			const ERR = 2 * this.#checkError(error, this.approximError);
 			let y, [z0, z1] = (x0 < x1) ? [x0, x1] : [x1, x0];
 
-			while ((y = fct(root = (z0 + z1) / 2)) != 0 && i++ < maxIter && (e = z1 - z0) > ERR)
-				if (y * fct(z1) < 0)
+			while ((y = func(root = (z0 + z1) / 2)) != 0 && i++ < maxIter && (e = z1 - z0) > ERR)
+				if (y * func(z1) < 0)
 					z0 = root;
 				else
 					z1 = root;
@@ -738,31 +738,31 @@ class MathX {
 		return (root) ? { root: root, iter: i, err: e } : { root: null };
 	}
 
-	// Approximates a root of the function "fct" with a "accuracy" (not actually) of "approximError" (or the parameter 
-	// "exitRadius" if provided) using Newton's method, the parameter "dfct" being the derivative of "fct"
-	newtonsMethod(x0, fct, dfct, maxIter = null, exitRadius = null, minDfct = null) {
+	// Approximates a root of the function "func" with a "accuracy" (not actually) of "approximError" (or the parameter 
+	// "exitRadius" if provided) using Newton's method, the parameter "dfunc" being the derivative of "func"
+	newtonsMethod(x0, func, dfunc, maxIter = null, exitRadius = null, minDfunc = null) {
 		if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
-		if (minDfct == null || minDfct < 0) minDfct = this.#defaultValues.minDFct;
+		if (minDfunc == null || minDfunc < 0) minDfunc = this.#defaultValues.minDfunc;
 		exitRadius = this.#checkError(exitRadius, this.approximError);
 
 		let root = x0, i = 0, y, dy, z, v, dv, diff;
 
-		while ((v = Math.abs(y = fct(root))) != 0
+		while ((v = Math.abs(y = func(root))) != 0
 			&& i++ < maxIter
-			&& ((dv = Math.abs(dy = dfct(root))) >= minDfct)
+			&& ((dv = Math.abs(dy = dfunc(root))) >= minDfunc)
 			&& ((diff = Math.abs(z = y / dy)) > exitRadius || v > exitRadius)) root -= z;
 
-		return (y != 0 && (i == maxIter || (minDfct != Number.EPSILON && dv < minDfct))) ? { root: null } : { root: root, iter: i, diff: diff };
+		return (y != 0 && (i == maxIter || (minDfunc != Number.EPSILON && dv < minDfunc))) ? { root: null } : { root: root, iter: i, diff: diff };
 	}
 
 	// Approximates the derivative of a function
-	nearlyDerivative(fct, epsilon = Number.EPSILON) {
-		return function (x) { return (fct(x + epsilon) - fct(x - epsilon)) / (2 * epsilon); };
+	nearlyDerivative(func, epsilon = Number.EPSILON) {
+		return function (x) { return (func(x + epsilon) - func(x - epsilon)) / (2 * epsilon); };
 	}
 
 	// Newton's method without derivative fonction (WOD: WithOut Derivative)
-	newtonsMethodWOD(x0, fct, maxIter = null, exitRadius = null, minDfct = null, epsilon = Number.EPSILON) {
-		return this.newtonsMethod(x0, fct, this.nearlyDerivative(fct, epsilon), exitRadius, maxIter, minDfct);
+	newtonsMethodWOD(x0, func, maxIter = null, exitRadius = null, minDfunc = null, epsilon = Number.EPSILON) {
+		return this.newtonsMethod(x0, func, this.nearlyDerivative(func, epsilon), exitRadius, maxIter, minDfunc);
 	}
 }
 
@@ -961,15 +961,15 @@ class Complex {
 	// Newton's method for creating fractals (optimized)
 	// ------------------------------------------------------------------------
 
-	static newtonsMethod = (z0, fct, dfct, maxIter, sqRadius, minDfct, mulCoef = null, addCoef = null) => {
+	static newtonsMethod = (z0, func, dfunc, maxIter, sqRadius, minDfunc, mulCoef = null, addCoef = null) => {
 		let root = z0, i = 0, y, dy, z, v, dv, sqdiff;
 
-		if (fct) {
+		if (func) {
 			// All functions except cosine
 			if (!mulCoef) mulCoef = [1, 0];
 			if (!addCoef) addCoef = [0, 0];
 
-			let func, mf, mc, af, ac;
+			let mf, mc, af, ac;
 
 			if (this.isZero(mulCoef))
 				// Invalid parameter
@@ -1019,21 +1019,22 @@ class Complex {
 					[af, ac] = [this.add, addCoef];
 			}
 
+			let _func;
 			if (mf === null && af === null)
-				func = (r, z) => this.sub(r, z);
+				_func = (r, z) => this.sub(r, z);
 			else if (mf !== null && af === null)
-				func = (r, z) => this.sub(r, mf(mc, z));
+				_func = (r, z) => this.sub(r, mf(mc, z));
 			else if (mf === null && af !== null)
-				func = (r, z) => af(ac, this.sub(r, z));
+				_func = (r, z) => af(ac, this.sub(r, z));
 			else
-				func = (r, z) => af(ac, this.sub(r, mf(mc, z)));
+				_func = (r, z) => af(ac, this.sub(r, mf(mc, z)));
 
-			while ((v = this.sqmod(y = fct(root))) != 0
+			while ((v = this.sqmod(y = func(root))) != 0
 				&& i++ < maxIter
-				&& ((dv = this.sqmod(dy = dfct(root))) >= minDfct)
-				&& ((sqdiff = this.sqmod(z = this.div(y, dy))) > sqRadius || v > sqRadius)) root = func(root, z);
+				&& ((dv = this.sqmod(dy = dfunc(root))) >= minDfunc)
+				&& ((sqdiff = this.sqmod(z = this.div(y, dy))) > sqRadius || v > sqRadius)) root = _func(root, z);
 
-			return (v != 0 && (i == maxIter || (minDfct != Number.EPSILON && dv < minDfct))) ? { root: null } : { root: root, iter: i, sqdiff: sqdiff };
+			return (v != 0 && (i == maxIter || (minDfunc != Number.EPSILON && dv < minDfunc))) ? { root: null } : { root: root, iter: i, sqdiff: sqdiff };
 		} else {
 			// Optimized method defined only for cosine
 			let cos0, sin0, cosh1, sinh1, c0ch1, s0sh1, s0ch1, c0sh1, den;
@@ -1381,7 +1382,7 @@ class Color {
 // ============================================================================
 
 // Template function to initialize and fill in the SELECT field for Themes and Resources
-function iniProperty(objProperty, objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus) {
+function iniProperty(objProperty, objCookie, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus) {
 	// Fills in the SELECT field
 	objProperty.initialize(htmlId);
 	// Initializes the property
@@ -1392,7 +1393,7 @@ function iniProperty(objProperty, objCookie, cookieName, loadParams, htmlId, onc
 	// Initializes the field and adds an event when the property is modified
 	const HTML_OBJ = $(htmlId);
 	HTML_OBJ.selectOption(objProperty.selected);
-	HTML_OBJ.addEventListener("change", onchangeFct);
+	HTML_OBJ.addEventListener("change", onchangeFunc);
 	if (setFocus) HTML_OBJ.focus();
 
 	return { selected: objProperty.selected, htmlObj: HTML_OBJ };
@@ -1462,9 +1463,9 @@ class Themes {
 	}
 
 	// Initializes and fills in the SELECT field
-	iniProperty(objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus) {
+	iniProperty(objCookie, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus) {
 		if (defaultValue == null) defaultValue = 0;
-		return iniProperty(this, objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus);
+		return iniProperty(this, objCookie, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus);
 	}
 }
 
@@ -1562,8 +1563,8 @@ class Resources {
 	}
 
 	// Initializes and fills in the SELECT field
-	iniProperty(objCookie, cookieName, htmlId, onchangeFct, defaultValue, setFocus) {
+	iniProperty(objCookie, cookieName, htmlId, onchangeFunc, defaultValue, setFocus) {
 		if (defaultValue == null) defaultValue = this.codeLang;
-		return iniProperty(this, objCookie, cookieName, null, htmlId, onchangeFct, defaultValue, setFocus);
+		return iniProperty(this, objCookie, cookieName, null, htmlId, onchangeFunc, defaultValue, setFocus);
 	}
 }

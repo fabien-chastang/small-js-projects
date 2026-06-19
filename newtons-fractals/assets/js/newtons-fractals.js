@@ -425,7 +425,7 @@ class Page extends SettingsFractal {
 
 		// Set a delay before reactivating the form if the call comes from 'displayFractal' function
 		const FRAC_CALL = arguments.length && arguments[0];
-		if (FRAC_CALL) await DELAY(Page.DELAY_MS);
+		if (FRAC_CALL) await delay(Page.DELAY_MS);
 		this.#enableForm(FRAC_CALL);
 	}
 
@@ -441,7 +441,7 @@ class Page extends SettingsFractal {
 		$(ID.LOADING).style.visibility = "visible";
 
 		// Set a delay to display the loading message when creating the fractal
-		await DELAY(Page.DELAY_MS);
+		await delay(Page.DELAY_MS);
 
 		// Loops through every pixel
 		const WIDTH = super.width, HEIGHT = super.height;
