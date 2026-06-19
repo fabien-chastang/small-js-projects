@@ -18,7 +18,7 @@ const $ = id => document.getElementById(id);
 
 // Delay function: define the function that calls it as asynchronous (async fct() {...}) 
 // and call the delay function with the await keyword (await delay(ms))
-const delay = ms => new Promise(res => setTimeout(res, ms));
+const DELAY = ms => new Promise(res => setTimeout(res, ms));
 
 // This method takes a string and replaces any placeholders in the form of {n} with the corresponding 
 // argument passed to the method (n positif integer or zero)
@@ -78,14 +78,14 @@ class Item {
 HTMLElement.prototype.testAttribute = function (attribute) {
 	if (Item.isValid(attribute)) {
 		if (Item.isObject(attribute)) {
-			const name = Item.getProperty(attribute, "name");
-			if (name) {
-				const value = Item.getProperty(attribute, "value");
-				return (value) ? this.getAttribute(name) == value : this.hasAttribute(name);
+			const NAME = Item.getProperty(attribute, "name");
+			if (NAME) {
+				const VALUE = Item.getProperty(attribute, "value");
+				return (VALUE) ? this.getAttribute(NAME) == VALUE : this.hasAttribute(NAME);
 			}
 		} else {
-			const name = attribute.toString();
-			if (name) return this.hasAttribute(name);
+			const NAME = attribute.toString();
+			if (NAME) return this.hasAttribute(NAME);
 		}
 	}
 	return false;
@@ -103,7 +103,7 @@ HTMLElement.prototype.testAttribute = function (attribute) {
 // 'selectors': parameter passed to the 'querySelectorAll()' method of the DOM 'document' object
 
 document.getElementsByAttributes = function (attributes, every = true, selectors = "*") {
-	const nodes = Array.from(this.querySelectorAll(selectors));
+	const NODES = Array.from(this.querySelectorAll(selectors));
 	let attribute = null;
 
 	if (Array.isArray(attributes)) {
@@ -111,17 +111,17 @@ document.getElementsByAttributes = function (attributes, every = true, selectors
 			// Managing multiple attributes
 			if (every)
 				// All attributes must be valid
-				return nodes.filter(node => attributes.every(attr => node.testAttribute(attr)));
+				return NODES.filter(node => attributes.every(attr => node.testAttribute(attr)));
 			else
 				// At least one attribute must be valid
-				return nodes.filter(node => attributes.some(attr => node.testAttribute(attr)));
+				return NODES.filter(node => attributes.some(attr => node.testAttribute(attr)));
 		} else if (attributes.length == 1)
 			attribute = attributes[0];
 	} else
 		attribute = attributes;
 
 	// Managing a single attribute
-	return (attribute) ? nodes.filter(node => node.testAttribute(attribute)) : [];
+	return (attribute) ? NODES.filter(node => node.testAttribute(attribute)) : [];
 };
 
 // ----------------------------------------------------------------------------
@@ -130,8 +130,8 @@ document.getElementsByAttributes = function (attributes, every = true, selectors
 
 // Adds a method to the SELECT object to select a specific option
 HTMLSelectElement.prototype.selectOption = function (value) {
-	const selectedOption = Array.from(this.options).find(opt => opt.value == value);
-	return (selectedOption) ? selectedOption.selected = true : false;
+	const SELECTED_OPTION = Array.from(this.options).find(opt => opt.value == value);
+	return (SELECTED_OPTION) ? SELECTED_OPTION.selected = true : false;
 };
 
 // ============================================================================
@@ -150,10 +150,10 @@ navigator.getLanguage = function () {
 	let preferred = this.language;
 
 	if (preferred != "yi" && preferred != "ji" && preferred.indexOf("-") == -1) {
-		const langs = this.getLanguages();
-		if (langs.length > 1) {
-			const p = langs.find(lang => lang.indexOf(preferred + "-") == 0);
-			if (p) preferred = p;
+		const LANGS = this.getLanguages();
+		if (LANGS.length > 1) {
+			const PREF = LANGS.find(lang => lang.indexOf(preferred + "-") == 0);
+			if (PREF) preferred = PREF;
 		}
 	}
 
@@ -533,28 +533,28 @@ class Culture {
 			let c = code.replaceAll(/[^a-zA-Z-]/g, "").toLowerCase();
 
 			if (/^[a-z]{2,3}-[a-z]{2}$/.test(c)) {
-				const ca = c.split('-');
-				c = ca[0];
+				const CA = c.split('-');
+				c = CA[0];
 
 				if (!isRef) {
-					c += "-" + ca[1].toUpperCase();
+					c += "-" + CA[1].toUpperCase();
 
 					// Search for the object 'locale'
 					result = this.#locales.find(loc => (!toFormat || loc.toFormat) && loc.code == c);
 
 					// If not found
-					if (!result) c = ca[0];
+					if (!result) c = CA[0];
 				}
 			}
 
 			if (!result && /^[a-z]{2,3}$/.test(c)) {
 				// The 'code' parameter, with the given parameters, is not listed in the array of commonly used locales
-				const clen = c.length;
+				const CLEN = c.length;
 
 				// Search for a related object 'locale'
 				result = this.#locales.find(loc => {
-					const dash = loc.code.indexOf("-");
-					return (!toFormat || loc.toFormat) && loc.isRef && loc.code.indexOf(c) == 0 && (dash == -1 || dash == clen);
+					const DASH = loc.code.indexOf("-");
+					return (!toFormat || loc.toFormat) && loc.isRef && loc.code.indexOf(c) == 0 && (DASH == -1 || DASH == CLEN);
 				});
 			}
 		}
@@ -572,17 +572,17 @@ class Culture {
 		let result;
 
 		if (code) {
-			const c = code.replaceAll(/[^a-zA-Z-]/g, "").toLowerCase().split("-")[0];
-			const found = codes => codes.split(";").map(co => co.trimStart()).indexOf(c) > -1;
+			const CODE = code.replaceAll(/[^a-zA-Z-]/g, "").toLowerCase().split("-")[0];
+			const FOUND = codes => codes.split(";").map(co => co.trimStart()).indexOf(c) > -1;
 
-			switch (c.length) {
+			switch (CODE.length) {
 				case 2:
 					// Set 1
-					result = this.#ISOLangs.find(lang => found(lang.code));
+					result = this.#ISOLangs.find(lang => FOUND(lang.code));
 					break;
 				case 3:
 					// Set 2
-					result = this.#ISOLangs.find(lang => found(lang.code2));
+					result = this.#ISOLangs.find(lang => FOUND(lang.code2));
 					break;
 				default:
 					/* Nothing */;
@@ -604,8 +604,8 @@ class Culture {
 
 // Converts a string to a number based on the culture, inverse method of 'toLocaleString()'
 String.prototype.toNumber = function (locale) {
-	const fracSep = (1).toLocaleString(locale, { minimumFractionDigits: 1 }).replaceAll(/\d/g, "");
-	return parseFloat(this.valueOf().replaceAll(new RegExp("[^\\d" + fracSep + "-]", "g"), "").replace(fracSep, "."));
+	const FRAC_SEP = (1).toLocaleString(locale, { minimumFractionDigits: 1 }).replaceAll(/\d/g, "");
+	return parseFloat(this.valueOf().replaceAll(new RegExp("[^\\d" + FRAC_SEP + "-]", "g"), "").replace(FRAC_SEP, "."));
 };
 
 // Calculation methods
@@ -632,18 +632,18 @@ class MathX {
 	// Creates and initializes the object
 	constructor(params) {
 		// Rounding accuracy
-		const acc = (params.hasOwnProperty("accuracyRound")) ? parseInt(params.accuracyRound) : NaN;
-		this.#accuracyRound = (Number.isFinite(acc) && acc >= 0 && acc <= 15) ? acc : this.#defaultValues.accuracyRound;
+		const ACC = (params.hasOwnProperty("accuracyRound")) ? parseInt(params.accuracyRound) : NaN;
+		this.#accuracyRound = (Number.isFinite(ACC) && ACC >= 0 && ACC <= 15) ? ACC : this.#defaultValues.accuracyRound;
 
 		// Regional setting used to format numbers
-		const loc = (params.hasOwnProperty("cultureFormat"))
+		const LOC = (params.hasOwnProperty("cultureFormat"))
 			? Culture.getLocale(params.cultureFormat, false, true)
 			: Culture.getLocaleNavigator(false, true);
-		this.#cultureFormat = (loc) ? loc.code : this.#defaultValues.cultureFormat;
+		this.#cultureFormat = (LOC) ? LOC.code : this.#defaultValues.cultureFormat;
 
 		// Approximation error when calculating a root of a function
-		const err = (params.hasOwnProperty("approximError")) ? parseFloat(params.approximError) : NaN;
-		this.#approximError = (Number.isFinite(err) && err > 0 && err <= 0.1) ? err : this.#defaultValues.approximError;
+		const ERR = (params.hasOwnProperty("approximError")) ? parseFloat(params.approximError) : NaN;
+		this.#approximError = (Number.isFinite(ERR) && ERR > 0 && ERR <= 0.1) ? ERR : this.#defaultValues.approximError;
 	}
 
 	// Checks the accuray parameter
@@ -683,10 +683,10 @@ class MathX {
 	// Formats a number
 	format(numeric, accuracy = null, culture = null) {
 		if (Number.isFinite(numeric)) {
-			const a = this.#checkAccuracy(accuracy, this.accuracyRound); // Rounding accuracy
-			const c = this.#checkCulture(culture, this.cultureFormat);   // Regional setting used to format numbers
+			const ACC = this.#checkAccuracy(accuracy, this.accuracyRound); // Rounding accuracy
+			const CLT = this.#checkCulture(culture, this.cultureFormat);   // Regional setting used to format numbers
 
-			return numeric.toLocaleString(c, { minimumFractionDigits: a });
+			return numeric.toLocaleString(CLT, { minimumFractionDigits: ACC });
 		} else
 			return NaN;
 	}
@@ -696,12 +696,12 @@ class MathX {
 		let rounding = null;
 		if (Number.isFinite(numeric)) {
 			// Calculates rounding
-			const a = this.#checkAccuracy(accuracy, this.accuracyRound);
+			const ACC = this.#checkAccuracy(accuracy, this.accuracyRound);
 			let numericValue;
 
-			if (a > 0) {
-				const pow10 = 10 ** a;
-				numericValue = Math.round(numeric * pow10) / pow10;
+			if (ACC > 0) {
+				const POW10 = 10 ** ACC;
+				numericValue = Math.round(numeric * POW10) / POW10;
 			} else
 				numericValue = Math.round(numeric);
 
@@ -723,10 +723,10 @@ class MathX {
 		if (root === null && fct(x0) * fct(x1) < 0) {
 			if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
 
-			const err = 2 * this.#checkError(error, this.approximError);
+			const ERR = 2 * this.#checkError(error, this.approximError);
 			let y, [z0, z1] = (x0 < x1) ? [x0, x1] : [x1, x0];
 
-			while ((y = fct(root = (z0 + z1) / 2)) != 0 && i++ < maxIter && (e = z1 - z0) > err)
+			while ((y = fct(root = (z0 + z1) / 2)) != 0 && i++ < maxIter && (e = z1 - z0) > ERR)
 				if (y * fct(z1) < 0)
 					z0 = root;
 				else
@@ -784,8 +784,8 @@ class Complex {
 	static conj = z => [z[0], -z[1]];
 	static opp = z => [-z[0], -z[1]];
 	static inv = z => {
-		const den = z[0] * z[0] + z[1] * z[1];
-		return (den > 0) ? [z[0] / den, -z[1] / den] : NaN;
+		const DEN = z[0] * z[0] + z[1] * z[1];
+		return (DEN > 0) ? [z[0] / DEN, -z[1] / DEN] : NaN;
 	};
 	static invRe = re => (re != 0) ? [1 / re, 0] : NaN;
 	static invIm = im => (im != 0) ? [0, -1 / im] : NaN;
@@ -807,28 +807,28 @@ class Complex {
 
 	// Division
 	static div = (u, v) => {
-		const den = v[0] * v[0] + v[1] * v[1];
-		return (den > 0) ? [(u[0] * v[0] + u[1] * v[1]) / den, (u[1] * v[0] - u[0] * v[1]) / den] : NaN;
+		const DEN = v[0] * v[0] + v[1] * v[1];
+		return (DEN > 0) ? [(u[0] * v[0] + u[1] * v[1]) / DEN, (u[1] * v[0] - u[0] * v[1]) / DEN] : NaN;
 	};
 
 	// Power
 	static pow = (z, p) => {
-		const sqmod = z[0] * z[0] + z[1] * z[1];
-		const arg = Math.atan2(z[1], z[0]);
-		const [r, t] = [sqmod ** (p[0] / 2) * Math.exp(-p[1] * arg), p[0] * arg + p[1] * Math.log(sqmod) / 2];
-		return [r * Math.cos(t), r * Math.sin(t)];
+		const SQMOD = z[0] * z[0] + z[1] * z[1];
+		const ARG = Math.atan2(z[1], z[0]);
+		const [R, T] = [SQMOD ** (p[0] / 2) * Math.exp(-p[1] * ARG), p[0] * ARG + p[1] * Math.log(SQMOD) / 2];
+		return [R * Math.cos(T), R * Math.sin(T)];
 	};
 	static powRe = (z, re) => {
-		const sqmod = z[0] * z[0] + z[1] * z[1];
-		const arg = Math.atan2(z[1], z[0]);
-		const [r, t] = [sqmod ** (re / 2), re * arg];
-		return [r * Math.cos(t), r * Math.sin(t)];
+		const SQMOD = z[0] * z[0] + z[1] * z[1];
+		const ARG = Math.atan2(z[1], z[0]);
+		const [R, T] = [SQMOD ** (re / 2), re * ARG];
+		return [R * Math.cos(T), R * Math.sin(T)];
 	};
 	static powIm = (z, im) => {
-		const sqmod = z[0] * z[0] + z[1] * z[1];
-		const arg = Math.atan2(z[1], z[0]);
-		const [r, t] = [Math.exp(-im * arg), im * Math.log(sqmod) / 2];
-		return [r * Math.cos(t), r * Math.sin(t)];
+		const SQMOD = z[0] * z[0] + z[1] * z[1];
+		const ARG = Math.atan2(z[1], z[0]);
+		const [R, T] = [Math.exp(-im * ARG), im * Math.log(SQMOD) / 2];
+		return [R * Math.cos(T), R * Math.sin(T)];
 	};
 	// 0 to the power of 0 is NaN
 	static powUInt = (z, n) => {
@@ -876,13 +876,13 @@ class Complex {
 				default:
 					z2 = this.mul(z, z);
 					z4 = this.mul(z2, z2);
-					const z8 = this.mul(z4, z4);
-					const [q, r] = [n >> 3, n & 7];
+					const Z8 = this.mul(z4, z4);
+					const [Q, R] = [n >> 3, n & 7];
 
-					let pow = z8;
-					for (let i = 1; i < q; i++) pow = [z8[0] * pow[0] - z8[1] * pow[1], z8[0] * pow[1] + z8[1] * pow[0]];
+					let pow = Z8;
+					for (let i = 1; i < Q; i++) pow = [Z8[0] * pow[0] - Z8[1] * pow[1], Z8[0] * pow[1] + Z8[1] * pow[0]];
 
-					switch (r) {
+					switch (R) {
 						case 1:
 							return this.mul(z, pow);
 						case 2:
@@ -922,29 +922,29 @@ class Complex {
 
 	// Square of the distance / Distance
 	static sqdist = (u, v) => {
-		const [dr, di] = [u[0] - v[0], u[1] - v[1]];
-		return dr * dr + di * di;
+		const [DR, DI] = [u[0] - v[0], u[1] - v[1]];
+		return DR * DR + DI * DI;
 	}
 	static dist = (u, v) => {
-		const [dr, di] = [u[0] - v[0], u[1] - v[1]];
-		return Math.sqrt(dr * dr + di * di);
+		const [DR, DI] = [u[0] - v[0], u[1] - v[1]];
+		return Math.sqrt(DR * DR + DI * DI);
 	}
 
 	// Exponential and logarithmic functions
 	static exp = z => {
-		const exp = Math.exp(z[0]);
-		return [exp * Math.cos(z[1]), exp * Math.sin(z[1])];
+		const EXP = Math.exp(z[0]);
+		return [EXP * Math.cos(z[1]), EXP * Math.sin(z[1])];
 	}
 	static log = z => [Math.log(z[0] * z[0] + z[1] * z[1]) / 2, Math.atan2(z[1], z[0])];
 
 	// Circular and hyperbolic functions
 	// Template method (private) for: tan, cotan, tanh, and cotanh
 	static #tan(c0, s0, c1, s1, isCir, isTan) {
-		const [signCir, signTan] = [(isCir) ? 1 : -1, (isTan) ? 1 : -1];
-		const [c0c1, s0s1, s0c1, c0s1] = [c0 * c1, s0 * s1, s0 * c1, c0 * s1];
-		const den = (isTan) ? c0c1 * c0c1 + s0s1 * s0s1 : s0c1 * s0c1 + c0s1 * c0s1;
+		const [SIGN_CIR, SIGN_TAN] = [(isCir) ? 1 : -1, (isTan) ? 1 : -1];
+		const [C0C1, S0S1, S0C1, C0S1] = [c0 * c1, s0 * s1, s0 * c1, c0 * s1];
+		const DEN = (isTan) ? C0C1 * C0C1 + S0S1 * S0S1 : S0C1 * S0C1 + C0S1 * C0S1;
 
-		return (den > 0) ? [(s0c1 * c0c1 - signCir * c0s1 * s0s1) / den, signTan * (c0s1 * c0c1 + signCir * s0c1 * s0s1) / den] : NaN;
+		return (DEN > 0) ? [(S0C1 * C0C1 - SIGN_CIR * C0S1 * S0S1) / DEN, SIGN_TAN * (C0S1 * C0C1 + SIGN_CIR * S0C1 * S0S1) / DEN] : NaN;
 	}
 	// Circular functions
 	static cos = z => [Math.cos(z[0]) * Math.cosh(z[1]), -Math.sin(z[0]) * Math.sinh(z[1])];
@@ -1086,9 +1086,9 @@ class Cookie {
 
 	// Returns a date as a string
 	static #strDate(exdays) {
-		const d = new Date();
-		d.setTime((Number.isFinite(exdays) && exdays > 0) ? d.getTime() + exdays * 86400000 : 0); // 1 day == 86400000 ms
-		return d.toUTCString();
+		const DATE = new Date();
+		DATE.setTime((Number.isFinite(exdays) && exdays > 0) ? DATE.getTime() + exdays * 86400000 : 0); // 1 day == 86400000 ms
+		return DATE.toUTCString();
 	}
 
 	// Checks the value type of the property: 'name' or 'value' of the cookie that will be converted with 'toString()'
@@ -1108,19 +1108,19 @@ class Cookie {
 
 	// Checks the prefix parameter
 	static #checkPrefix(prefix) {
-		const p = Item.toString(prefix);
-		return (p) ? p : this.#PREFIX;
+		const PREFIX = Item.toString(prefix);
+		return (PREFIX) ? PREFIX : this.#PREFIX;
 	}
 
 	// Returns the cookie array: [[name1,value1], [name2,value2], ..., [nameN, valueN]]
 	static #getCookies(prefix = null) {
 		let cookies = [];
 		if (document.cookie) {
-			const p = this.#checkPrefix(prefix), len = p.length;
+			const PREFIX = this.#checkPrefix(prefix), LEN = PREFIX.length;
 			cookies = document.cookie.split(';')					// Splits the string into an array of cookies
 				.map(c => c.split('=').map(c => this.#decode(c)))	// Splits and decodes cookies into name/value pairs
-				.filter(c => c[0].substring(0, len) == p)			// Filters names by prefix
-				.map(c => [c[0].substring(len), c[1]]);				// Removes the prefix from names
+				.filter(c => c[0].substring(0, LEN) == PREFIX)			// Filters names by prefix
+				.map(c => [c[0].substring(LEN), c[1]]);				// Removes the prefix from names
 		}
 		return cookies;
 	}
@@ -1134,33 +1134,33 @@ class Cookie {
 		let enabled = document.cookie != "";
 		if (!enabled) {
 			// The test cookie
-			const test = "_test__cookie_=";
-			document.cookie = test + "1; path=/";
+			const TEST = "_test__cookie_=";
+			document.cookie = TEST + "1; path=/";
 			enabled = document.cookie.split(';').some(c => c.trimStart().startsWith(test));
 
 			// Deletes the test cookie
-			if (enabled) document.cookie = test + ";expires=" + this.#strDate(0) + ";path=/";
+			if (enabled) document.cookie = TEST + ";expires=" + this.#strDate(0) + ";path=/";
 		}
 		return enabled;
 	}
 
 	// Gets a cookie
 	static getValue(name, prefix = null) {
-		const found = this.#getCookies(prefix).find(c => c[0] == name);
-		return (found) ? { name: name, value: found[1] } : null;
+		const FOUND = this.#getCookies(prefix).find(c => c[0] == name);
+		return (FOUND) ? { name: name, value: FOUND[1] } : null;
 	}
 
 	// Sets a cookie: adds the prefix to the name and encodes the name/value pair
 	static setValue(name, value, exdays, prefix = null, path = "/", domain = null) {
-		const strname = Item.toString(name), valid = strname.length > 0;
-		if (valid) {
-			const p = this.#checkPrefix(prefix);
-			document.cookie = this.#encode(p + strname) + "=" + this.#encode(value)
+		const NAME = Item.toString(name), VALID = NAME.length > 0;
+		if (VALID) {
+			const PREFIX = this.#checkPrefix(prefix);
+			document.cookie = this.#encode(PREFIX + NAME) + "=" + this.#encode(value)
 				+ ";expires=" + this.#strDate(exdays)
 				+ ((path) ? ";path=" + path : "")
 				+ ((domain) ? ";domain=" + domain : "");
 		}
-		return valid;
+		return VALID;
 	}
 
 	// Deletes a cookie
@@ -1171,13 +1171,13 @@ class Cookie {
 	// Gets all cookies
 	static getAll(prefix = null) {
 		let cookies = {};
-		for (const c of this.#getCookies(prefix)) cookies[c[0]] = c[1];
+		for (const COOKIE of this.#getCookies(prefix)) cookies[COOKIE[0]] = COOKIE[1];
 		return cookies;
 	}
 
 	// Deletes all cookies
 	static deleteAll(prefix = null, path = "/", domain = null) {
-		for (const c of this.#getCookies(prefix)) this.setValue(c[0], "", 0, prefix, path, domain);
+		for (const COOKIE of this.#getCookies(prefix)) this.setValue(COOKIE[0], "", 0, prefix, path, domain);
 	}
 }
 
@@ -1298,7 +1298,7 @@ class Color {
 		else if (B > 255) B = 255;
 
 		[R, G, B] = [R / 255, G / 255, B / 255];
-		const [V, Xmin] = [Math.max(R, G, B), Math.min(R, G, B)], C = V - Xmin;
+		const [V, XMIN] = [Math.max(R, G, B), Math.min(R, G, B)], C = V - XMIN;
 
 		let H = 0;
 		if (C != 0) {
@@ -1317,7 +1317,7 @@ class Color {
 		}
 
 		if (toHSL) {
-			const L = (V + Xmin) / 2;
+			const L = (V + XMIN) / 2;
 			return [H, (L == 0 || L == 1) ? 0 : (V - L) / Math.min(L, 1 - L), L];
 		} else
 			return [H, (V == 0) ? 0 : C / V, V];
@@ -1390,12 +1390,12 @@ function iniProperty(objProperty, objCookie, cookieName, loadParams, htmlId, onc
 	objProperty.load(loadParams);
 
 	// Initializes the field and adds an event when the property is modified
-	const htmlObj = $(htmlId);
-	htmlObj.selectOption(objProperty.selected);
-	htmlObj.addEventListener("change", onchangeFct);
-	if (setFocus) htmlObj.focus();
+	const HTML_OBJ = $(htmlId);
+	HTML_OBJ.selectOption(objProperty.selected);
+	HTML_OBJ.addEventListener("change", onchangeFct);
+	if (setFocus) HTML_OBJ.focus();
 
-	return { selected: objProperty.selected, htmlObj: htmlObj };
+	return { selected: objProperty.selected, htmlObj: HTML_OBJ };
 }
 
 // ----------------------------------------------------------------------------
@@ -1436,27 +1436,27 @@ class Themes {
 	// Fills in the 'theme' selection field
 	initialize(htmlId) {
 		if (Array.isArray(this.names)) {
-			const sel = $(htmlId);
-			if (sel)
-				for (const [index, name] of this.names.entries()) {
-					const opt = new Option("", index.toString());
-					opt.setAttribute("id", name.toUpperCase());
-					sel.add(opt);
+			const SELECT = $(htmlId);
+			if (SELECT)
+				for (const [INDEX, NAME] of this.names.entries()) {
+					const OPTION = new Option("", INDEX.toString());
+					OPTION.setAttribute("id", NAME.toUpperCase());
+					SELECT.add(OPTION);
 				}
 		}
 	}
 
 	// Loads the theme of the page
 	load(htmlAttributes) {
-		const name = this.name;
-		if (name) {
-			const elts = document.getElementsByAttributes(htmlAttributes.theme);
-			for (const e of elts)
-				if (e.hasAttribute("class"))
-					e.className = e.className.replace(/\w+$/gi, name);
+		const NAME = this.name;
+		if (NAME) {
+			const ELTS = document.getElementsByAttributes(htmlAttributes.theme);
+			for (const ELT of ELTS)
+				if (ELT.hasAttribute("class"))
+					ELT.className = ELT.className.replace(/\w+$/gi, NAME);
 				else {
-					if (e.className) e.classList.remove(e.className);
-					e.classList.add(name);
+					if (ELT.className) ELT.classList.remove(ELT.className);
+					ELT.classList.add(NAME);
 				}
 		}
 	}
@@ -1500,20 +1500,20 @@ class Resources {
 
 	// Getter: returns the browser culture
 	get codeLang() {
-		const rescodes = Object.keys(this.full).map(c => c.replace("_", "-"));
-		const locale = Culture.getLocaleNavigator(false, true);
+		const RES_CODES = Object.keys(this.full).map(c => c.replace("_", "-"));
+		const LOCALE = Culture.getLocaleNavigator(false, true);
 
 		let code;
-		if (locale) code = locale.code;
+		if (LOCALE) code = LOCALE.code;
 
-		if (code && !rescodes.some(rcode => rcode == code)) {
+		if (code && !RES_CODES.some(rcode => rcode == code)) {
 			// The user's preferred language is not listed in the resources
-			const c = code.split("-")[0], clen = c.length;
+			const CODE = code.split("-")[0], CLEN = CODE.length;
 
 			// Search for a related language
-			code = rescodes.find(rcode => {
-				const dash = rcode.indexOf("-");
-				return rcode.indexOf(c) == 0 && (dash == -1 || dash == clen);
+			code = RES_CODES.find(rcode => {
+				const DASH = rcode.indexOf("-");
+				return rcode.indexOf(CODE) == 0 && (DASH == -1 || DASH == CLEN);
 			});
 		}
 
@@ -1527,12 +1527,12 @@ class Resources {
 	// Fills in the 'culture' selection field
 	initialize(htmlId) {
 		if (this.full) {
-			const sel = $(htmlId);
-			if (sel)
+			const SELECT = $(htmlId);
+			if (SELECT)
 				Object.keys(this.full).forEach(key => {
-					const opt = new Option("", key.replace("_", "-"));
-					opt.setAttribute("id", key.toUpperCase());
-					sel.add(opt);
+					const OPTION = new Option("", key.replace("_", "-"));
+					OPTION.setAttribute("id", key.toUpperCase());
+					SELECT.add(OPTION);
 				});
 		}
 	}
@@ -1541,8 +1541,8 @@ class Resources {
 	load() {
 		if (this.full) {
 			// Gets resources
-			const res = this.full[((arguments.length > 0 && arguments[0]) ? arguments[0] : this.selected).replace("-", "_")];
-			Object.keys(res).forEach(key => this.$[key] = res[key]);
+			const RES = this.full[((arguments.length > 0 && arguments[0]) ? arguments[0] : this.selected).replace("-", "_")];
+			Object.keys(RES).forEach(key => this.$[key] = RES[key]);
 
 			// Displays resources
 			if (typeof this.$.general == "object" && this.$.general !== null && typeof this.$.general.HTML_LANG != "undefined")
@@ -1554,8 +1554,8 @@ class Resources {
 			if (typeof this.$.accessibility == "object" && this.$.accessibility !== null)
 				Object.entries(this.$.accessibility).forEach(
 					([ID, attribute]) => {
-						const names = Array.isArray(attribute.names) ? attribute.names : [attribute.names];
-						names.forEach(name => $(ID).setAttribute(name, attribute.value));
+						const NAMES = Array.isArray(attribute.names) ? attribute.names : [attribute.names];
+						NAMES.forEach(name => $(ID).setAttribute(name, attribute.value));
 					}
 				);
 		}

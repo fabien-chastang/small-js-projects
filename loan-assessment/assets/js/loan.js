@@ -3,7 +3,7 @@
 // ============================================================================
 // Calculation methods for loans
 // ============================================================================
- 
+
 class MathLoan extends MathX {
 	// Calculates the interest rate using Newton's method if 1, using Newton's method without derivative function 
 	// if -1, otherwise use the bisection method (more robust method than Newton's method, but slower)
@@ -300,11 +300,11 @@ class Page extends MathLoan {
 		);
 
 		// Displaying
-		const ID = this.#htmlIDs, cssClassnames = this.#cssClassnames;
+		const ID = this.#htmlIDs, CSS_CLASSNAMES = this.#cssClassnames;
 		const CLASS_SELECTED = this.#themes.classSelected + " " + this.#themes.name;
 
-		$(ID.LABEL_DATA + type).className = cssClassnames.labelData + CLASS_SELECTED;
-		$(ID.FIELD_DATA + type).className = cssClassnames.fieldData + CLASS_SELECTED;
+		$(ID.LABEL_DATA + type).className = CSS_CLASSNAMES.labelData + CLASS_SELECTED;
+		$(ID.FIELD_DATA + type).className = CSS_CLASSNAMES.fieldData + CLASS_SELECTED;
 		$(ID.LEGEND_RESULT).innerHTML = $(ID.LABEL_DATA + type).innerHTML;
 		$(ID.TEXT_RESULT).innerHTML = MESSAGE;
 	}
@@ -351,13 +351,12 @@ class Page extends MathLoan {
 								if (result[0].numericValue == 0) error = this.#resources.$.errors.EXCEEDING_DATA;
 							} else
 								error = this.#resources.$.errors.EXCEEDING_ALL;
-						} else {
+						} else
 							error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_31).format(
 								this.#resources.$.page[LABEL_DATA + 0], super.round(repayment * term).formattedStr,
 								this.#resources.$.page[LABEL_DATA + 2], super.round(amount / repayment).formattedStr,
 								this.#resources.$.page[LABEL_DATA + 3], super.round(amount / (term * 12)).formattedStr
 							);
-						}
 						break;
 
 					case 2:
@@ -367,18 +366,17 @@ class Page extends MathLoan {
 							if (!VALID(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
 						} else {
 							let maxInterest;
-							if ((maxInterest = super.round((100 * repayment) / amount)).numericValue == 0) {
+							if ((maxInterest = super.round((100 * repayment) / amount)).numericValue == 0)
 								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_2).format(
 									this.#resources.$.page[LABEL_DATA + 0], super.round(repayment / interest).formattedStr,
 									this.#resources.$.page[LABEL_DATA + 3], super.round(amount * interest / 12).formattedStr
 								);
-							} else {
+							else
 								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_32).format(
 									this.#resources.$.page[LABEL_DATA + 0], super.round(repayment / interest).formattedStr,
 									this.#resources.$.page[LABEL_DATA + 1], maxInterest.formattedStr,
 									this.#resources.$.page[LABEL_DATA + 3], super.round(amount * interest / 12).formattedStr
 								);
-							}
 						}
 						break;
 
@@ -439,8 +437,8 @@ class Page extends MathLoan {
 			htmlObj = $(ID.FIELD_DATA + i);
 
 			// Initializes the value
-			const C = this.#cookieHandle.getValue(this.#cookieHandle.names.data + i);
-			if (C && Number.isFinite(value = parseFloat(C.value))) htmlObj.value = super.format(value);
+			const COOKIE = this.#cookieHandle.getValue(this.#cookieHandle.names.data + i);
+			if (COOKIE && Number.isFinite(value = parseFloat(COOKIE.value))) htmlObj.value = super.format(value);
 			this.#getData(i);
 
 			// Adds an event on data change
