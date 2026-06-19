@@ -1381,7 +1381,7 @@ class Color {
 // ============================================================================
 
 // Template function to initialize and fill in the SELECT field for Themes and Resources
-function _ini_property(objProperty, objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus) {
+function iniProperty(objProperty, objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus) {
 	// Fills in the SELECT field
 	objProperty.initialize(htmlId);
 	// Initializes the property
@@ -1464,7 +1464,7 @@ class Themes {
 	// Initializes and fills in the SELECT field
 	iniProperty(objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus) {
 		if (defaultValue == null) defaultValue = 0;
-		return _ini_property(this, objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus);
+		return iniProperty(this, objCookie, cookieName, loadParams, htmlId, onchangeFct, defaultValue, setFocus);
 	}
 }
 
@@ -1564,6 +1564,6 @@ class Resources {
 	// Initializes and fills in the SELECT field
 	iniProperty(objCookie, cookieName, htmlId, onchangeFct, defaultValue, setFocus) {
 		if (defaultValue == null) defaultValue = this.codeLang;
-		return _ini_property(this, objCookie, cookieName, null, htmlId, onchangeFct, defaultValue, setFocus);
+		return iniProperty(this, objCookie, cookieName, null, htmlId, onchangeFct, defaultValue, setFocus);
 	}
 }
