@@ -18,18 +18,22 @@ class MathLoan extends MathX {
 		this.#newtonsMethod = (params.hasOwnProperty("newtonsMethod")) ? params.newtonsMethod : 0;
 	}
 
-	#getResult(amount, term, repayment) {
+	// Additional results
+	#getResults(amount, term, repayment) {
 		let tempo;
 		return [
-			this.round(tempo = repayment * term),
-			this.round(tempo -= amount),
-			this.round(100 * tempo / amount)
+			this.round(tempo = repayment * term),	// Total amount repaid
+			this.round(tempo -= amount),			// Cost of credit
+			this.round(100 * tempo / amount)		// Cost as a percentage of the loan
 		];
 	}
 
 	// ------------------------------------------------------------------------
 	// Public methods
 	// ------------------------------------------------------------------------
+
+	// Display a bug, not a user error: invalid type for calculation
+	typeBug = () => alert("Invalid \"type\" for calculation!");
 
 	// Rounds a number
 	round(numeric, accuracy = null, culture = null) { return super.round(numeric, accuracy, culture); }
@@ -39,53 +43,53 @@ class MathLoan extends MathX {
 		let result = null, value;
 		switch (type) {
 			case 0:
-				// Calculation of the amount borrowed
+				// Loan amount
 				value = (repayment *= 12) * ((1 + (interest /= 100)) ** term - 1) / (interest * (1 + interest) ** term);
-				result = [this.round(value), ...this.#getResult(value, term, repayment)];
+				result = [this.round(value), ...this.#getResults(value, term, repayment)];
 				break;
 
 			case 1:
-				// Calculation of the interest rate
+				// Interest rate: calculating a root
 				const func = x => (repayment - amount * x) * (1 + x) ** term - repayment;
 				const X1 = repayment / amount;
 				let method;
 				switch (this.#newtonsMethod) {
 					case 1:
-						// Calculates the root using Newton's method
+						// Using Newton's method
 						const dfunc = x => term * (repayment - amount * x) * (1 + x) ** (term - 1) - amount * (1 + x) ** term;
 						value = super.newtonsMethod(X1, func, dfunc).root;
 						break;
 
 					case -1:
-						// Calculates the root using Newton's method without derivative function
+						// Using Newton's method without derivative function
 						value = super.newtonsMethodWOD(X1, func).root;
 						break;
 
 					default:
-						// Calculates the root using bisection method (more robust method than Newton's method, but slower)
+						// Using bisection method (more robust method than Newton's method, but slower)
 						const X0 = (repayment * term - amount) / ((term + 1) * amount);
 						value = super.bisectionMethod(X0, X1, func).root;
 				}
 				result = (value === null)
 					? this.#newtonsMethod // Error
-					: [this.round(100 * value), ...this.#getResult(amount, term, repayment)];
+					: [this.round(100 * value), ...this.#getResults(amount, term, repayment)];
 				break;
 
 			case 2:
-				// Calculation of the loan term
+				// Loan term
 				value = (Math.log(repayment) - Math.log(repayment - amount * interest)) / Math.log(1 + interest);
-				result = [this.round(value), ...this.#getResult(amount, value, repayment)];
+				result = [this.round(value), ...this.#getResults(amount, value, repayment)];
 				break;
 
 			case 3:
-				// Calculation of the monthly repayment amount
+				// Monthly payments
 				value = amount * (interest /= 100) * (1 + interest) ** term / ((1 + interest) ** term - 1);
-				result = [this.round(value / 12), ...this.#getResult(amount, term, value)];
+				result = [this.round(value / 12), ...this.#getResults(amount, term, value)];
 				break;
 
 			default:
 				// A bug, not a user error: invalid type for calculation
-				alert("Invalid \"type\" for calculation!");
+				this.typeBug();
 		}
 		return result;
 	}
@@ -325,33 +329,39 @@ class Page extends MathLoan {
 
 				switch (type) {
 					case 0:
-						// Calculation of the amount borrowed
+						// Loan amount
 						result = super.loan(type, null, interest, term, repayment);
-						if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
+						if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL; // Error
 						break;
 
 					case 1:
-						// Calculation of the interest rate
+						// Interest rate: calculating a root
 						if (amount <= (repayment *= 12) * term) {
 							result = super.loan(type, amount, null, term, repayment);
 							if (typeof result == "number") {
+								// Error
 								let method;
 								switch (result) {
 									case 1:
+										// Using Newton's method
 										method = this.#resources.$.errors.ERR_ROOT_NEWTON;
 										break;
 									case -1:
+										// Using Newton's method without derivative function
 										method = this.#resources.$.errors.ERR_ROOT_NEWTON_WITHOUT_DERIVATIVE;
 										break;
 									default:
+										// Using bisection method
 										method = this.#resources.$.errors.ERR_ROOT_BISECTION;
 								}
 								error = this.#resources.$.errors.ERR_ROOT_CALCULATE.format(method);
 							} else if (valid(result)) {
-								if (result[0].numericValue == 0) error = this.#resources.$.errors.EXCEEDING_DATA;
+								if (result[0].numericValue == 0) error = this.#resources.$.errors.EXCEEDING_DATA; // Error
 							} else
+								// Error
 								error = this.#resources.$.errors.EXCEEDING_ALL;
 						} else
+							// Error
 							error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_31).format(
 								this.#resources.$.page[LABEL_DATA + 0], super.round(repayment * term).formattedStr,
 								this.#resources.$.page[LABEL_DATA + 2], super.round(amount / repayment).formattedStr,
@@ -360,11 +370,12 @@ class Page extends MathLoan {
 						break;
 
 					case 2:
-						// Calculation of the loan term
+						// Loan term
 						if (amount * (interest /= 100) < (repayment *= 12)) {
 							result = super.loan(type, amount, interest, null, repayment);
-							if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
+							if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL; // Error
 						} else {
+							// Error
 							let maxInterest;
 							if ((maxInterest = super.round((100 * repayment) / amount)).numericValue == 0)
 								error = (this.#resources.$.errors.ERR_CONDITIONS + this.#resources.$.errors.ERR_CONDITIONS_2).format(
@@ -381,14 +392,14 @@ class Page extends MathLoan {
 						break;
 
 					case 3:
-						// Calculation of the monthly repayment amount
+						// Monthly payments
 						result = super.loan(type, amount, interest, term, null);
-						if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL;
+						if (!valid(result)) error = this.#resources.$.errors.EXCEEDING_ALL; // Error
 						break;
 
 					default:
 						// A bug, not a user error: invalid type for calculation
-						alert("Invalid \"type\" for calculation!");
+						super.typeBug();
 				}
 			}
 
