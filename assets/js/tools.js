@@ -530,31 +530,29 @@ class Culture {
 		let result;
 
 		if (code) {
-			let c = code.replaceAll(/[^a-zA-Z-]/g, "").toLowerCase();
+			let _code = code.replaceAll(/[^a-zA-Z-]/g, "").toLowerCase();
 
-			if (/^[a-z]{2,3}-[a-z]{2}$/.test(c)) {
-				const CA = c.split('-');
-				c = CA[0];
+			if (/^[a-z]{2,3}-[a-z]{2}$/.test(_code)) {
+				const CODE_ARRAY = _code.split('-');
 
 				if (!isRef) {
-					c += "-" + CA[1].toUpperCase();
-
 					// Search for the object 'locale'
-					result = this.#locales.find(loc => (!toFormat || loc.toFormat) && loc.code == c);
-
-					// If not found
-					if (!result) c = CA[0];
+					_code = CODE_ARRAY[0] + "-" + CODE_ARRAY[1].toUpperCase();
+					result = this.#locales.find(loc => (!toFormat || loc.toFormat) && loc.code == _code);
 				}
+
+				// If not found
+				if (!result) _code = CODE_ARRAY[0];
 			}
 
-			if (!result && /^[a-z]{2,3}$/.test(c)) {
+			if (!result && /^[a-z]{2,3}$/.test(_code)) {
 				// The 'code' parameter, with the given parameters, is not listed in the array of commonly used locales
-				const CLEN = c.length;
+				const CLEN = _code.length;
 
 				// Search for a related object 'locale'
 				result = this.#locales.find(loc => {
 					const DASH = loc.code.indexOf("-");
-					return (!toFormat || loc.toFormat) && loc.isRef && loc.code.indexOf(c) == 0 && (DASH == -1 || DASH == CLEN);
+					return (!toFormat || loc.toFormat) && loc.isRef && loc.code.indexOf(_code) == 0 && (DASH == -1 || DASH == CLEN);
 				});
 			}
 		}
@@ -573,7 +571,7 @@ class Culture {
 
 		if (code) {
 			const CODE = code.replaceAll(/[^a-zA-Z-]/g, "").toLowerCase().split("-")[0];
-			const FOUND = codes => codes.split(";").map(co => co.trimStart()).indexOf(c) > -1;
+			const FOUND = codes => codes.split(";").map(co => co.trimStart()).indexOf(CODE) > -1;
 
 			switch (CODE.length) {
 				case 2:
@@ -781,11 +779,11 @@ class Complex {
 	static isImUn = z => z[0] == 0 && z[1] == 1;
 
 	// Conjugate / Opposite / Inverse
-	static conj = z => [z[0], -z[1]];
+	static cnj = z => [z[0], -z[1]];
 	static opp = z => [-z[0], -z[1]];
 	static inv = z => {
-		const DEN = z[0] * z[0] + z[1] * z[1];
-		return (DEN > 0) ? [z[0] / DEN, -z[1] / DEN] : NaN;
+		const DENOM = z[0] * z[0] + z[1] * z[1];
+		return (DENOM > 0) ? [z[0] / DENOM, -z[1] / DENOM] : NaN;
 	};
 	static invRe = re => (re != 0) ? [1 / re, 0] : NaN;
 	static invIm = im => (im != 0) ? [0, -1 / im] : NaN;
@@ -807,28 +805,28 @@ class Complex {
 
 	// Division
 	static div = (u, v) => {
-		const DEN = v[0] * v[0] + v[1] * v[1];
-		return (DEN > 0) ? [(u[0] * v[0] + u[1] * v[1]) / DEN, (u[1] * v[0] - u[0] * v[1]) / DEN] : NaN;
+		const DENOM = v[0] * v[0] + v[1] * v[1];
+		return (DENOM > 0) ? [(u[0] * v[0] + u[1] * v[1]) / DENOM, (u[1] * v[0] - u[0] * v[1]) / DENOM] : NaN;
 	};
 
 	// Power
 	static pow = (z, p) => {
 		const SQMOD = z[0] * z[0] + z[1] * z[1];
 		const ARG = Math.atan2(z[1], z[0]);
-		const [R, T] = [SQMOD ** (p[0] / 2) * Math.exp(-p[1] * ARG), p[0] * ARG + p[1] * Math.log(SQMOD) / 2];
-		return [R * Math.cos(T), R * Math.sin(T)];
+		const [RAD, ANG] = [SQMOD ** (p[0] / 2) * Math.exp(-p[1] * ARG), p[0] * ARG + p[1] * Math.log(SQMOD) / 2];
+		return [RAD * Math.cos(ANG), RAD * Math.sin(ANG)];
 	};
 	static powRe = (z, re) => {
 		const SQMOD = z[0] * z[0] + z[1] * z[1];
 		const ARG = Math.atan2(z[1], z[0]);
-		const [R, T] = [SQMOD ** (re / 2), re * ARG];
-		return [R * Math.cos(T), R * Math.sin(T)];
+		const [RAD, ANG] = [SQMOD ** (re / 2), re * ARG];
+		return [RAD * Math.cos(ANG), RAD * Math.sin(ANG)];
 	};
 	static powIm = (z, im) => {
 		const SQMOD = z[0] * z[0] + z[1] * z[1];
 		const ARG = Math.atan2(z[1], z[0]);
-		const [R, T] = [Math.exp(-im * ARG), im * Math.log(SQMOD) / 2];
-		return [R * Math.cos(T), R * Math.sin(T)];
+		const [RAD, ANG] = [Math.exp(-im * ARG), im * Math.log(SQMOD) / 2];
+		return [RAD * Math.cos(ANG), RAD * Math.sin(ANG)];
 	};
 	// 0 to the power of 0 is NaN
 	static powUInt = (z, n) => {
@@ -877,12 +875,12 @@ class Complex {
 					z2 = this.mul(z, z);
 					z4 = this.mul(z2, z2);
 					const Z8 = this.mul(z4, z4);
-					const [Q, R] = [n >> 3, n & 7];
+					const [QUO, REM] = [n >> 3, n & 7]; // Division by 8
 
 					let pow = Z8;
-					for (let i = 1; i < Q; i++) pow = [Z8[0] * pow[0] - Z8[1] * pow[1], Z8[0] * pow[1] + Z8[1] * pow[0]];
+					for (let i = 1; i < QUO; i++) pow = [Z8[0] * pow[0] - Z8[1] * pow[1], Z8[0] * pow[1] + Z8[1] * pow[0]];
 
-					switch (R) {
+					switch (REM) {
 						case 1:
 							return this.mul(z, pow);
 						case 2:
@@ -942,9 +940,9 @@ class Complex {
 	static #tan(c0, s0, c1, s1, isCir, isTan) {
 		const [SIGN_CIR, SIGN_TAN] = [(isCir) ? 1 : -1, (isTan) ? 1 : -1];
 		const [C0C1, S0S1, S0C1, C0S1] = [c0 * c1, s0 * s1, s0 * c1, c0 * s1];
-		const DEN = (isTan) ? C0C1 * C0C1 + S0S1 * S0S1 : S0C1 * S0C1 + C0S1 * C0S1;
+		const DENOM = (isTan) ? C0C1 * C0C1 + S0S1 * S0S1 : S0C1 * S0C1 + C0S1 * C0S1;
 
-		return (DEN > 0) ? [(S0C1 * C0C1 - SIGN_CIR * C0S1 * S0S1) / DEN, SIGN_TAN * (C0S1 * C0C1 + SIGN_CIR * S0C1 * S0S1) / DEN] : NaN;
+		return (DENOM > 0) ? [(S0C1 * C0C1 - SIGN_CIR * C0S1 * S0S1) / DENOM, SIGN_TAN * (C0S1 * C0C1 + SIGN_CIR * S0C1 * S0S1) / DENOM] : NaN;
 	}
 	// Circular functions
 	static cos = z => [Math.cos(z[0]) * Math.cosh(z[1]), -Math.sin(z[0]) * Math.sinh(z[1])];
@@ -1019,20 +1017,20 @@ class Complex {
 					[af, ac] = [this.add, addCoef];
 			}
 
-			let _func;
+			let diff;
 			if (mf === null && af === null)
-				_func = (r, z) => this.sub(r, z);
+				diff = (r, z) => this.sub(r, z);
 			else if (mf !== null && af === null)
-				_func = (r, z) => this.sub(r, mf(mc, z));
+				diff = (r, z) => this.sub(r, mf(mc, z));
 			else if (mf === null && af !== null)
-				_func = (r, z) => af(ac, this.sub(r, z));
+				diff = (r, z) => af(ac, this.sub(r, z));
 			else
-				_func = (r, z) => af(ac, this.sub(r, mf(mc, z)));
+				diff = (r, z) => af(ac, this.sub(r, mf(mc, z)));
 
 			while ((v = this.sqmod(y = func(root))) != 0
 				&& i++ < maxIter
 				&& ((dv = this.sqmod(dy = dfunc(root))) >= minDfunc)
-				&& ((sqdiff = this.sqmod(z = this.div(y, dy))) > sqRadius || v > sqRadius)) root = _func(root, z);
+				&& ((sqdiff = this.sqmod(z = this.div(y, dy))) > sqRadius || v > sqRadius)) root = diff(root, z);
 
 			return (v != 0 && (i == maxIter || (minDfunc != Number.EPSILON && dv < minDfunc))) ? { root: null } : { root: root, iter: i, sqdiff: sqdiff };
 		} else {
@@ -1120,7 +1118,7 @@ class Cookie {
 			const PREFIX = this.#checkPrefix(prefix), LEN = PREFIX.length;
 			cookies = document.cookie.split(';')					// Splits the string into an array of cookies
 				.map(c => c.split('=').map(c => this.#decode(c)))	// Splits and decodes cookies into name/value pairs
-				.filter(c => c[0].substring(0, LEN) == PREFIX)			// Filters names by prefix
+				.filter(c => c[0].substring(0, LEN) == PREFIX)		// Filters names by prefix
 				.map(c => [c[0].substring(LEN), c[1]]);				// Removes the prefix from names
 		}
 		return cookies;

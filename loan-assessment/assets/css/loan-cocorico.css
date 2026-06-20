@@ -25,7 +25,7 @@ select.cocorico {
 }
 
 select.cocorico:focus {
-	border-color: white;
+	border-color: rgb(255, 176, 0);
 }
 
 /*
