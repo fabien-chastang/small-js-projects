@@ -33,7 +33,7 @@ class MathLoan extends MathX {
 	// ------------------------------------------------------------------------
 
 	// Display a bug, not a user error: invalid type for calculation
-	typeBug = () => alert("Invalid \"type\" for calculation!");
+	bugOfType = () => alert("Invalid \"type\" for calculation!");
 
 	// Rounds a number
 	round(numeric, accuracy = null, culture = null) { return super.round(numeric, accuracy, culture); }
@@ -89,7 +89,7 @@ class MathLoan extends MathX {
 
 			default:
 				// A bug, not a user error: invalid type for calculation
-				this.typeBug();
+				this.bugOfType();
 		}
 		return result;
 	}
@@ -399,7 +399,7 @@ class Page extends MathLoan {
 
 					default:
 						// A bug, not a user error: invalid type for calculation
-						super.typeBug();
+						super.bugOfType();
 				}
 			}
 
