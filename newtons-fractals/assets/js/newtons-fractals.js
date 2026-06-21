@@ -7,13 +7,13 @@
 // To color the pixels of the fractal
 class ColorFractal {
 	// Constants for optimizing fractal calculation
-	static PI21 = 2 * Math.PI;
-	static PI12 = Math.PI / 2;
-	static PI13 = Math.PI / 3;
-	static PI23 = 2 * Math.PI / 3;
-	static TO_DEGREE = 180 / Math.PI;
-	static TO_RADIAN = Math.PI / 180;
-	static K_ARG_TYPE1 = [Math.PI, 1 / Math.PI];
+	static #PI21 = 2 * Math.PI;
+	static #PI12 = Math.PI / 2;
+	static #PI13 = Math.PI / 3;
+	static #PI23 = 2 * Math.PI / 3;
+	static #TO_DEGREE = 180 / Math.PI;
+	static #TO_RADIAN = Math.PI / 180;
+	static #K_ARG_TYPE1 = [Math.PI, 1 / Math.PI];
 
 	// ------------------------------------------------------------------------
 	// Argument of the complex number that determines the hue
@@ -27,10 +27,10 @@ class ColorFractal {
 			if (color) {
 				this.#arg.type = (color.hasOwnProperty("typeArg")) ? color.typeArg : 0;
 				this.#arg.shift = { dg: (color.hasOwnProperty("shiftArg")) ? color.shiftArg : 0, rd: 0 };
-				if (this.#arg.shift.dg != 0) this.#arg.shift.rd = ColorFractal.TO_RADIAN * this.#arg.shift.dg;
+				if (this.#arg.shift.dg != 0) this.#arg.shift.rd = ColorFractal.#TO_RADIAN * this.#arg.shift.dg;
 
 				if (this.#arg.type == 1 || this.#arg.type == 2) {
-					this.#arg.params = (this.#arg.type == 1) ? { K: ColorFractal.K_ARG_TYPE1, idx: 0 } : { K: 1, idx: 0 };
+					this.#arg.params = (this.#arg.type == 1) ? { K: ColorFractal.#K_ARG_TYPE1, idx: 0 } : { K: 1, idx: 0 };
 
 					if (color.hasOwnProperty("paramsArg") && color.paramsArg) {
 						const PARAMS_ARG = color.paramsArg;
@@ -104,11 +104,11 @@ class ColorFractal {
 		// Get the argument (used only in this object)
 		argRd: arg => {
 			let a = arg.value + arg.shift.rd;
-			if (a <= -ColorFractal.PI21 || a >= ColorFractal.PI21) a %= ColorFractal.PI21;
-			if (a < -Math.PI) a += ColorFractal.PI21; else if (a >= Math.PI) a -= ColorFractal.PI21;
+			if (a <= -ColorFractal.#PI21 || a >= ColorFractal.#PI21) a %= ColorFractal.#PI21;
+			if (a < -Math.PI) a += ColorFractal.#PI21; else if (a >= Math.PI) a -= ColorFractal.#PI21;
 			return a;
 		},
-		argDg: arg => ColorFractal.TO_DEGREE * arg.value + arg.shift.dg,
+		argDg: arg => ColorFractal.#TO_DEGREE * arg.value + arg.shift.dg,
 
 		// Get color
 		get: (arg, coef) => {
@@ -116,9 +116,9 @@ class ColorFractal {
 				// Coloring by sector
 				const ARG_RD = this.#color.argRd(arg), sin = 127 * Math.sin(ARG_RD);
 				return [
-					(ARG_RD <= ColorFractal.PI13) ? Math.round(128 - sin) : 0,
-					(ARG_RD >= -ColorFractal.PI23 && ARG_RD <= ColorFractal.PI23) ? Math.round(255 * Math.sin(0.75 * ARG_RD + ColorFractal.PI12)) : 0,
-					(ARG_RD >= -ColorFractal.PI13) ? Math.round(128 + sin) : 0,
+					(ARG_RD <= ColorFractal.#PI13) ? Math.round(128 - sin) : 0,
+					(ARG_RD >= -ColorFractal.#PI23 && ARG_RD <= ColorFractal.#PI23) ? Math.round(255 * Math.sin(0.75 * ARG_RD + ColorFractal.#PI12)) : 0,
+					(ARG_RD >= -ColorFractal.#PI13) ? Math.round(128 + sin) : 0,
 					255
 				];
 			} else
@@ -367,7 +367,7 @@ class SettingsFractal extends ColorFractal {
 // Object managing the page
 class Page extends SettingsFractal {
 	// Delay in milliseconds for asynchronous functions, applies a delay for display operations or other tasks
-	static DELAY_MS = 50;
+	static #DELAY_MS = 50;
 
 	// HTML IDs and DOM objects
 	#htmlIDs;    // Object containing the HTML IDs explicitly used in the Page object
@@ -425,7 +425,7 @@ class Page extends SettingsFractal {
 
 		// Set a delay before reactivating the form if the call comes from 'displayFractal' function
 		const FRAC_CALL = arguments.length && arguments[0];
-		if (FRAC_CALL) await delay(Page.DELAY_MS);
+		if (FRAC_CALL) await delay(Page.#DELAY_MS);
 		this.#enableForm(FRAC_CALL);
 	}
 
@@ -441,7 +441,7 @@ class Page extends SettingsFractal {
 		$(ID.LOADING).style.visibility = "visible";
 
 		// Set a delay to display the loading message when creating the fractal
-		await delay(Page.DELAY_MS);
+		await delay(Page.#DELAY_MS);
 
 		// Loops through every pixel
 		const WIDTH = super.width, HEIGHT = super.height;

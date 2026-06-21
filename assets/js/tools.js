@@ -571,16 +571,16 @@ class Culture {
 
 		if (code) {
 			const CODE = code.replaceAll(/[^a-zA-Z-]/g, "").toLowerCase().split("-")[0];
-			const FOUND = codes => codes.split(";").map(co => co.trimStart()).indexOf(CODE) > -1;
+			const found = codes => codes.split(";").map(cod => cod.trimStart()).indexOf(CODE) > -1;
 
 			switch (CODE.length) {
 				case 2:
 					// Set 1
-					result = this.#ISOLangs.find(lang => FOUND(lang.code));
+					result = this.#ISOLangs.find(lang => found(lang.code));
 					break;
 				case 3:
 					// Set 2
-					result = this.#ISOLangs.find(lang => FOUND(lang.code2));
+					result = this.#ISOLangs.find(lang => found(lang.code2));
 					break;
 				default:
 					/* Nothing */;
@@ -627,64 +627,61 @@ class MathX {
 		minDfunc: Number.EPSILON
 	};
 
-	// Creates and initializes the object
-	constructor(params) {
-		// Rounding accuracy
-		const ACC = (params.hasOwnProperty("accuracyRound")) ? parseInt(params.accuracyRound) : NaN;
-		this.#accuracyRound = (Number.isFinite(ACC) && ACC >= 0 && ACC <= 15) ? ACC : this.#defaultValues.accuracyRound;
-
-		// Regional setting used to format numbers
-		const LOC = (params.hasOwnProperty("cultureFormat"))
-			? Culture.getLocale(params.cultureFormat, false, true)
-			: Culture.getLocaleNavigator(false, true);
-		this.#cultureFormat = (LOC) ? LOC.code : this.#defaultValues.cultureFormat;
-
-		// Approximation error when calculating a root of a function
-		const ERR = (params.hasOwnProperty("approximError")) ? parseFloat(params.approximError) : NaN;
-		this.#approximError = (Number.isFinite(ERR) && ERR > 0 && ERR <= 0.1) ? ERR : this.#defaultValues.approximError;
-	}
-
 	// Checks the accuray parameter
 	#checkAccuracy(value, defaultValue) {
-		value = parseInt(value);
 		return (Number.isFinite(value) && value >= 0 && value <= 15) ? value : defaultValue;
 	}
 	// Checks the culture parameter
 	#checkCulture(value, defaultValue) {
-		value = Culture.getLocale(value, false, true);
 		return (value) ? value.code : defaultValue;
 	}
 	// Checks the error parameter
 	#checkError(value, defaultValue) {
-		value = parseFloat(value);
-		return (Number.isFinite(value) && value > 0 && value <= 0.1) ? value : defaultValue;
+		return (Number.isFinite(value) && value >= 0 && value <= 15) ? value : defaultValue;
 	}
 
-	// Getters/Setters for private properties
-	get accuracyRound() { return this.#accuracyRound; }
-	set accuracyRound(value) {
-		this.#accuracyRound = this.#checkAccuracy(value, this.#defaultValues.accuracyRound);
-	}
-	get cultureFormat() { return this.#cultureFormat; }
-	set cultureFormat(value) {
-		this.#cultureFormat = this.#checkCulture(value, this.#defaultValues.cultureFormat);
-	}
-	get approximError() { return this.#approximError; }
-	set approximError(value) {
-		this.#approximError = this.#checkError(value, this.#defaultValues.approximError);
+	// Creates and initializes the object
+	constructor(params) {
+		// Rounding accuracy
+		const ACCURACY = (params.hasOwnProperty("accuracyRound")) ? parseInt(params.accuracyRound) : NaN;
+		this.#accuracyRound = this.#checkAccuracy(ACCURACY, this.#defaultValues.accuracyRound);
+
+		// Regional setting used to format numbers
+		const LOCALE = (params.hasOwnProperty("cultureFormat"))
+			? Culture.getLocale(params.cultureFormat, false, true)
+			: Culture.getLocaleNavigator(false, true);
+		this.#cultureFormat = this.#checkCulture(LOCALE, this.#defaultValues.cultureFormat);
+
+		// Approximation error when calculating a root of a function
+		const ERROR = (params.hasOwnProperty("approximError")) ? parseFloat(params.approximError) : NaN;
+		this.#approximError = this.#checkError(ERROR, this.#defaultValues.approximError);
 	}
 
 	// ------------------------------------------------------------------------
 	// Public methods
 	// ------------------------------------------------------------------------
 
+	// Getters/Setters for private properties
+	get accuracyRound() { return this.#accuracyRound; }
+	set accuracyRound(value) {
+		this.#accuracyRound = this.#checkAccuracy(parseInt(value), this.#defaultValues.accuracyRound);
+	}
+	get cultureFormat() { return this.#cultureFormat; }
+	set cultureFormat(value) {
+		this.#cultureFormat = this.#checkCulture(Culture.getLocale(value, false, true), this.#defaultValues.cultureFormat);
+	}
+	get approximError() { return this.#approximError; }
+	set approximError(value) {
+		this.#approximError = this.#checkError(parseFloat(value), this.#defaultValues.approximError);
+	}
+
 	// Formats a number
 	format(numeric, accuracy = null, culture = null) {
 		if (Number.isFinite(numeric)) {
-			const ACC = this.#checkAccuracy(accuracy, this.accuracyRound); // Rounding accuracy
-			const CLT = this.#checkCulture(culture, this.cultureFormat);   // Regional setting used to format numbers
+			const ACCURACY = this.#checkAccuracy(parseInt(accuracy), this.accuracyRound); // Rounding accuracy
+			const CULTURE = this.#checkCulture(Culture.getLocale(culture, false, true), this.cultureFormat); // Regional setting used to format numbers
 
-			return numeric.toLocaleString(CLT, { minimumFractionDigits: ACC });
+			return numeric.toLocaleString(CULTURE, { minimumFractionDigits: ACCURACY });
 		} else
 			return NaN;
 	}
@@ -694,11 +691,11 @@ class MathX {
 		let rounding = null;
 		if (Number.isFinite(numeric)) {
 			// Calculates rounding
-			const ACC = this.#checkAccuracy(accuracy, this.accuracyRound);
+			const ACCURACY = this.#checkAccuracy(parseInt(accuracy), this.accuracyRound);
 			let numericValue;
 
-			if (ACC > 0) {
-				const POW10 = 10 ** ACC;
+			if (ACCURACY > 0) {
+				const POW10 = 10 ** ACCURACY;
 				numericValue = Math.round(numeric * POW10) / POW10;
 			} else
 				numericValue = Math.round(numeric);
@@ -721,10 +718,10 @@ class MathX {
 		if (root === null && func(x0) * func(x1) < 0) {
 			if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
 
-			const ERR = 2 * this.#checkError(error, this.approximError);
+			const ERROR = 2 * this.#checkError(parseFloat(error), this.approximError);
 			let y, [z0, z1] = (x0 < x1) ? [x0, x1] : [x1, x0];
 
-			while ((y = func(root = (z0 + z1) / 2)) != 0 && i++ < maxIter && (e = z1 - z0) > ERR)
+			while ((y = func(root = (z0 + z1) / 2)) != 0 && i++ < maxIter && (e = z1 - z0) > ERROR)
 				if (y * func(z1) < 0)
 					z0 = root;
 				else
@@ -741,7 +738,7 @@ class MathX {
 	newtonsMethod(x0, func, dfunc, maxIter = null, exitRadius = null, minDfunc = null) {
 		if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
 		if (minDfunc == null || minDfunc < 0) minDfunc = this.#defaultValues.minDfunc;
-		exitRadius = this.#checkError(exitRadius, this.approximError);
+		exitRadius = this.#checkError(parseFloat(exitRadius), this.approximError);
 
 		let root = x0, i = 0, y, dy, z, v, dv, diff;
 
