@@ -13,12 +13,15 @@
 //	1. Global tools
 // ============================================================================
 
+// Defines the default culture
+const _DEFAULT_CULTURE_ = "en-US";
+
 // Just a shorthand function: fetch given element, jQuery-style
 const $ = id => document.getElementById(id);
 
 // Delay function: define the function that calls it as asynchronous (async func() {...}) 
 // and call the delay function with the await keyword (await delay(ms))
-const delay = ms => new Promise(res => setTimeout(res, ms));
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // This method takes a string and replaces any placeholders in the form of {n} with the corresponding 
 // argument passed to the method (n positif integer or zero)
@@ -44,14 +47,12 @@ class Item {
 
 	// Checks whether an item is an object other than a String object
 	// IMPORTANT: this method must be called after using the 'isValid()' method to excude the null value and arrays
-	// *********
 	static isObject(item) {
 		return typeof item == "object" && !(item instanceof String);
 	}
 
 	// Returns the requested property of an item as a string if it is an object other than a String object, otherwise null
 	// IMPORTANT: this method must be called after using the 'isValid()' and 'isObject()' methods with 'item' as the argument
-	// *********
 	static getProperty(item, property) {
 		return (this.isValid(item[property]) && !this.isObject(item[property])) ? item[property].toString() : null;
 	}
@@ -130,7 +131,7 @@ document.getElementsByAttributes = function (attributes, every = true, selectors
 
 // Adds a method to the SELECT object to select a specific option
 HTMLSelectElement.prototype.selectOption = function (value) {
-	const SELECTED_OPTION = Array.from(this.options).find(opt => opt.value == value);
+	const SELECTED_OPTION = Array.from(this.options).find(option => option.value == value);
 	return (SELECTED_OPTION) ? SELECTED_OPTION.selected = true : false;
 };
 
@@ -602,8 +603,8 @@ class Culture {
 
 // Converts a string to a number based on the culture, inverse method of 'toLocaleString()'
 String.prototype.toNumber = function (locale) {
-	const FRAC_SEP = (1).toLocaleString(locale, { minimumFractionDigits: 1 }).replaceAll(/\d/g, "");
-	return parseFloat(this.valueOf().replaceAll(new RegExp("[^\\d" + FRAC_SEP + "-]", "g"), "").replace(FRAC_SEP, "."));
+	const FRAC_SEPARATOR = (1).toLocaleString(locale, { minimumFractionDigits: 1 }).replaceAll(/\d/g, "");
+	return parseFloat(this.valueOf().replaceAll(new RegExp("[^\\d" + FRAC_SEPARATOR + "-]", "g"), "").replace(FRAC_SEPARATOR, "."));
 };
 
 // Calculation methods
@@ -617,44 +618,45 @@ class MathX {
 	#approximError; // Approximation error when calculating a root of a function
 
 	// Default values
-	#defaultValues = {
+	#default = {
 		accuracyRound: 0,
-		cultureFormat: "en-GB",
+		cultureFormat: _DEFAULT_CULTURE_,
 		approximError: 10 ** (-5),
 
-		// Other default values for approximation methods
+		// Other default values ​​for root calculation methods
 		maxIter: 25,
 		minDfunc: Number.EPSILON
 	};
 
-	// Checks the accuray parameter
-	#checkAccuracy(value, defaultValue) {
-		return (Number.isFinite(value) && value >= 0 && value <= 15) ? value : defaultValue;
-	}
-	// Checks the culture parameter
-	#checkCulture(value, defaultValue) {
-		return (value) ? value.code : defaultValue;
-	}
-	// Checks the error parameter
-	#checkError(value, defaultValue) {
-		return (Number.isFinite(value) && value >= 0 && value <= 15) ? value : defaultValue;
+	// Checks the parameters
+	#checkParam(type, value, defaultValue) {
+		switch (type) {
+			case 1: // Checks the rounding accuracy
+				return (Number.isFinite(value) && value >= 0 && value <= 15) ? value : defaultValue;
+
+			case 2: // Checks the regional setting used to format numbers
+				return (value) ? value.code : defaultValue;
+
+			default: // Checks the approximation error when calculating a root of a function
+				return (Number.isFinite(value) && value > 0 && value < 1) ? value : defaultValue;
+		}
 	}
 
 	// Creates and initializes the object
 	constructor(params) {
 		// Rounding accuracy
 		const ACCURACY = (params.hasOwnProperty("accuracyRound")) ? parseInt(params.accuracyRound) : NaN;
-		this.#accuracyRound = this.#checkAccuracy(ACCURACY, this.#defaultValues.accuracyRound);
+		this.#accuracyRound = this.#checkParam(1, ACCURACY, this.#default.accuracyRound);
 
 		// Regional setting used to format numbers
 		const LOCALE = (params.hasOwnProperty("cultureFormat"))
 			? Culture.getLocale(params.cultureFormat, false, true)
 			: Culture.getLocaleNavigator(false, true);
-		this.#cultureFormat = this.#checkCulture(LOCALE, this.#defaultValues.cultureFormat);
+		this.#cultureFormat = this.#checkParam(2, LOCALE, this.#default.cultureFormat);
 
 		// Approximation error when calculating a root of a function
 		const ERROR = (params.hasOwnProperty("approximError")) ? parseFloat(params.approximError) : NaN;
-		this.#approximError = this.#checkError(ERROR, this.#defaultValues.approximError);
+		this.#approximError = this.#checkParam(0, ERROR, this.#default.approximError);
 	}
 
 	// ------------------------------------------------------------------------
@@ -664,22 +666,22 @@ class MathX {
 	// Getters/Setters for private properties
 	get accuracyRound() { return this.#accuracyRound; }
 	set accuracyRound(value) {
-		this.#accuracyRound = this.#checkAccuracy(parseInt(value), this.#defaultValues.accuracyRound);
+		this.#accuracyRound = this.#checkParam(1, parseInt(value), this.#default.accuracyRound);
 	}
 	get cultureFormat() { return this.#cultureFormat; }
 	set cultureFormat(value) {
-		this.#cultureFormat = this.#checkCulture(Culture.getLocale(value, false, true), this.#defaultValues.cultureFormat);
+		this.#cultureFormat = this.#checkParam(2, Culture.getLocale(value, false, true), this.#default.cultureFormat);
 	}
 	get approximError() { return this.#approximError; }
 	set approximError(value) {
-		this.#approximError = this.#checkError(parseFloat(value), this.#defaultValues.approximError);
+		this.#approximError = this.#checkParam(0, parseFloat(value), this.#default.approximError);
 	}
 
 	// Formats a number
 	format(numeric, accuracy = null, culture = null) {
 		if (Number.isFinite(numeric)) {
-			const ACCURACY = this.#checkAccuracy(parseInt(accuracy), this.accuracyRound); // Rounding accuracy
-			const CULTURE = this.#checkCulture(Culture.getLocale(culture, false, true), this.cultureFormat); // Regional setting used to format numbers
+			const ACCURACY = this.#checkParam(1, parseInt(accuracy), this.accuracyRound); // Rounding accuracy
+			const CULTURE = this.#checkParam(2, Culture.getLocale(culture, false, true), this.cultureFormat); // Regional setting used to format numbers
 
 			return numeric.toLocaleString(CULTURE, { minimumFractionDigits: ACCURACY });
 		} else
@@ -690,8 +692,8 @@ class MathX {
 	round(numeric, accuracy = null, culture = null) {
 		let rounding = null;
 		if (Number.isFinite(numeric)) {
-			// Calculates rounding
-			const ACCURACY = this.#checkAccuracy(parseInt(accuracy), this.accuracyRound);
+			// Calculates the rounding
+			const ACCURACY = this.#checkParam(1, parseInt(accuracy), this.accuracyRound);
 			let numericValue;
 
 			if (ACCURACY > 0) {
@@ -711,14 +713,13 @@ class MathX {
 	// Approximates the root of the function "func" between "x0" and "x1" with an accuracy of 
 	// "approximError" (or the parameter "error" if provided) using the bisection method
 	// IMPORTANT: this  method is more robust than Newton's method, but slower
-	// *********
 	bisectionMethod(x0, x1, func, maxIter = null, error = null) {
 		let i = 0, e = 0, root = (func(x0) != 0) ? (func(x1) != 0) ? null : x1 : x0;
 
 		if (root === null && func(x0) * func(x1) < 0) {
-			if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
+			if (maxIter == null || maxIter < 2) maxIter = this.#default.maxIter;
 
-			const ERROR = 2 * this.#checkError(parseFloat(error), this.approximError);
+			const ERROR = 2 * this.#checkParam(0, parseFloat(error), this.approximError);
 			let y, [z0, z1] = (x0 < x1) ? [x0, x1] : [x1, x0];
 
 			while ((y = func(root = (z0 + z1) / 2)) != 0 && i++ < maxIter && (e = z1 - z0) > ERROR)
@@ -736,9 +737,9 @@ class MathX {
 	// Approximates a root of the function "func" with a "accuracy" (not actually) of "approximError" (or the parameter 
 	// "exitRadius" if provided) using Newton's method, the parameter "dfunc" being the derivative of "func"
 	newtonsMethod(x0, func, dfunc, maxIter = null, exitRadius = null, minDfunc = null) {
-		if (maxIter == null || maxIter < 2) maxIter = this.#defaultValues.maxIter;
-		if (minDfunc == null || minDfunc < 0) minDfunc = this.#defaultValues.minDfunc;
-		exitRadius = this.#checkError(parseFloat(exitRadius), this.approximError);
+		if (maxIter == null || maxIter < 2) maxIter = this.#default.maxIter;
+		if (minDfunc == null || minDfunc < 0) minDfunc = this.#default.minDfunc;
+		exitRadius = this.#checkParam(0, parseFloat(exitRadius), this.approximError);
 
 		let root = x0, i = 0, y, dy, z, v, dv, diff;
 
@@ -1027,7 +1028,10 @@ class Complex {
 			while ((v = this.sqmod(y = func(root))) != 0
 				&& i++ < maxIter
 				&& ((dv = this.sqmod(dy = dfunc(root))) >= minDfunc)
-				&& ((sqdiff = this.sqmod(z = this.div(y, dy))) > sqRadius || v > sqRadius)) root = diff(root, z);
+				&& ((sqdiff = this.sqmod(z = this.div(y, dy))) > sqRadius || v > sqRadius)) {
+
+				root = diff(root, z);
+			}
 
 			return (v != 0 && (i == maxIter || (minDfunc != Number.EPSILON && dv < minDfunc))) ? { root: null } : { root: root, iter: i, sqdiff: sqdiff };
 		} else {
@@ -1066,7 +1070,7 @@ class Complex {
 // ----------------------------------------------------------------------------
 
 // IMPORTANT: declare "const _COOKIE_PREFIX_" before including this script to prefix cookie names, 
-// *********  DO NOT MODIFY when cookies have already been saved, to avoid prefixing cookie names, 
+//            DO NOT MODIFY when cookies have already been saved, to avoid prefixing cookie names, 
 //            do not declare this constant
 //
 // The name of cookies is prefixed when they are stored so that only cookies managed by the object 
@@ -1483,7 +1487,7 @@ class Resources {
 		// Private properties
 		this.#full = (params.hasOwnProperty("resources")) ? params.resources : null;
 		this.#selected = null;
-		this.#defaultValue = (params.hasOwnProperty("defaultResources")) ? params.defaultResources : "en-US";
+		this.#defaultValue = (params.hasOwnProperty("defaultResources")) ? params.defaultResources : _DEFAULT_CULTURE_;
 		this.#$ = {};
 	}
 
