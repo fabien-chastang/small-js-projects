@@ -753,7 +753,7 @@ class MathX {
 
 	// Approximates the derivative of a function
 	nearlyDerivative(func, epsilon = Number.EPSILON) {
-		return function (x) { return (func(x + epsilon) - func(x - epsilon)) / (2 * epsilon); };
+		return x => { return (func(x + epsilon) - func(x - epsilon)) / (2 * epsilon); };
 	}
 
 	// Newton's method without derivative fonction (WOD: WithOut Derivative)
@@ -1381,11 +1381,11 @@ class Color {
 // ============================================================================
 
 // Template function to initialize and fill in the SELECT field for Themes and Resources
-function iniProperty(objProperty, objCookie, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus) {
+function iniProperty(objProperty, objCookieHandle, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus) {
 	// Fills in the SELECT field
 	objProperty.initialize(htmlId);
 	// Initializes the property
-	objProperty.selected = objCookie.iniProperty(cookieName, defaultValue);
+	objProperty.selected = objCookieHandle.iniProperty(cookieName, defaultValue);
 	// Loads the page property
 	objProperty.load(loadParams);
 
@@ -1462,9 +1462,9 @@ class Themes {
 	}
 
 	// Initializes and fills in the SELECT field
-	iniProperty(objCookie, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus) {
+	iniProperty(objCookieHandle, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus) {
 		if (defaultValue == null) defaultValue = 0;
-		return iniProperty(this, objCookie, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus);
+		return iniProperty(this, objCookieHandle, cookieName, loadParams, htmlId, onchangeFunc, defaultValue, setFocus);
 	}
 }
 
@@ -1562,8 +1562,8 @@ class Resources {
 	}
 
 	// Initializes and fills in the SELECT field
-	iniProperty(objCookie, cookieName, htmlId, onchangeFunc, defaultValue, setFocus) {
+	iniProperty(objCookieHandle, cookieName, htmlId, onchangeFunc, defaultValue, setFocus) {
 		if (defaultValue == null) defaultValue = this.codeLang;
-		return iniProperty(this, objCookie, cookieName, null, htmlId, onchangeFunc, defaultValue, setFocus);
+		return iniProperty(this, objCookieHandle, cookieName, null, htmlId, onchangeFunc, defaultValue, setFocus);
 	}
 }
