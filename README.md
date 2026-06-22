@@ -14,4 +14,4 @@ La page traitant la problématique de l'emprunt est proposée avec 8 thèmes pou
 
 Les deux pages utilisent des cookies pour sauvegarder les préférences de l'utilisateur.
 
-C'est la page "tool.js" qui rassemble les classes JavaScript (ES6) utilisées globalement (utilitaire global et réutilisable).
+C'est la page "tool.js" qui rassemble les classes JavaScript (ES14, 2023) utilisées globalement (utilitaire global et réutilisable).
